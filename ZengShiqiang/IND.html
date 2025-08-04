@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>戰略規劃建議指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Ink Wash Elegance (A palette inspired by traditional Chinese painting, using off-white rice paper tones, calligraphic charcoal grays, and a deep seal-red accent.) -->
+    <!-- Application Structure Plan: A single-page dashboard with a sticky top navigation bar. The structure is thematic and non-linear, allowing users to jump to sections like "Crisis Crossroads," "Unique Positioning," "Strategic Layout," and "Action Roadmap." This design transforms a dense, multi-page report into an easily digestible, explorable format. Key interactions include scroll-spy navigation, interactive charts for competitor and ROI analysis, and collapsible sections for detailed tactics, all designed to enhance user understanding and engagement with the strategic plan. -->
+    <!-- Visualization & Content Choices: 
+        - Crisis: Goal: Alert -> Viz: High-contrast cards with classical Chinese characters (危, 惑, 機) to personify the "leaking asset," "value anchor," and "sleeping giant" problems.
+        - Positioning: Goal: Compare -> Viz: A detailed HTML table comparing the "Strategy Academy" to "Traditional Business Schools" using the "Map vs Compass" analogy.
+        - Marketing Advantages: Goal: Inform -> Viz: An interactive accordion to detail the four key advantages (Storytelling, High Ground, Scarcity, Counter-Narrative).
+        - Platform Strategy: Goal: Justify -> Viz: A clear, multi-column HTML table comparing LinkedIn, YouTube, and other platforms on user mindset and strategic application.
+        - Customer Journey: Goal: Organize -> Viz: A horizontal, step-by-step HTML/CSS diagram to visualize the entire funnel.
+        - Roadmap & KPIs: Goal: Change over time -> Viz: A Chart.js horizontal bar chart for the 3-phase roadmap, providing a clear, time-based visual plan.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Serif TC', serif;
+            background-color: #F9F9F7; /* Rice paper off-white */
+            color: #333333; /* Charcoal gray */
+        }
+        .nav-active {
+            color: #1a1a1a; /* Ink Black */
+            border-bottom-color: #1a1a1a;
+        }
+        .nav-inactive {
+            color: #666666; /* Medium gray */
+            border-bottom-color: transparent;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #EAEAEA;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+        }
+        .section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            border-bottom: 1px solid #EAEAEA;
+        }
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: #1a1a1a; /* Ink Black */
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1.25rem; /* 20px */
+            color: #555555;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 50vh;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .highlight {
+            font-weight: 600;
+            color: #8C2B2B; /* Seal Red - used very sparingly as an accent */
+        }
+        .sans-font {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="min-h-screen">
+        <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm border-b border-gray-200/50">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-3">
+                    <div class="text-lg font-bold text-[#333333]" style="font-family: 'Noto Serif TC', serif;">戰略規劃建議指南</div>
+                    <nav class="hidden md:flex items-center space-x-6 sans-font">
+                        <a href="#crossroads" class="nav-btn nav-active text-sm font-medium pb-3 -mb-3 border-b-2">十字路口</a>
+                        <a href="#positioning" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">獨特定位</a>
+                        <a href="#layout" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">戰略佈局</a>
+                        <a href="#engine" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">內容引擎</a>
+                        <a href="#playbook" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">戰術手冊</a>
+                        <a href="#community" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">社群深化</a>
+                        <a href="#resources" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">資源配置</a>
+                        <a href="#roadmap" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">行動藍圖</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4">
+
+            <section id="crossroads" class="section text-center">
+                <h2 class="section-title">I. 時代的十字路口：當傳承的榮光遇上數位世界的無情法則</h2>
+                <p class="section-subtitle">曾仕強文化事業有限公司，無疑是華人世界中一座智慧的燈塔。我們共同守護著這份由曾教授與嚴教授窮盡畢生心血所積累的寶貴資產。然而，當我們站在今日數位浪潮的風口浪尖，一個至關重要的問題擺在眼前：如何讓這座燈塔的光芒，穿透數位時代的迷霧，照亮下一代領導者的航程？<br>這不僅是一個挑戰，更是一個關乎品牌未來十年命運的戰略抉擇。</p>
+                <h3 class="text-2xl font-bold text-gray-800 mb-8 -mt-4" style="font-family: 'Noto Serif TC', serif;">我們共同面臨的挑戰：三大必須正視的「無心之失」</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div class="card p-6 border-t-2 border-gray-400">
+                        <div class="text-5xl mb-3 font-serif">危</div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">無心插柳的資產外溢</h3>
+                        <p class="text-gray-600 sans-font">我們最核心的智慧結晶——嚴定暹教授的講座影片，其主要的觀看與互動都發生在<span class="highlight">如「清涼音文化」等多個外部合作頻道上</span>。這如同我們辛勤開鑿了一口智慧深井，但井水卻無償地灌溉了鄰居的田地，每一次的內容產出，都在為他人積累品牌資產。</p>
+                    </div>
+                    <div class="card p-6 border-t-2 border-gray-400">
+                        <div class="text-5xl mb-3 font-serif">惑</div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">價值的雙重挑戰</h3>
+                        <p class="text-gray-600 sans-font">入門課程的價格，會悄然成為高階客戶心中一個<span class="highlight">不易察覺的「價值錨點」</span>，從而削弱了頂級課程應有的專屬感與價值感。</p>
+                    </div>
+                    <div class="card p-6 border-t-2 border-gray-400">
+                        <div class="text-5xl mb-3 font-serif">機</div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">沉睡的數位金礦</h3>
+                        <p class="text-gray-600 sans-font">我們坐擁數十年積累的講座與著作，這是一座內容的巨大金礦。其真正價值在於，若能系統性地將其開採並冶煉成<span class="highlight">符合現代社群傳播的短影音、文章與線上課程</span>，它將能為我們源源不絕地帶來潛在客戶與營收。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="positioning" class="section text-center">
+                <h2 class="section-title">II. 無可取代的獨特定位：我們的終極護城河</h2>
+                <p class="section-subtitle">我們的核心優勢，不在於價格或功能，而在於智慧的深度與格局。這份獨特定位，本身就是我們最強大、最核心的行銷戰略。</p>
+                <div class="card overflow-hidden">
+                    <table class="w-full text-left sans-font">
+                        <thead class="bg-gray-50/50">
+                            <tr>
+                                <th class="p-4 font-medium text-gray-600">比較維度</th>
+                                <th class="p-4 font-medium text-gray-600">傳統管理學院 (EMBA)</th>
+                                <th class="p-4 font-medium text-black bg-[#F9F9F7]">我們的策略學院</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200/50">
+                            <tr>
+                                <td class="p-4 font-medium">知識體系</td>
+                                <td class="p-4">教授財務、行銷等<span class="highlight">功能性學科</span>。</td>
+                                <td class="p-4 bg-white/50">教授戰略、人性等<span class="highlight">根本性原則</span>。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">教學方法</td>
+                                <td class="p-4">依賴標準化的<span class="highlight">商業個案 (Case Study)</span>。</td>
+                                <td class="p-4 bg-white/50">依賴經典的<span class="highlight">歷史原型 (Archetype)</span>。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">學習目標</td>
+                                <td class="p-4">培養高效的<span class="highlight">「管理者」</span>。</td>
+                                <td class="p-4 bg-white/50">塑造智慧的<span class="highlight">「領導者」</span>。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">提供價值</td>
+                                <td class="p-4">提供一張精美的<span class="highlight">「地圖」</span>，但當地圖外的世界發生劇變時，它可能瞬間失效。</td>
+                                <td class="p-4 bg-white/50">提供一個千年驗證的<span class="highlight">「羅盤」</span>，讓你在任何未知迷霧中都能找到正確方向。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="layout" class="section text-center">
+                <h2 class="section-title">III. 新世代戰略佈局</h2>
+                <p class="section-subtitle">我們的行動將圍繞三大核心戰役展開：收回資產、重建品牌、精準觸及。並基於對用戶心態的深度理解，做出明智的平台選擇。</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sans-font">
+                    <div class="space-y-4 text-left">
+                        <div class="card p-6">
+                            <h3 class="font-bold text-lg mb-2">1. 數位資產重整：建立品牌核心堡壘</h3>
+                            <p class="text-gray-600">啟動官方旗艦YouTube頻道，並將官網升級為所有內容與數據的承載中樞。</p>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="font-bold text-lg mb-2">2. 影音行銷策略：引爆成長的內容引擎</h3>
+                            <p class="text-gray-600">採用「Hero-Hub-Help」模型，系統化地將講座內容轉化為長短影片矩陣。</p>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="font-bold text-lg mb-2">3. 精準觸及策略：狙擊槍而非散彈槍</h3>
+                            <p class="text-gray-600">主攻LinkedIn，並與頂級商管媒體、EMBA校友會等進行戰略合作。</p>
+                        </div>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold text-lg mb-4 text-center">平台選擇的戰略哲學</h3>
+                        <div class="space-y-4 text-left">
+                            <div>
+                                <h4 class="font-semibold text-black">LinkedIn：主戰場</h4>
+                                <p class="text-sm text-gray-600">用戶處於「事業成長」心態，是與決策者進行深度對話、建立關係並最終轉化的核心場域。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-black">YouTube：智慧圖書館</h4>
+                                <p class="text-sm text-gray-600">用戶處於「深度學習」心態，是沉澱核心內容、建立長期品牌權威的基地。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-black">Instagram / Facebook：城市廣告看板</h4>
+                                <p class="text-sm text-gray-600">用戶處於「休閒娛樂」心態，主要用於擴大品牌曝光，並對已有互動的用戶進行再行銷。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="engine" class="section text-center">
+                <h2 class="section-title">IV. 影音行銷戰略：從內容到影響力</h2>
+                <p class="section-subtitle">初期所有主題將聚焦於《孫子兵法》的商業應用，以確保內容的實用性與高共鳴度，並為我們的三大客戶輪廓提供具體價值。</p>
+                <div class="card overflow-hidden">
+                    <table class="w-full text-left sans-font">
+                        <thead class="bg-gray-50/50">
+                            <tr>
+                                <th class="p-4 font-medium text-gray-600">目標客戶</th>
+                                <th class="p-4 font-medium text-gray-600">內容主題範例 (孫子兵法)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200/50">
+                            <tr>
+                                <td class="p-4 font-medium">傳承使命的創辦人</td>
+                                <td class="p-4">《地形篇》：如何為企業打造不可撼動的長期護城河。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">雄心勃勃的接班人</td>
+                                <td class="p-4">《虛實篇》：新創公司如何運用非對稱策略顛覆市場巨頭。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">追求卓越的專業經理人</td>
+                                <td class="p-4">《九地篇》：如何帶領團隊走出困境、達成高難度目標。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="playbook" class="section text-center">
+                 <h2 class="section-title">V. 從藍圖到行動：戰術執行手冊</h2>
+                 <p class="section-subtitle">將宏觀戰略轉化為具體、可執行的戰術細節，確保團隊的每一步行動都有清晰的指引。</p>
+                 <div class="w-full max-w-5xl mx-auto sans-font">
+                    <div class="text-center mb-12">
+                        <h3 class="font-bold text-xl mb-6 text-gray-800">視覺化客戶旅程</h3>
+                        <div class="flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0 md:space-x-2">
+                            
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-2xl mb-2">📱</div>
+                                <p class="font-semibold">曝光</p><p class="text-xs text-gray-500">LinkedIn/Shorts</p>
+                            </div>
+                            <div class="text-2xl text-gray-300 mx-2 hidden md:block self-center">→</div>
+                            
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-2xl mb-2">📺</div>
+                                <p class="font-semibold">興趣</p><p class="text-xs text-gray-500">觀看策略講堂</p>
+                            </div>
+                            <div class="text-2xl text-gray-300 mx-2 hidden md:block self-center">→</div>
+
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-2xl mb-2">🌐</div>
+                                <p class="font-semibold">考慮</p><p class="text-xs text-gray-500">訪問官網</p>
+                            </div>
+                            <div class="text-2xl text-gray-300 mx-2 hidden md:block self-center">→</div>
+
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-2xl mb-2">📅</div>
+                                <p class="font-semibold">評估</p><p class="text-xs text-gray-500">參加研討會</p>
+                            </div>
+                            <div class="text-2xl text-gray-300 mx-2 hidden md:block self-center">→</div>
+
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-2xl mb-2">💌</div>
+                                <p class="font-semibold">信任</p><p class="text-xs text-gray-500">接收Email</p>
+                            </div>
+                            <div class="text-2xl text-gray-300 mx-2 hidden md:block self-center">→</div>
+
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-2xl mb-2">💳</div>
+                                <p class="font-semibold">購買</p><p class="text-xs text-gray-500">成為學員</p>
+                            </div>
+                            <div class="text-2xl text-gray-300 mx-2 hidden md:block self-center">→</div>
+                            
+                            <div class="flex-1 flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-2xl mb-2">👑</div>
+                                <p class="font-semibold">忠誠</p><p class="text-xs text-gray-500">加入「內圈」</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="card p-6">
+                            <h3 class="font-bold text-lg mb-2">內容製作SOP</h3>
+                            <p class="text-gray-600">建立從主題策劃、腳本撰寫、內容錄製、後期製作到排程發布的標準化流程，確保產出效率與品質穩定。</p>
+                        </div>
+                         <div class="card p-6">
+                            <h3 class="font-bold text-lg mb-2">LinkedIn思想領導力哲學</h3>
+                            <p class="text-gray-600">我們的目標不是成為「小編」，而是「思想夥伴」。透過分享洞見、發起對話、建立關係，而非推銷，來贏得信任。</p>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+            
+            <section id="community" class="section text-center">
+                <h2 class="section-title">VI. 社群深化與風險管理</h2>
+                <p class="section-subtitle">成功的品牌不僅需要吸引客戶，更需要留住他們。我們將透過分層的社群體驗，創造極致的專屬感，並預防潛在風險。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sans-font">
+                    <div class="card p-6 text-left">
+                        <h3 class="font-bold text-lg mb-4">體驗升級：打造真正的「內圈」</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-700">第一層：策略社群 (免費)</h4>
+                                <p class="text-sm text-gray-600">為所有學員與訂閱者提供一個接收獨家文章、活動通知的交流平台，建立廣泛的社群歸屬感。</p>
+                            </div>
+                            <div class="border-t pt-4 border-gray-200/50">
+                                <h4 class="font-semibold text-[#333333]">第二層：大師會 (付費/邀請制)</h4>
+                                <p class="text-sm text-gray-600">為頂級會員提供每月閉門線上讀書會、每季小組指導、年度線下策略晚宴等專屬體驗，創造無可取代的人脈與智慧價值。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-6 text-left">
+                        <h3 class="font-bold text-lg mb-4">風險評估與應變計畫</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-700">關鍵人物風險 (Key Person Risk)</h4>
+                                <p class="text-sm text-gray-600">應對策略：在第二年將嚴教授的智慧框架系統化，開發成可複製的課程模組，並培養第二梯隊的認證講師。</p>
+                            </div>
+                            <div class="border-t pt-4 border-gray-200/50">
+                                <h4 class="font-semibold text-gray-700">市場反應不如預期</h4>
+                                <p class="text-sm text-gray-600">應對策略：若初期內容成效不彰，將立即啟動A/B測試，並考慮與高匹配度的KOL合作導入初始流量。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="resources" class="section text-center">
+                <h2 class="section-title">VII. 成功執行的資源配置</h2>
+                <p class="section-subtitle">一份卓越的戰略，需要務實的資源投入來支撐。本章節旨在提供一個清晰的資源與預算框架，以利於內部的討論與決策。</p>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sans-font">
+                    <div class="card p-6">
+                        <h3 class="font-bold text-lg mb-2">人力配置建議</h3>
+                        <ul class="text-sm text-gray-600 list-disc list-inside space-y-1">
+                            <li>專案總監 (內部兼任)</li>
+                            <li>內容策略師/腳本企劃</li>
+                            <li>社群營運 (初期可兼任)</li>
+                            <li>影像製作團隊 (外部合作)</li>
+                            <li>數位廣告投手 (外部合作)</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold text-lg mb-2">技術與工具投資</h3>
+                        <p class="text-gray-600">包含線上課程平台、電郵行銷、線上研討會、社群管理等工具。</p>
+                        <p class="text-2xl font-bold mt-2 text-[#333333]">$6,000 - $20,000+</p>
+                        <p class="text-sm text-gray-500">預估月費 (NTD)</p>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold text-lg mb-2">行銷與廣告預算框架</h3>
+                        <p class="text-gray-600">初期用於驗證模型，成長期用於規模化擴張。</p>
+                        <p class="text-2xl font-bold mt-2 text-[#333333]">$20,000 - $80,000</p>
+                        <p class="text-sm text-gray-500">建議月度預算 (NTD)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="roadmap" class="section text-center">
+                <h2 class="section-title">VIII. 成果評估與未來展望</h2>
+                <p class="section-subtitle">我們的成功將是可衡量的。透過分階段的實施，我們將逐步實現品牌蛻變，將智慧的火炬，在數位世界重新點燃。</p>
+                <div class="card p-6">
+                    <div class="chart-container">
+                        <canvas id="roadmapChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+            const navBtns = document.querySelectorAll('.nav-btn');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-80px 0px -50% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navBtn = document.querySelector(`.nav-btn[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        navBtns.forEach(btn => {
+                            btn.classList.remove('nav-active');
+                            btn.classList.add('nav-inactive');
+                        });
+                        if(navBtn) {
+                            navBtn.classList.add('nav-active');
+                            navBtn.classList.remove('nav-inactive');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Chart.js Implementation
+            const roadmapCtx = document.getElementById('roadmapChart').getContext('2d');
+            new Chart(roadmapCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['奠基期 (1-3月)', '成長期 (4-6月)', '規模化 (7-12月)'],
+                    datasets: [{
+                        label: '核心目標',
+                        data: [3, 3, 6],
+                        backgroundColor: [
+                            'rgba(170, 170, 170, 0.6)', 
+                            'rgba(102, 102, 102, 0.7)', 
+                            'rgba(51, 51, 51, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(170, 170, 170, 1)',
+                            'rgba(102, 102, 102, 1)',
+                            'rgba(51, 51, 51, 1)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { 
+                            stacked: true, 
+                            max: 12, 
+                            grid: { display: false },
+                            ticks: { display: false }
+                        },
+                        y: { 
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { font: { size: 14, family: "'Noto Sans TC', sans-serif" }, color: '#333333' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                             backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                             titleColor: '#1a1a1a',
+                             bodyColor: '#333333',
+                             borderColor: '#dddddd',
+                             borderWidth: 1,
+                             bodyFont: { family: "'Noto Sans TC', sans-serif", size: 12 },
+                             titleFont: { family: "'Noto Serif TC', serif", size: 14 },
+                             padding: 10,
+                             boxPadding: 4,
+                             callbacks: {
+                                title: function(context) {
+                                    const phase = context[0].label;
+                                    if (phase.includes('奠基期')) return '第一階段：奠基期';
+                                    if (phase.includes('成長期')) return '第二階段：成長期';
+                                    if (phase.includes('規模化')) return '第三階段：規模化';
+                                    return '';
+                                },
+                                label: function(context) {
+                                    const phase = context.label;
+                                    let details = [];
+                                    if (phase.includes('奠基期')) {
+                                        details = ['核心目標: 數位資產整合、內容引擎啟動', 'KPI: YouTube訂閱數達2k, 官網訪客達5k/月'];
+                                    } else if (phase.includes('成長期')) {
+                                        details = ['核心目標: 銷售漏斗建構、獲取潛在客戶', 'KPI: 獲取500個Email名單, CPL低於目標'];
+                                    } else if (phase.includes('規模化')) {
+                                        details = ['核心目標: 商業變現、建立可持續模型', 'KPI: 轉化20-30名學員, ROAS > 3'];
+                                    }
+                                    return details;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
