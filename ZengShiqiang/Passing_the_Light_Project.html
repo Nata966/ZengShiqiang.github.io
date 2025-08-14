@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>傳燈計畫｜戰略指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Strategic Umber (A sophisticated palette of warm neutrals, deep browns, and a terracotta accent for calls to action, conveying wisdom and stability.) -->
+    <!-- Application Structure Plan: A single-page dashboard with a sticky top navigation bar. The structure is thematic and non-linear, allowing users to jump to sections like "Starting Point," "Key Bridge," "Market Analysis," and "Partnership Model." This design transforms the dense text outline into an easily digestible, explorable format. Key interactions include scroll-spy navigation and detailed comparison tables to highlight the core value proposition, focusing on the "Strategy vs. Tactics" argument and the "Co-planning, Co-producing, Co-reviewing" service model. -->
+    <!-- Visualization & Content Choices: 
+        - Opening: Goal: Align -> Viz: Strong typography for the two core principles ("Business is about solving problems," "Advertising is about telling stories").
+        - Story Value: Goal: Explain -> Viz: High-impact cards explaining how a good story builds trust, differentiation, and pricing power, plus a concluding card linking story to overall business strategy (Apple/PX Mart analogy).
+        - Strategy vs. Tactics: Goal: Persuade -> Viz: A high-contrast, focused blockquote to emphasize the key turning point, followed by a detailed HTML table analyzing the YouTube channel as a case study.
+        - Market Analysis: Goal: Inform -> Viz: A clear HTML table comparing the three market player archetypes to define the "blue ocean" opportunity.
+        - Partnership Model: Goal: Sell -> Viz: A detailed HTML table framed by the "Disposable Supplier vs. Strategic Partner" concept to highlight the shift from "outsourcer" to "enabler."
+        - Conclusion: Goal: Inspire Action -> Viz: A clean, powerful summary using the "supercharger" and "navigation system" analogy.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FDFBF8; /* Warm off-white */
+            color: #3D4852; /* Dark slate gray */
+        }
+        .nav-active {
+            color: #A56A43; /* Strategic Umber */
+            border-bottom-color: #A56A43;
+        }
+        .nav-inactive {
+            color: #718096; /* Slate gray */
+            border-bottom-color: transparent;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E2E8F0;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.07);
+        }
+        .section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            border-bottom: 1px solid #F1ECE6;
+        }
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: #2D3748; /* Darker slate */
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1.25rem; /* 20px */
+            color: #718096;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        .highlight {
+            font-weight: 600;
+            color: #A56A43; /* Strategic Umber */
+        }
+        .serif-font {
+            font-family: 'Noto Serif TC', serif;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="min-h-screen">
+        <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-3">
+                    <div class="text-lg font-bold text-[#A56A43] serif-font">傳燈計畫</div>
+                    <nav class="hidden md:flex items-center space-x-6">
+                        <a href="#start" class="nav-btn nav-active text-sm font-medium pb-3 -mb-3 border-b-2">戰略起點</a>
+                        <a href="#story" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">故事的價值</a>
+                        <a href="#bridge" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">關鍵橋樑</a>
+                        <a href="#market" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">市場分析</a>
+                        <a href="#content" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">內容戰略</a>
+                        <a href="#tactics" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">觸及戰術</a>
+                        <a href="#partnership" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">合作模式</a>
+                        <a href="#blueprint" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">首季藍圖</a>
+                        <a href="#conclusion" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">結論</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4">
+
+            <section id="start" class="section text-center">
+                <h2 class="section-title serif-font text-4xl leading-tight">商業的本質，在於解決問題<br>廣告的價值，在於說對故事</h2>
+                <p class="section-subtitle">我們今天的核心議題只有一個：<br>該如何，將貴公司無可取代的<strong class="highlight">「解決方案」</strong>，打造成一個專屬於新世代的<strong class="highlight">「品牌故事」</strong>，並找到最高效的渠道，將這個故事，精準地說給對的人聽？</p>
+            </section>
+
+            <section id="story" class="section text-center">
+                <h2 class="section-title">II. 品牌故事的價值：為何「說對故事」至關重要？</h2>
+                <p class="section-subtitle">在高階市場，客戶購買的不僅是產品或服務，更是一種信任、一種認同。一個說對了的品牌故事，能為我們建立起三道最強大的護城河。</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">1. 建立「信任」的捷徑</h3>
+                        <p class="text-gray-600">故事是建立人與人連結最古老、也最有效的方式。相較於冰冷的產品功能列表，一個充滿智慧與溫度的品牌故事，能更快地穿透理性的防禦，與潛在客戶建立起<strong class="highlight">深層的情感共鳴與信任</strong>。</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">2. 創造「差異」的根源</h3>
+                        <p class="text-gray-600">市場上永遠會有更便宜的課程、更華麗的廣告。但一個根植於品牌靈魂的獨特故事，是<strong class="highlight">任何競爭對手都無法複製的</strong>。它讓我們從「眾多選項之一」，變為客戶心中「唯一的選擇」。</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">3. 支撐「價值」的基石</h3>
+                        <p class="text-gray-600">客戶願意為高價買單，是因為他們相信這個價格背後所代表的價值。一個好的品牌故事，能清晰地闡述我們的智慧從何而來、為何珍貴，從而為我們的高端定價，提供了<strong class="highlight">堅實的情感與邏輯支撐</strong>。</p>
+                    </div>
+                </div>
+                <div class="card p-6 mt-8 bg-gray-50 max-w-4xl mx-auto">
+                    <h3 class="font-bold text-xl mb-3 serif-font text-center">品牌故事，是經營策略的最終體現</h3>
+                    <p class="text-lg text-center text-gray-700">讓我們思考一個問題：蘋果或全聯，會因為哪一支廣告就直接造成業績大漲嗎？答案是否定的。他們之所以強大，是因為他們的每一支廣告、每一次溝通，都在為一個長期、一致的<strong class="highlight">「品牌承諾」</strong>添磚加瓦。廣告的成功與否，最終要回歸到<strong class="highlight">經營策略的支持度</strong>。我們的目標，正是要將貴公司的品牌故事，與您的核心經營策略緊密相連，讓每一次的行銷投入，都成為一次品牌資產的累積。</p>
+                 </div>
+            </section>
+
+            <section id="bridge" class="section text-center">
+                <h2 class="section-title">III. 從「正確戰略」到「有效成果」的關鍵橋樑</h2>
+                <p class="section-subtitle">在深入研究後，我非常佩服團隊的遠見，將品牌影響力延伸至數位渠道，並透過深度內容建立權威，這無疑是完全正確的戰略方向。然而，在我們服務眾多品牌的經驗中，發現了一個普遍存在、也是最艱難的挑戰…</p>
+                <div class="bg-white rounded-lg p-10 shadow-xl max-w-3xl mx-auto">
+                    <blockquote class="text-3xl font-bold serif-font text-center text-gray-800 leading-relaxed">
+                        <p>戰略的規劃正確，</p>
+                        <p class="my-4 text-xl text-gray-500">不等於，</p>
+                        <p>戰術的執行到位。</p>
+                    </blockquote>
+                </div>
+                <div class="max-w-4xl mx-auto mt-12">
+                     <h3 class="text-2xl font-bold text-gray-800 mb-6 serif-font">一個具體的戰術執行案例分析：從「現狀」到「理想」的距離</h3>
+                     <div class="card overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="p-4 font-medium text-gray-600">戰術執行層面</th>
+                                    <th class="p-4 font-medium text-gray-600">目前現狀 (機會點)</th>
+                                    <th class="p-4 font-medium text-gray-600">戰術標竿參考 (天豪公開課)</th>
+                                    <th class="p-4 font-medium text-[#A56A43] bg-[#FDFBF8]">系統化作法下的潛力</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 font-medium">內容包裝</td>
+                                    <td class="p-4">標題與縮圖像是檔案命名，缺乏行銷語言。</td>
+                                    <td class="p-4">故事性標題引人入勝；品牌化縮圖建立專業識別。</td>
+                                    <td class="p-4 bg-[#FFF8F0]">透過<strong class="highlight">具備情感鉤子的標題</strong>與<strong class="highlight">專業的品牌化縮圖</strong>，將點擊率提升數倍。</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">內容目的</td>
+                                    <td class="p-4">影片缺乏明確的行動呼籲 (Call-to-Action)。</td>
+                                    <td class="p-4">透過內容深度引導觀眾成為忠誠粉絲。</td>
+                                    <td class="p-4 bg-[#FFF8F0]">在每支影片中策略性地置入行動呼籲，將觀眾引導至<strong class="highlight">官網、研討會或潛在客戶名單</strong>。</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">系統化思維</td>
+                                    <td class="p-4">內容發布較為單點式、消耗性。</td>
+                                    <td class="p-4">圍繞特定歷史主題，形成系列化內容。</td>
+                                    <td class="p-4 bg-[#FFF8F0]">將一次長影片拍攝，轉化為<strong class="highlight">一個月的短影音矩陣</strong>，實現內容效益的最大化。</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
+                     <div class="card p-6 mt-8 bg-gray-50">
+                        <p class="text-lg text-center serif-font">總結來說，貴公司目前面臨的挑戰，並非<strong class="highlight">「努力」</strong>的不足，而是<strong class="highlight">「執行系統」</strong>的缺失。我們的合作，正是為了補上這塊最關鍵的拼圖，確保每一分努力，都能精準地轉化為商業成果。</p>
+                     </div>
+                </div>
+            </section>
+
+            <section id="market" class="section text-center">
+                <h2 class="section-title">IV. 《孫子兵法》自媒體市場競爭分析</h2>
+                <p class="section-subtitle">目前市場上，沒有任何一個頻道，能夠完美地將「引人入勝的歷史故事」、「深刻的企業策略洞見」與「權威的學者形象」這三者融為一體。這是一片潛力巨大的藍海市場。</p>
+                <div class="card overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="p-4 font-medium text-gray-600">模式類型</th>
+                                <th class="p-4 font-medium text-gray-600">代表頻道</th>
+                                <th class="p-4 font-medium text-gray-600">優勢</th>
+                                <th class="p-4 font-medium text-gray-600">侷限與弱點</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="p-4 font-medium">歷史說書人</td>
+                                <td class="p-4">天豪公開課</td>
+                                <td class="p-4">故事性強，娛樂性高。</td>
+                                <td class="p-4">商業應用連結較弱、不夠直接。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">個人成長策略家</td>
+                                <td class="p-4">靈魂實踐家</td>
+                                <td class="p-4">親和力強，易於吸收應用。</td>
+                                <td class="p-4">缺乏宏觀的企業戰略格局。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">國學朗讀者</td>
+                                <td class="p-4">部分知識型頻道</td>
+                                <td class="p-4">知識準確度高。</td>
+                                <td class="p-4">極度枯燥，受眾範圍極小。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <p class="mt-8 text-lg">我們的戰略結論：目標不是成為更好，而是成為<strong class="highlight">「不同」</strong>。我們要開創一個全新的品類——<strong class="highlight">「企業家身邊的首席歷史策略顧問」</strong>，重新定義這個賽道。</p>
+            </section>
+
+            <section id="content" class="section text-center">
+                <h2 class="section-title">V. 數位時代的「說書人」— 我們的內容戰略</h2>
+                <p class="section-subtitle">我們的核心優勢，在於擁有別人無法複製的「智慧故事寶庫」，以及嚴定暹教授這位「首席說書人」。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">核心載體：以 YouTube 作為「智慧的策源地」</h3>
+                        <p class="text-gray-600">將官方 YouTube 頻道打造成品牌的「數位講堂」與「思想圖書館」，系統性地推出「以史為鑑」與「時事觀局」兩大系列，深度解析歷史與當代商業策略。</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">延伸戰場：以 Podcast 作為「思想的伴隨者」</h3>
+                        <p class="text-gray-600">將 YouTube 影片的音軌直接轉化為 Podcast 節目，搶佔目標客戶在通勤、運動等場景下的零碎時間，實現<strong class="highlight">「一次生產，多渠道分發」</strong>的最大效益。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tactics" class="section text-center">
+                <h2 class="section-title">VI. LinkedIn 深度解析 — 我們的觸及戰術</h2>
+                <p class="section-subtitle">如果 YouTube 是我們的「講堂」，那麼 LinkedIn 就是我們的「菁英邀請函」。我們的觸及戰術，是先有深度，再有廣度。</p>
+                <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8">
+                    <div class="card p-8 text-left w-full md:w-1/2">
+                        <p class="text-sm font-bold text-gray-500">第一步</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">策源：製作深度長片</h3>
+                        <p class="text-gray-600">我們首先在 YouTube 上發布 15 分鐘的「定暹策略講堂」長影片。這是我們所有智慧的<strong class="highlight">「母體內容」</strong>，用於建立品牌權威與深度信任。</p>
+                    </div>
+                    <div class="text-4xl text-gray-300 transform md:rotate-0 rotate-90">→</div>
+                    <div class="card p-8 text-left w-full md:w-1/2">
+                         <p class="text-sm font-bold text-gray-500">第二步</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">放大：衍生短影音矩陣</h3>
+                        <p class="text-gray-600">接著，我們將長影片的精華，提煉為數支 60-90 秒的「智慧膠囊」短影音，在 LinkedIn 上進行<strong class="highlight">精準投放</strong>，用最高效的方式吸引目標決策者的注意力，並將他們導回我們的「智慧策源地」。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="partnership" class="section text-center">
+                <h2 class="section-title">VII. 我們的合作模式 — 從「外部供應商」到「內部戰術夥伴」</h2>
+                <p class="section-subtitle">一個關鍵的選擇：您需要的是「可有可無的供應商」，還是「不可或缺的戰略夥伴」？</p>
+                <div class="card overflow-hidden">
+                    <div class="p-6 bg-gray-50">
+                        <h3 class="text-xl font-bold text-center serif-font">合作方案的演進：從「代操」到「賦能」的價值重塑</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left sans-font">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-4 font-medium text-gray-600">比較維度</th>
+                                    <th class="p-4 font-medium text-gray-600">舊方案 (媒體平台代操執行)</th>
+                                    <th class="p-4 font-medium text-[#A56A43] bg-[#FDFBF8]">新方案 (企劃製作執行方案)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 font-medium">核心價值</td>
+                                    <td class="p-4">影片製作與勞務輸出</td>
+                                    <td class="p-4 bg-[#FFF8F0]"><strong class="highlight">戰略規劃</strong>與<strong class="highlight">成效賦能</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">合作模式</td>
+                                    <td class="p-4">我們 <strong class="highlight">為</strong> 您執行。</td>
+                                    <td class="p-4 bg-[#FFF8F0]">我們 <strong class="highlight">與</strong> 您一同企劃、監督、優化。</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">交付內容</td>
+                                     <td class="p-4">1份企劃報告<br>10短影音/2長影音<br>1份數據報告</td>
+                                     <td class="p-4 bg-[#FFF8F0]">每月內容戰略會議<br>3份深度長片「戰術藍圖」<br>製作過程策略諮詢與監督<br>1份深度成效暨迭代策略報告</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">月度預算</td>
+                                    <td class="p-4">兩萬五</td>
+                                    <td class="p-4 bg-[#FFF8F0]">兩萬五</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="p-8 text-center bg-gray-50">
+                        <p class="text-2xl serif-font text-gray-800">[ 貴公司專業的影音團隊 ] + [ 我們精準的戰術執行系統 ] = [ 品牌影響力的倍增 & 可衡量的商業回報 ]</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="blueprint" class="section text-center">
+                <h2 class="section-title">VIII. 我們的首季合作藍圖</h2>
+                <p class="section-subtitle">這不僅是一個計畫，更是一個承諾。為確保戰略的有效落地，我們建議以<strong class="highlight">三個月</strong>為一個合作週期，透過具體的、階段性的行動，共同奠定成功的基礎。</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div class="card p-8">
+                        <p class="text-sm font-bold text-gray-500">第一個月</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">奠基與共識</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>召開深度策略工作坊，確立首季內容主題。</li>
+                            <li>完成現有數位渠道的全面體檢與優化建議。</li>
+                            <li>交付首批 <strong class="highlight">3 支長片「戰術藍圖」</strong> (含腳本)。</li>
+                        </ul>
+                    </div>
+                    <div class="card p-8">
+                        <p class="text-sm font-bold text-gray-500">第二個月</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">啟動與驗證</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>官方 YouTube 頻道發布首支「定暹策略講堂」影片。</li>
+                            <li>啟動首波 LinkedIn 精準內容投放，驗證受眾輪廓。</li>
+                            <li>提交首次月度成效分析與迭代策略報告。</li>
+                        </ul>
+                    </div>
+                    <div class="card p-8">
+                        <p class="text-sm font-bold text-gray-500">第三個月</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">深化與培育</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>規劃並籌備首次線上直播研討會。</li>
+                            <li>建立潛在客戶名單的自動化培育序列。</li>
+                            <li>根據前月數據，優化並交付新一批戰術藍圖。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="conclusion" class="section text-center">
+                <h2 class="section-title">IX. 結論 — 讓我們共同成就</h2>
+                <p class="section-subtitle">我們的合作，不是要推翻現有的努力，而是要為貴公司這台性能強大的「戰略跑車」，裝上最頂級的<strong class="highlight">「渦輪增壓引擎」</strong>與<strong class="highlight">「精準導航系統」</strong>。</p>
+                <div class="max-w-2xl mx-auto">
+                    <div class="card p-8 space-y-4">
+                         <p class="text-xl serif-font">透過這套系統，我們將不僅僅是賣課程，而是在數位世界中，建立起一個<strong class="highlight">屬於曾仕強文化事業的思想領導品牌</strong>，讓嚴定暹教授成為下一代領導者在尋求智慧時，心中浮現的第一人選。</p>
+                         <p class="text-lg font-semibold">下一步：讓我們共同啟動「傳燈計畫」，點燃第一盞燈。</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+            const navBtns = document.querySelectorAll('.nav-btn');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-80px 0px -50% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navBtn = document.querySelector(`.nav-btn[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        navBtns.forEach(btn => {
+                            btn.classList.remove('nav-active');
+                            btn.classList.add('nav-inactive');
+                        });
+                        if(navBtn) {
+                            navBtn.classList.add('nav-active');
+                            navBtn.classList.remove('nav-inactive');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
