@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>燈油計畫｜戰略指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Strategic Umber (A sophisticated palette of warm neutrals, deep browns, and a terracotta accent for calls to action, conveying wisdom and stability.) -->
+    <!-- Application Structure Plan: A single-page dashboard with a sticky top navigation bar. The structure is thematic and non-linear, allowing users to jump to sections like "Executive Summary," "Service Details," "Pricing," and "Growth Projections." This design transforms the detailed service plan into an easily digestible, explorable format. Key interactions include scroll-spy navigation, a dynamic Chart.js chart for growth projections with time-frame toggles, and clear, structured tables for service deliverables and pricing. -->
+    <!-- Visualization & Content Choices: 
+        - Executive Summary: Goal: Align -> Viz: A strong, concise text block to set the stage.
+        - YouTube/LinkedIn Services: Goal: Detail -> Viz: Detailed HTML tables for service items and KPIs. The sound engineering flow is visualized using structured HTML/CSS to replace Mermaid.
+        - Pricing: Goal: Sell -> Viz: Clear pricing cards for the core and add-on packages, followed by a "Value Calculation" card to frame the cost as an investment.
+        - Service Process: Goal: Build Confidence -> Viz: A three-column card layout for the 90-day plan.
+        - Partnership Principles: Goal: Build Trust -> Viz: Three distinct cards for "Transparency," "Agility," and "Shared Success."
+        - Growth Projections: Goal: Forecast -> Viz: A single, dynamic Chart.js stacked bar chart with buttons to toggle between 3, 6, and 12-month views, clearly differentiating between organic and paid traffic growth.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FDFBF8; /* Warm off-white */
+            color: #3D4852; /* Dark slate gray */
+        }
+        .nav-active {
+            color: #A56A43; /* Strategic Umber */
+            border-bottom-color: #A56A43;
+        }
+        .nav-inactive {
+            color: #718096; /* Slate gray */
+            border-bottom-color: transparent;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E2E8F0;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.07);
+        }
+        .section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            border-bottom: 1px solid #F1ECE6;
+        }
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: #2D3748; /* Darker slate */
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1.25rem; /* 20px */
+            color: #718096;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        .highlight {
+            font-weight: 600;
+            color: #A56A43; /* Strategic Umber */
+        }
+        .serif-font {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .chart-btn-active {
+            background-color: #A56A43;
+            color: #FFFFFF;
+        }
+        .chart-btn-inactive {
+            background-color: #E2E8F0;
+            color: #4A5568;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="min-h-screen">
+        <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-3">
+                    <div class="text-lg font-bold text-[#A56A43] serif-font">燈油計畫</div>
+                    <nav class="hidden md:flex items-center space-x-6">
+                        <a href="#summary" class="nav-btn nav-active text-sm font-medium pb-3 -mb-3 border-b-2">執行總綱</a>
+                        <a href="#services" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">服務詳情</a>
+                        <a href="#pricing" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">合作方案</a>
+                        <a href="#process" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">服務流程</a>
+                        <a href="#principles" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">合作原則</a>
+                        <a href="#growth" class="nav-btn nav-inactive text-sm font-medium pb-3 -mb-3 border-b-2">預期增長</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4">
+
+            <section id="summary" class="section text-center">
+                <h2 class="section-title">I. 執行總綱</h2>
+                <p class="section-subtitle max-w-4xl">本計畫的核心目標，是將貴公司無可取代的智慧資產，轉化為一個能持續增長的數位品牌生態系。我們將透過<strong class="highlight">「雙核驅動」</strong>的內容戰略——以 YouTube 建立深度權威，以 LinkedIn 進行精準觸及——解決當前品牌資產外溢與戰術執行不到位的核心問題。我們提供的，不僅是內容代操服務，而是一套能<strong class="highlight">賦能您內部團隊、確保每一分投入都能累積為長期品牌價值</strong>的作戰系統。</p>
+            </section>
+
+            <section id="services" class="section">
+                <h2 class="section-title text-center">II. 服務詳情：雙核驅動</h2>
+                <div class="space-y-12">
+                    <div>
+                        <h3 class="text-2xl font-bold serif-font mb-6 text-center">YouTube 頻道代操：打造品牌的「智慧策源地」</h3>
+                        <div class="card overflow-hidden">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50"><tr><th class="p-4 font-medium text-gray-600" colspan="2">服務事項 & 數據成長目標</th></tr></thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr><td class="p-4 font-medium">每月內容戰略規劃</td><td class="p-4">我們的長影片內容，將圍繞一個強大的四維框架進行創作：<strong class="highlight">結合時勢、歷史故事、戰略講解、與商業思維</strong>。每一支影片都將是一個完整的思想產品，旨在為高階決策者提供一個既有深度、又具備高度現實關聯性的觀點。</td></tr>
+                                    <tr><td class="p-4 font-medium">2 份深度長片「戰術藍圖」</td><td class="p-4">提供包含<strong class="highlight">流量焦點</strong>、核心洞見、視覺建議與行動呼籲的完整腳本企劃，提升影片的<strong class="highlight">平均觀看時長</strong>與<strong class="highlight">觀眾續看率</strong>。</td></tr>
+                                    <tr><td class="p-4 font-medium">智慧內容轉化流程導入</td><td class="p-4">協助導入並優化您的內容生產線：從<strong class="highlight">現場收音設備升級顧問</strong>，到結合 <strong class="highlight">AI 即時語音轉文字</strong>，再到<strong class="highlight">快速定位課程精華重點</strong>，大幅縮短內容製作週期。</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card mt-6 p-6">
+                            <h4 class="font-bold text-lg mb-4 text-center serif-font">附錄：現場高品質收音與錄音流程 (一魚二吃的商業效益)</h4>
+                             <p class="text-center text-gray-600 mb-4">我們之所以強調現場聲音工程的優化，其核心商業目的在於實現<strong class="highlight">「一源多用，價值倍增」</strong>。透過以下流程，我們能將一次的現場課程，直接轉化為兩種高價值的數位資產：<strong class="highlight">一支可用於 YouTube 宣傳的長影片</strong>，以及<strong class="highlight">一集可獨立發行的 Podcast 節目</strong>。</p>
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center sans-font">
+                                <div class="p-3 bg-yellow-50 border border-yellow-200 rounded">高階麥克風</div>
+                                <div class="text-2xl text-gray-300">→</div>
+                                <div class="p-3 bg-blue-50 border border-blue-200 rounded">混音器</div>
+                                <div class="text-2xl text-gray-300">→</div>
+                                <div class="flex flex-col gap-2">
+                                    <div class="p-3 bg-pink-50 border border-pink-200 rounded">主輸出 → 現場擴音系統 → 現場觀眾</div>
+                                    <div class="p-3 bg-green-50 border border-green-200 rounded">輔助輸出 → 錄音介面 → <strong class="highlight">高品質 Podcast 音檔</strong></div>
+                                </div>
+                            </div>
+                            <p class="text-center mt-4 text-gray-600">此流程能將單次的現場教學，轉化為可持續為您帶來新聽眾與潛在客戶的<strong class="highlight">長尾品牌資產</strong>。</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold serif-font mb-6 text-center">LinkedIn 平台代操：攻佔未被開發的「菁英藍海市場」</h3>
+                        <div class="card overflow-hidden">
+                             <table class="w-full text-left">
+                                <thead class="bg-gray-50"><tr><th class="p-4 font-medium text-gray-600" colspan="2">服務事項 & 數據成長目標</th></tr></thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr><td class="p-4 font-medium">內容策略</td><td class="p-4">執行「先長後短」的內容衍生策略。我們將 YouTube 上<strong class="highlight">結合了時勢、歷史、戰略與商業思維</strong>的深度長影片視為「母體內容」，並從中提煉出精華，製作成專為高階經理人碎片化閱讀習慣而設計的「智慧膠囊」短影音與圖文。</td></tr>
+                                    <tr><td class="p-4 font-medium">個人品牌內容企劃</td><td class="p-4">為嚴教授的個人檔案，規劃能彰顯其思想領導力的短影音與深度圖文內容，提升<strong class="highlight">個人追蹤數</strong>與<strong class="highlight">貼文互動率</strong>。</td></tr>
+                                    <tr><td class="p-4 font-medium">公司專頁內容運營</td><td class="p-4">系統性地發布官方公告、長影片摘要與高價值內容，提升公司專頁的<strong class="highlight">曝光次數</strong>與<strong class="highlight">官網點擊率</strong>。</td></tr>
+                                    <tr><td class="p-4 font-medium">投放頻率與互動</td><td class="p-4">建議<strong class="highlight">每週發布兩次內容</strong>，並每日進行目標社群互動，提升品牌的<strong class="highlight">行業能見度</strong>與<strong class="highlight">專業人脈連結數</strong>。</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pricing" class="section text-center">
+                <h2 class="section-title">III. 合作方案與報價：一項高槓桿的智慧投資</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">核心方案：「品牌影響力增長方案」</h3>
+                        <p class="text-4xl font-bold my-4">NT$ 25,000 <span class="text-lg font-normal">/ 月</span></p>
+                        <ul class="text-left space-y-2 text-gray-600">
+                            <li>✓ YouTube 頻道戰略規劃</li>
+                            <li>✓ 2 份深度長片「戰術藍圖」</li>
+                            <li>✓ 智慧內容轉化流程導入</li>
+                            <li>✓ LinkedIn 平台內容企劃與運營</li>
+                        </ul>
+                        <p class="text-sm text-gray-500 mt-4">建議合作週期為三個月</p>
+                    </div>
+                    <div class="card p-8 border-2 border-amber-400">
+                        <h3 class="font-bold text-xl mb-3 serif-font">可選附加方案：「圖文暨社群增長模組」</h3>
+                         <p class="text-4xl font-bold my-4">+ NT$ 10,000 <span class="text-lg font-normal">/ 月</span></p>
+                         <ul class="text-left space-y-2 text-gray-600">
+                            <li>✓ 每月 <strong class="highlight">8 篇</strong> 圖文企劃</li>
+                            <li>✓ 跨平台 (FB/IG/Threads) 文案優化</li>
+                            <li>✓ 導流策略規劃 (至官方 LINE)</li>
+                            <li>✓ 建立品牌的私域流量池</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card p-6 mt-8 bg-gray-50 max-w-4xl mx-auto">
+                    <h3 class="font-bold text-xl mb-3 serif-font text-center">一項值得思考的價值換算</h3>
+                    <p class="text-lg text-center text-gray-700">我們每月 25,000 元的服務費用，相當於聘請一位資淺行銷人員約一半的薪資。然而，您所獲得的，不僅僅是一個人的勞力，而是一個<strong class="highlight">完整的外部戰略團隊</strong>——包含市場分析師的洞察、資深企劃的腳本創意、以及行銷顧問的成效覆盤能力。這是一項<strong class="highlight">極具槓桿效益的智慧投資</strong>，旨在讓您內部團隊的產能與成效，實現倍增。</p>
+                 </div>
+            </section>
+
+            <section id="process" class="section text-center">
+                <h2 class="section-title">IV. 服務流程 (首季合作藍圖)</h2>
+                <p class="section-subtitle">這不僅是一個計畫，更是一個承諾。為確保戰略的有效落地，我們建議以<strong class="highlight">三個月</strong>為一個合作週期，透過具體的、階段性的行動，共同奠定成功的基礎。</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div class="card p-8">
+                        <p class="text-sm font-bold text-gray-500">第一個月</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">奠基與共識</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>深度策略工作坊</li>
+                            <li>現場收音設備升級顧問</li>
+                            <li>AI 內容轉化工作流程建立</li>
+                            <li>交付首批 <strong class="highlight">2 支長片「戰術藍圖」</strong></li>
+                        </ul>
+                    </div>
+                    <div class="card p-8">
+                        <p class="text-sm font-bold text-gray-500">第二個月</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">啟動與驗證</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>首支「定暹策略講堂」<strong class="highlight">影片</strong>發布</li>
+                            <li>首波 LinkedIn 內容投放</li>
+                            <li>首次月度成效分析報告</li>
+                        </ul>
+                    </div>
+                    <div class="card p-8">
+                        <p class="text-sm font-bold text-gray-500">第三個月</p>
+                        <h3 class="font-bold text-xl mb-3 serif-font">深化與培育</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>首次線上直播研討會規劃</li>
+                            <li>潛在客戶名單培育序列建立</li>
+                            <li>交付新一批優化後戰術藍圖</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="principles" class="section text-center">
+                <h2 class="section-title">V. 我們的合作原則</h2>
+                <p class="section-subtitle">我們的成功，建立在您的成功之上。我們將以內部核心團隊的投入精神，與您共擔風險、共享榮耀。</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">透明溝通</h3>
+                        <p class="text-gray-600">您將隨時掌握專案進度與成效數據，確保雙方決策都基於清晰、一致的理解。</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">靈活迭代</h3>
+                        <p class="text-gray-600">市場是動態的，我們的策略也必須隨之進化。我們將每月根據成效數據，與您共同校準戰術方向。</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-3 serif-font">共同成就</h3>
+                        <p class="text-gray-600">我們視您的成功為我們最大的成就，並以此為最高指導原則進行合作。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="growth" class="section text-center">
+                <h2 class="section-title">VI. 預期影響力增長分析</h2>
+                <p class="section-subtitle">本分析旨在提供一個務實且保守的預期目標。我們的核心策略是<strong class="highlight">「以廣告驅動自然，以自然滋養品牌」</strong>，建立可持續、高質量的品牌資產。</p>
+                <div class="card p-6">
+                    <div class="flex justify-center mb-4 space-x-2">
+                        <button id="btn3m" class="chart-btn chart-btn-active px-4 py-2 rounded-md text-sm font-medium">第一季</button>
+                        <button id="btn6m" class="chart-btn chart-btn-inactive px-4 py-2 rounded-md text-sm font-medium">前半年度</button>
+                        <button id="btn12m" class="chart-btn chart-btn-inactive px-4 py-2 rounded-md text-sm font-medium">第一年度</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+            const navBtns = document.querySelectorAll('.nav-btn');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-80px 0px -50% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navBtn = document.querySelector(`.nav-btn[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        navBtns.forEach(btn => {
+                            btn.classList.remove('nav-active');
+                            btn.classList.add('nav-inactive');
+                        });
+                        if(navBtn) {
+                            navBtn.classList.add('nav-active');
+                            navBtn.classList.remove('nav-inactive');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Chart.js Implementation
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            const growthData = {
+                '3m': {
+                    labels: ['第一個月', '第二個月', '第三個月'],
+                    datasets: [
+                        { label: '自然流量 (萬次)', data: [0.05, 0.1, 0.2], backgroundColor: 'rgba(179, 149, 128, 0.6)' },
+                        { label: '廣告投放 (萬次)', data: [0.2, 0.3, 0.4], backgroundColor: 'rgba(113, 75, 49, 0.6)' }
+                    ],
+                    yMax: 1.5
+                },
+                '6m': {
+                    labels: ['一月', '二月', '三月', '四月', '五月', '六月'],
+                    datasets: [
+                        { label: '自然流量 (萬次)', data: [0.05, 0.1, 0.2, 0.5, 0.8, 1.2], backgroundColor: 'rgba(179, 149, 128, 0.6)' },
+                        { label: '廣告投放 (萬次)', data: [0.2, 0.3, 0.4, 0.6, 0.8, 1.0], backgroundColor: 'rgba(113, 75, 49, 0.6)' }
+                    ],
+                    yMax: 4
+                },
+                '12m': {
+                    labels: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    datasets: [
+                        { label: '自然流量 (萬次)', data: [0.05, 0.1, 0.2, 0.5, 0.8, 1.2, 2, 3, 5, 7, 9, 12], backgroundColor: 'rgba(179, 149, 128, 0.6)' },
+                        { label: '廣告投放 (萬次)', data: [0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 1.8, 2, 2.2, 2.5], backgroundColor: 'rgba(113, 75, 49, 0.6)' }
+                    ],
+                    yMax: 15
+                }
+            };
+
+            let growthChart = new Chart(growthCtx, {
+                type: 'bar',
+                data: growthData['3m'],
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { family: "'Noto Sans TC', sans-serif" } } },
+                        y: { stacked: true, beginAtZero: true, max: 1.5, title: { display: true, text: '每月總觀看數 (萬次)', font: { family: "'Noto Sans TC', sans-serif" } } }
+                    },
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            titleFont: { family: "'Noto Serif TC', serif" },
+                            bodyFont: { family: "'Noto Sans TC', sans-serif" }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: "'Noto Sans TC', sans-serif" } }
+                        }
+                    }
+                }
+            });
+
+            const chartBtns = document.querySelectorAll('.chart-btn');
+            chartBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    chartBtns.forEach(b => {
+                        b.classList.remove('chart-btn-active');
+                        b.classList.add('chart-btn-inactive');
+                    });
+                    btn.classList.add('chart-btn-active');
+                    btn.classList.remove('chart-btn-inactive');
+                    
+                    const period = btn.id.replace('btn','');
+                    growthChart.data = growthData[period];
+                    growthChart.options.scales.y.max = growthData[period].yMax;
+                    growthChart.update();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
