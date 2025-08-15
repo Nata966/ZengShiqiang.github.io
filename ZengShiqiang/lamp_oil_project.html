@@ -14,7 +14,7 @@
     <!-- Visualization & Content Choices: 
         - Executive Summary: Goal: Align -> Viz: A strong, concise text block to set the stage.
         - YouTube/LinkedIn Services: Goal: Detail -> Viz: Detailed HTML tables for service items and KPIs. The sound engineering flow is visualized using structured HTML/CSS to replace Mermaid.
-        - Pricing: Goal: Sell -> Viz: Clear pricing cards for the core and add-on packages, followed by a "Value Calculation" card to frame the cost as an investment.
+        - Pricing: Goal: Sell -> Viz: Clear pricing cards for the core and add-on packages, followed by a "Value Calculation" card to frame the cost as an investment. The add-on module now includes a detailed multi-platform strategy table.
         - Service Process: Goal: Build Confidence -> Viz: A three-column card layout for the 90-day plan.
         - Partnership Principles: Goal: Build Trust -> Viz: Three distinct cards for "Transparency," "Agility," and "Shared Success."
         - Growth Projections: Goal: Forecast -> Viz: A single, dynamic Chart.js stacked bar chart with buttons to toggle between 3, 6, and 12-month views, clearly differentiating between organic and paid traffic growth.
@@ -119,7 +119,7 @@
                             <table class="w-full text-left">
                                 <thead class="bg-gray-50"><tr><th class="p-4 font-medium text-gray-600" colspan="2">服務事項 & 數據成長目標</th></tr></thead>
                                 <tbody class="divide-y divide-gray-200">
-                                    <tr><td class="p-4 font-medium">每月內容戰略規劃</td><td class="p-4">我們的長影片內容，將圍繞一個強大的四維框架進行創作：<strong class="highlight">結合時勢、歷史故事、戰略講解、與商業思維</strong>。每一支影片都將是一個完整的思想產品，旨在為高階決策者提供一個既有深度、又具備高度現實關聯性的觀點。</td></tr>
+                                    <tr><td class="p-4 font-medium">每月內容戰略規劃</td><td class="p-4">我們將與您的團隊共同召開月度內容戰略會議。在會議中，我們不僅會策劃下一階段的核心溝通主題與敘事角度，更會基於市場數據與我們的專業經驗，為每一個企劃主題<strong class="highlight">提供一份預期成果分析</strong>。</td></tr>
                                     <tr><td class="p-4 font-medium">2 份深度長片「戰術藍圖」</td><td class="p-4">提供包含<strong class="highlight">流量焦點</strong>、核心洞見、視覺建議與行動呼籲的完整腳本企劃，提升影片的<strong class="highlight">平均觀看時長</strong>與<strong class="highlight">觀眾續看率</strong>。</td></tr>
                                     <tr><td class="p-4 font-medium">智慧內容轉化流程導入</td><td class="p-4">協助導入並優化您的內容生產線：從<strong class="highlight">現場收音設備升級顧問</strong>，到結合 <strong class="highlight">AI 即時語音轉文字</strong>，再到<strong class="highlight">快速定位課程精華重點</strong>，大幅縮短內容製作週期。</td></tr>
                                 </tbody>
@@ -147,7 +147,6 @@
                              <table class="w-full text-left">
                                 <thead class="bg-gray-50"><tr><th class="p-4 font-medium text-gray-600" colspan="2">服務事項 & 數據成長目標</th></tr></thead>
                                 <tbody class="divide-y divide-gray-200">
-                                    <tr><td class="p-4 font-medium">內容策略</td><td class="p-4">執行「先長後短」的內容衍生策略。我們將 YouTube 上<strong class="highlight">結合了時勢、歷史、戰略與商業思維</strong>的深度長影片視為「母體內容」，並從中提煉出精華，製作成專為高階經理人碎片化閱讀習慣而設計的「智慧膠囊」短影音與圖文。</td></tr>
                                     <tr><td class="p-4 font-medium">個人品牌內容企劃</td><td class="p-4">為嚴教授的個人檔案，規劃能彰顯其思想領導力的短影音與深度圖文內容，提升<strong class="highlight">個人追蹤數</strong>與<strong class="highlight">貼文互動率</strong>。</td></tr>
                                     <tr><td class="p-4 font-medium">公司專頁內容運營</td><td class="p-4">系統性地發布官方公告、長影片摘要與高價值內容，提升公司專頁的<strong class="highlight">曝光次數</strong>與<strong class="highlight">官網點擊率</strong>。</td></tr>
                                     <tr><td class="p-4 font-medium">投放頻率與互動</td><td class="p-4">建議<strong class="highlight">每週發布兩次內容</strong>，並每日進行目標社群互動，提升品牌的<strong class="highlight">行業能見度</strong>與<strong class="highlight">專業人脈連結數</strong>。</td></tr>
@@ -177,16 +176,53 @@
                          <p class="text-4xl font-bold my-4">+ NT$ 10,000 <span class="text-lg font-normal">/ 月</span></p>
                          <ul class="text-left space-y-2 text-gray-600">
                             <li>✓ 每月 <strong class="highlight">8 篇</strong> 圖文企劃</li>
-                            <li>✓ 跨平台 (FB/IG/Threads) 文案優化</li>
+                            <li>✓ 跨平台文案優化</li>
                             <li>✓ 導流策略規劃 (至官方 LINE)</li>
                             <li>✓ 建立品牌的私域流量池</li>
                         </ul>
                     </div>
                 </div>
-                <div class="card p-6 mt-8 bg-gray-50 max-w-4xl mx-auto">
-                    <h3 class="font-bold text-xl mb-3 serif-font text-center">一項值得思考的價值換算</h3>
-                    <p class="text-lg text-center text-gray-700">我們每月 25,000 元的服務費用，相當於聘請一位資淺行銷人員約一半的薪資。然而，您所獲得的，不僅僅是一個人的勞力，而是一個<strong class="highlight">完整的外部戰略團隊</strong>——包含市場分析師的洞察、資深企劃的腳本創意、以及行銷顧問的成效覆盤能力。這是一項<strong class="highlight">極具槓桿效益的智慧投資</strong>，旨在讓您內部團隊的產能與成效，實現倍增。</p>
-                 </div>
+                <div class="card p-6 mt-8 bg-gray-50 max-w-6xl mx-auto">
+                    <h3 class="font-bold text-xl mb-4 serif-font text-center">附加方案戰術詳解：多層次品牌溝通矩陣</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left sans-font">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="p-3 font-medium text-gray-700">平台</th>
+                                    <th class="p-3 font-medium text-gray-700">用戶心態</th>
+                                    <th class="p-3 font-medium text-gray-700">內容溝通角度</th>
+                                    <th class="p-3 font-medium text-gray-700">戰略目標</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-3 font-medium">LinkedIn</td>
+                                    <td class="p-3">事業成長與解決方案</td>
+                                    <td class="p-3">穩健、權威感，聚焦市場分析、財經議題。</td>
+                                    <td class="p-3">建立思想領導地位，觸及決策者。</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Facebook</td>
+                                    <td class="p-3">生活連結與社群共鳴</td>
+                                    <td class="p-3">溫和、生活化，將智慧轉譯為實用建議。</td>
+                                    <td class="p-3">擴大品牌基本盤，建立親和力。</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Instagram / Threads</td>
+                                    <td class="p-3">即時發現與觀點交鋒</td>
+                                    <td class="p-3">快速、犀利、緊扣時事，提出獨特觀點。</td>
+                                    <td class="p-3">展現品牌現代感，創造話題性。</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">官方 LINE 帳號</td>
+                                    <td class="p-3">深度關係與專屬服務</td>
+                                    <td class="p-3">提供獨家內容、課程優先通知、一對一客服。</td>
+                                    <td class="p-3"><strong class="highlight">沉澱私域流量，建立核心根據地。</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </section>
 
             <section id="process" class="section text-center">
@@ -299,37 +335,76 @@
                 '3m': {
                     labels: ['第一個月', '第二個月', '第三個月'],
                     datasets: [
-                        { label: '自然流量 (萬次)', data: [0.05, 0.1, 0.2], backgroundColor: 'rgba(179, 149, 128, 0.6)' },
-                        { label: '廣告投放 (萬次)', data: [0.2, 0.3, 0.4], backgroundColor: 'rgba(113, 75, 49, 0.6)' }
+                        { 
+                            type: 'line',
+                            label: '自然流量 (萬次)', 
+                            data: [0.05, 0.1, 0.2], 
+                            borderColor: 'rgba(179, 149, 128, 1)',
+                            backgroundColor: 'rgba(179, 149, 128, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        { 
+                            type: 'bar',
+                            label: '廣告投放 (萬次)', 
+                            data: [0.2, 0.3, 0.4], 
+                            backgroundColor: 'rgba(113, 75, 49, 0.6)' 
+                        }
                     ],
                     yMax: 1.5
                 },
                 '6m': {
                     labels: ['一月', '二月', '三月', '四月', '五月', '六月'],
                     datasets: [
-                        { label: '自然流量 (萬次)', data: [0.05, 0.1, 0.2, 0.5, 0.8, 1.2], backgroundColor: 'rgba(179, 149, 128, 0.6)' },
-                        { label: '廣告投放 (萬次)', data: [0.2, 0.3, 0.4, 0.6, 0.8, 1.0], backgroundColor: 'rgba(113, 75, 49, 0.6)' }
+                        { 
+                            type: 'line',
+                            label: '自然流量 (萬次)', 
+                            data: [0.05, 0.1, 0.2, 0.5, 0.8, 1.2], 
+                            borderColor: 'rgba(179, 149, 128, 1)',
+                            backgroundColor: 'rgba(179, 149, 128, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        { 
+                            type: 'bar',
+                            label: '廣告投放 (萬次)', 
+                            data: [0.2, 0.3, 0.4, 0.6, 0.8, 1.0], 
+                            backgroundColor: 'rgba(113, 75, 49, 0.6)' 
+                        }
                     ],
                     yMax: 4
                 },
                 '12m': {
                     labels: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
                     datasets: [
-                        { label: '自然流量 (萬次)', data: [0.05, 0.1, 0.2, 0.5, 0.8, 1.2, 2, 3, 5, 7, 9, 12], backgroundColor: 'rgba(179, 149, 128, 0.6)' },
-                        { label: '廣告投放 (萬次)', data: [0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 1.8, 2, 2.2, 2.5], backgroundColor: 'rgba(113, 75, 49, 0.6)' }
+                         { 
+                            type: 'line',
+                            label: '自然流量 (萬次)', 
+                            data: [0.05, 0.1, 0.2, 0.5, 0.8, 1.2, 2, 3, 5, 7, 9, 12], 
+                            borderColor: 'rgba(179, 149, 128, 1)',
+                            backgroundColor: 'rgba(179, 149, 128, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        { 
+                            type: 'bar',
+                            label: '廣告投放 (萬次)', 
+                            data: [0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 1.8, 2, 2.2, 2.5], 
+                            backgroundColor: 'rgba(113, 75, 49, 0.6)' 
+                        }
                     ],
                     yMax: 15
                 }
             };
 
             let growthChart = new Chart(growthCtx, {
-                type: 'bar',
+                type: 'bar', // Base type, will be overridden by datasets
                 data: growthData['3m'],
                 options: {
                     maintainAspectRatio: false,
                     scales: {
-                        x: { stacked: true, grid: { display: false }, ticks: { font: { family: "'Noto Sans TC', sans-serif" } } },
-                        y: { stacked: true, beginAtZero: true, max: 1.5, title: { display: true, text: '每月總觀看數 (萬次)', font: { family: "'Noto Sans TC', sans-serif" } } }
+                        x: { grid: { display: false }, ticks: { font: { family: "'Noto Sans TC', sans-serif" } } },
+                        y: { beginAtZero: true, max: 1.5, title: { display: true, text: '每月總觀看數 (萬次)', font: { family: "'Noto Sans TC', sans-serif" } } }
                     },
                     plugins: {
                         tooltip: {
@@ -357,7 +432,8 @@
                     btn.classList.remove('chart-btn-inactive');
                     
                     const period = btn.id.replace('btn','');
-                    growthChart.data = growthData[period];
+                    growthChart.data.labels = growthData[period].labels;
+                    growthChart.data.datasets = growthData[period].datasets;
                     growthChart.options.scales.y.max = growthData[period].yMax;
                     growthChart.update();
                 });
