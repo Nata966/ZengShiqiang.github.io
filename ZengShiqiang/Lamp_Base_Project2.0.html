@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「燈座計畫 2.0」— 品牌影響力種子方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Ink Wash White (A minimalist palette of off-white, charcoal grays, and a single vermilion accent, evoking the spirit of traditional Chinese ink wash painting.) -->
+    <!-- Application Structure Plan: A single-page, scrollable report. The structure is thematic and linear, guiding the user through the logic of the proposal from "Executive Summary" to "Next Steps." Key interactions are minimal, focusing on clarity and readability. The primary design goal is to present a sophisticated, professional, and easily understandable strategic plan. -->
+    <!-- Visualization & Content Choices: 
+        - Core Tactics: Goal: Compare -> Viz: A clear HTML table to differentiate the two core tactical tracks (Agile Issue Response vs. AI Content Engine).
+        - Service Deliverables: Goal: Detail -> Viz: A detailed HTML table to outline the specific deliverables of the 8,000 TWD plan, including the new "Internal Empowerment" section.
+        - SOP Flowcharts: Goal: Organize/Inform -> Viz: Two horizontal, step-by-step HTML/CSS diagrams to visualize the "Agile Newsroom" and "AI Content Engine" workflows. This replaces complex text with an intuitive visual flow.
+        - Growth Forecast: Goal: Inform -> Viz: A multi-column HTML table to provide a conservative, realistic forecast for key metrics, including the crucial lead generation numbers.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FDFBF8; /*宣紙白*/
+            color: #3D4852;
+        }
+        .serif {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+        }
+        .section {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid #F1ECE6;
+        }
+        .section-title {
+            font-size: 1.875rem; /* 30px */
+            font-weight: 700;
+            color: #1A202C; /*近墨色*/
+        }
+        .highlight {
+            color: #A56A43; /* 朱砂色 */
+            font-weight: 600;
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: #f7fafc;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4a5568;
+            white-space: nowrap;
+        }
+        .flow-arrow {
+            color: #cbd5e0;
+            margin: 0 0.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-4xl mx-auto p-4 md:p-8">
+
+        <header class="text-center py-8 border-b-2 border-gray-200">
+            <h1 class="serif text-4xl font-bold text-[#1A202C] mb-2">「燈座計畫 2.0」</h1>
+            <p class="text-xl text-gray-500">雙軌並進的品牌影響力建構方案</p>
+        </header>
+
+        <main>
+            <!-- 一、 執行總綱 -->
+            <section class="section">
+                <h2 class="section-title serif mb-4">一、 執行總綱：從「內容典藏家」到「議題定義者」</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    本計畫的核心目標，是在一個月的合作週期內，導入兩套現代化的內容作戰系統，將貴公司從一個靜態的「智慧典藏家」，升級為一個能即時回應市場脈動、高效轉化教學資產的<span class="highlight">「議題定義者」</span>。
+                    我們提供的，不僅是一次性的內容服務，而是一套<span class="highlight">可持續運作、可內部傳承</span>的工作方法論，旨在為貴公司建立一個能長期產生影響力的「品牌內容戰情室」，奠定最穩固的基石。
+                </p>
+            </section>
+
+            <!-- 二、 核心戰術 -->
+            <section class="section">
+                <h2 class="section-title serif mb-4">二、 核心戰術：雙軌並進的作戰藍圖</h2>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    我們將同步啟動兩大戰術主軸，分別解決「現有資產活化」與「未來內容生產」的核心問題：
+                </p>
+                <div class="card overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="p-4 font-medium">戰術主軸</th>
+                                <th class="p-4 font-medium">核心戰術</th>
+                                <th class="p-4 font-medium">戰略價值</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="p-4 font-medium">主軸一：<br>即時議題響應</td>
+                                <td class="p-4 text-gray-700">導入「新聞媒體」運作思維，將嚴教授的舊有短影音，與當代商業議題進行快速連結與再製，發布「即時快訊」式的社群內容。</td>
+                                <td class="p-4 text-gray-700">用<span class="highlight">最低的製作成本</span>，創造<span class="highlight">最高的市場共鳴</span>，讓品牌永遠與目標受眾的當下痛點同頻。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">主軸二：<br>AI 內容引擎</td>
+                                <td class="p-4 text-gray-700">導入「AI 輔助」高效生產流程，將現場課程的錄音，透過 AI 進行語音轉文字、重點摘要、聲音與影像修復，以數倍的效率產出高品質的數位內容資產。</td>
+                                <td class="p-4 text-gray-700">將耗時費力的<span class="highlight">「人工剪輯」</span>，升級為一套半自動化的<span class="highlight">「智慧生產線」</span>，確保未來內容的源源不絕。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- 三、 服務內容與交付項目 -->
+            <section class="section">
+                <h2 class="section-title serif mb-4">三、 服務內容與交付項目 (一個月合作週期)</h2>
+                <div class="card p-6">
+                    <p class="text-center text-gray-700 mb-2">方案名稱：品牌影響力「種子計畫 2.0」</p>
+                    <p class="text-center text-3xl font-bold text-[#1A202C] mb-6">新台幣 八千元整</p>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2">1. 啟動工作坊暨現場技術勘查 (一次性, 實體)</h3>
+                            <p class="text-gray-600 ml-4">一場 2.5 小時的到府會議，我們將共同完成「策略定調」與「技術勘查」兩大任務，並為您推薦值得信賴的外部製作夥伴，解決從0到1的建置難題。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2">2. 核心戰術藍圖交付</h3>
+                            <p class="text-gray-600 ml-4">• <span class="highlight">「即時內容引擎」戰術藍圖</span>：包含《影片再製指導書》與《新聞掛鉤圖文模板》。</p>
+                            <p class="text-gray-600 ml-4">• <span class="highlight">「AI 內容引擎」導入與教學</span>：包含《AI 工具推薦清單》與《AI 內容生產工作流》。</p>
+                        </div>
+                        <div>
+                             <h3 class="font-semibold text-lg mb-2">3. 內部賦能：企劃製作能力建構</h3>
+                             <p class="text-gray-600 ml-4">我們的核心目標是<span class="highlight">賦能您的團隊</span>。除了交付戰術藍圖，我們將透過<span class="highlight">3-4 次的線上實作指導</span>，手把手帶領您的團隊完成從主題發想、文案撰寫到圖文設計的完整製作過程，確保我們的專業方法論，能被有效地內化為團隊的長期能力。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2">4. 雙軌成果驗收與後續建議</h3>
+                            <p class="text-gray-600 ml-4">在內容發布後，提供一份針對此次「雙軌樣板案例」的成效分析，並提出後續三個月的放大策略建議。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 四、 附錄：標準化執行流程 (SOPs) -->
+            <section class="section">
+                <h2 class="section-title serif mb-4">四、 附錄：專業執行系統導入 (SOPs)</h2>
+                 <div class="space-y-8">
+                     <div>
+                         <h3 class="font-semibold text-lg mb-4 text-center">工作流一：即時快訊 (舊資產活化)</h3>
+                         <div class="flex flex-wrap justify-center items-center gap-2">
+                             <div class="flow-step">監測時事</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                             <div class="flow-step">連結歷史切點</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                             <div class="flow-step">再製短影音</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                             <div class="flow-step">設計議題圖文</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                             <div class="flow-step">社群發布</div>
+                              <div class="flow-arrow text-2xl">→</div>
+                             <div class="flow-step">導流與分析</div>
+                         </div>
+                     </div>
+                     <div>
+                         <h3 class="font-semibold text-lg mb-4 text-center">工作流二：AI 內容引擎 (新內容生產)</h3>
+                         <div class="flex flex-wrap justify-center items-center gap-2">
+                            <div class="flow-step">課程錄音導入</div>
+                            <div class="flow-arrow text-2xl">→</div>
+                            <div class="flow-step">AI 語音轉文字</div>
+                            <div class="flow-arrow text-2xl">→</div>
+                            <div class="flow-step">AI 重點摘要</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                            <div class="flow-step">人工精修腳本</div>
+                            <div class="flow-arrow text-2xl">→</div>
+                            <div class="flow-step">AI 聲音修復</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                             <div class="flow-step">影片剪輯製作</div>
+                             <div class="flow-arrow text-2xl">→</div>
+                            <div class="flow-step">AI 影像修復</div>
+                         </div>
+                     </div>
+                 </div>
+            </section>
+
+            <!-- 五、 預期成果與影響力預估 -->
+            <section class="section">
+                <h2 class="section-title serif mb-4">五、 預期成果與影響力預估</h2>
+                <p class="text-center text-gray-600 mb-6">本預估旨在為首月的「樣板案例」設立一個務實、可衡量的基礎目標，其真正價值在於<span class="highlight">「驗證作戰系統的可行性」</span>。</p>
+                <div class="card overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="p-4 font-medium">平台</th>
+                                <th class="p-4 font-medium">核心指標</th>
+                                <th class="p-4 font-medium">首月預估</th>
+                                <th class="p-4 font-medium">戰略價值說明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="p-4 font-medium">YouTube</td>
+                                <td class="p-4 text-gray-700">樣板影片觀看數<br>頻道訂閱增長</td>
+                                <td class="p-4 text-gray-700">500 - 1,500 次<br>+ 50 - 100 位</td>
+                                <td class="p-4 text-gray-700">建立品質標竿，吸引第一批高質量的核心粉絲。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">LinkedIn</td>
+                                <td class="p-4 text-gray-700">高階受眾觸及<br>互動率</td>
+                                <td class="p-4 text-gray-700">2,000 - 5,000 人<br>2% - 4%</td>
+                                <td class="p-4 text-gray-700">實現精準觸及，驗證高階決策者對我們內容的興趣。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">FB / IG / Threads</td>
+                                <td class="p-4 text-gray-700">議題貼文總觸及<br>導流點擊數</td>
+                                <td class="p-4 text-gray-700">3,000 - 8,000 人次<br>50 - 150 次</td>
+                                <td class="p-4 text-gray-700">擴大品牌能見度，在更廣泛的受眾中測試市場水溫。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium highlight">核心資產累積</td>
+                                <td class="p-4 text-gray-700 highlight">高意圖潛在客戶獲取<br>(問卷填寫/LINE好友)</td>
+                                <td class="p-4 text-gray-700 highlight">5 - 20 位</td>
+                                <td class="p-4 text-gray-700 highlight">這不僅是數字，更是「品牌信任」的首次驗證，為後續的「燈油計畫」奠定最寶貴的私域流量基礎。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- 六、 下一步 -->
+            <section class="pt-16 pb-8">
+                <h2 class="section-title serif mb-4 text-center">六、 下一步：從「種子」到「雙引擎驅動的戰情室」</h2>
+                <p class="text-center text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                    「燈座計畫 2.0」將為貴公司建立起一個品牌內容的「中央廚房」與「智慧生產線」。這次合作的成功，將證明我們有能力將歷史的智慧，高效地轉化為應對當下挑戰的即時策略。
+                    屆時，我們將能更有信心地，共同推動更全面的「燈油計畫」，將這個初具雛形的作戰系統，擴建為一個能持續定義市場議題、引領高階經理人思維的<span class="highlight">雙引擎驅動品牌戰情室</span>。
+                </p>
+            </section>
+        </main>
+
+    </div>
+
+</body>
+</html>
