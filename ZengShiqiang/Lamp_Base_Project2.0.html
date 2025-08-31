@@ -11,9 +11,9 @@
     <!-- Chosen Palette: Ink Wash White (A minimalist palette of off-white, charcoal grays, and a single vermilion accent, evoking the spirit of traditional Chinese ink wash painting.) -->
     <!-- Application Structure Plan: A single-page, scrollable report. The structure is thematic and linear, guiding the user through the logic of the proposal from "Executive Summary" to "Next Steps." Key interactions are minimal, focusing on clarity and readability. The primary design goal is to present a sophisticated, professional, and easily understandable strategic plan. -->
     <!-- Visualization & Content Choices: 
-        - Core Tactics: Goal: Compare -> Viz: A clear HTML table to differentiate the two core tactical tracks (Agile Issue Response vs. AI Content Engine).
-        - Service Deliverables: Goal: Detail -> Viz: A detailed HTML table to outline the specific deliverables of the 8,000 TWD plan, including the new "Internal Empowerment" section.
-        - SOP Flowcharts: Goal: Organize/Inform -> Viz: Two horizontal, step-by-step HTML/CSS diagrams to visualize the "Agile Newsroom" and "AI Content Engine" workflows. This replaces complex text with an intuitive visual flow.
+        - Core Tactics: Goal: Compare -> Viz: A clear HTML table to differentiate the two core tactical tracks (Agile Issue Response vs. AI Content Engine), now with specific tool names.
+        - Service Deliverables: Goal: Detail -> Viz: A detailed HTML table to outline the specific deliverables of the 8,000 TWD plan, including the "Internal Empowerment" section.
+        - SOP Flowcharts: Goal: Organize/Inform -> Viz: Two horizontal, step-by-step HTML/CSS diagrams to visualize the "Agile Newsroom" and "AI Content Engine" workflows, now updated with tool specifics.
         - Growth Forecast: Goal: Inform -> Viz: A multi-column HTML table to provide a conservative, realistic forecast for key metrics, including the crucial lead generation numbers.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -105,7 +105,7 @@
                             </tr>
                             <tr>
                                 <td class="p-4 font-medium">主軸二：<br>AI 內容引擎</td>
-                                <td class="p-4 text-gray-700">導入「AI 輔助」高效生產流程，將現場課程的錄音，透過 AI 進行語音轉文字、重點摘要、聲音與影像修復，以數倍的效率產出高品質的數位內容資產。</td>
+                                <td class="p-4 text-gray-700">導入以 <span class="highlight">Subtitle Edit</span> (語音轉文字)、<span class="highlight">Gemini PRO</span> (重點摘要) 及 <span class="highlight">ElevenLabs</span> (聲音修復) 等專業工具為核心的「AI 輔助」高效生產流程，以數倍的效率產出高品質的數位內容資產。</td>
                                 <td class="p-4 text-gray-700">將耗時費力的<span class="highlight">「人工剪輯」</span>，升級為一套半自動化的<span class="highlight">「智慧生產線」</span>，確保未來內容的源源不絕。</td>
                             </tr>
                         </tbody>
@@ -166,13 +166,13 @@
                          <div class="flex flex-wrap justify-center items-center gap-2">
                             <div class="flow-step">課程錄音導入</div>
                             <div class="flow-arrow text-2xl">→</div>
-                            <div class="flow-step">AI 語音轉文字</div>
+                            <div class="flow-step">AI 語音轉文字<br><span class="text-xs text-gray-400">(Subtitle Edit)</span></div>
                             <div class="flow-arrow text-2xl">→</div>
-                            <div class="flow-step">AI 重點摘要</div>
+                            <div class="flow-step">AI 重點摘要<br><span class="text-xs text-gray-400">(Gemini PRO)</span></div>
                              <div class="flow-arrow text-2xl">→</div>
                             <div class="flow-step">人工精修腳本</div>
                             <div class="flow-arrow text-2xl">→</div>
-                            <div class="flow-step">AI 聲音修復</div>
+                            <div class="flow-step">AI 聲音修復<br><span class="text-xs text-gray-400">(ElevenLabs)</span></div>
                              <div class="flow-arrow text-2xl">→</div>
                              <div class="flow-step">影片剪輯製作</div>
                              <div class="flow-arrow text-2xl">→</div>
@@ -240,3 +240,5 @@
 
 </body>
 </html>
+
+```
