@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【龍心計畫】2026品牌行銷｜戰略建議方針</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Shippori+Mincho&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ink-black': '#1a1a1a',
+                        'ink-gray': '#4a4a4a',
+                        'paper-bg': '#fdfbf7',
+                        'seal-red': '#8E354A',
+                        'gold-accent': '#C5A059',
+                        'dark-tech': '#0f1115',
+                    },
+                    fontFamily: {
+                        'serif': ['"Noto Serif TC"', 'serif'],
+                        'sans': ['"Noto Sans TC"', 'sans-serif'],
+                        'art': ['"Shippori Mincho"', 'serif'],
+                    },
+                    backgroundImage: {
+                        'paper-texture': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmRmYmY3Ii8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiIG9wYWNpdHk9IjAuMSIvPgo8L3N2Zz4=')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            background-color: #fdfbf7;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmRmYmY3Ii8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiIG9wYWNpdHk9IjAuMSIvPgo8L3N2Zz4=');
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdfbf7; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C5A059; 
+            border-radius: 4px;
+        }
+
+        /* Typography */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.2em;
+        }
+
+        /* Animations */
+        .ink-spot {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.08;
+            animation: float 10s infinite ease-in-out;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* Reveal on Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Tech Rain Animation for I Ching */
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        .binary-column {
+            position: absolute;
+            top: -100%;
+            color: #C5A059;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.2;
+            white-space: pre;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { top: 100%; }
+        }
+    </style>
+</head>
+<body class="text-ink-black antialiased font-sans selection:bg-gold-accent selection:text-white">
+
+    <!-- Ambient Background Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="ink-spot bg-black w-[500px] h-[500px] -top-20 -left-20"></div>
+        <div class="ink-spot bg-gray-500 w-[600px] h-[600px] top-[40%] right-[-10%] animation-delay-2000"></div>
+        <div class="ink-spot bg-gold-accent w-[300px] h-[300px] bottom-0 left-[20%] opacity-20"></div>
+    </div>
+
+    <!-- Navigation / Progress -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-paper-bg/90 backdrop-blur-md border-b border-gray-200 h-16 flex items-center justify-between px-6 transition-all duration-300" id="navbar">
+        <div class="font-serif font-bold text-xl tracking-widest text-ink-black flex items-center gap-2">
+            <span class="w-3 h-3 bg-seal-red rounded-sm inline-block"></span>
+            龍心計畫
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm text-gray-600 font-medium">
+            <a href="#grand-strategy" class="hover:text-seal-red transition-colors">頂層設計</a>
+            <a href="#rationale" class="hover:text-seal-red transition-colors">戰略邏輯</a>
+            <a href="#execution" class="hover:text-seal-red transition-colors">分眾執行</a>
+            <a href="#business-model" class="hover:text-seal-red transition-colors">商業變現</a>
+            <a href="#iching-rebrand" class="text-gold-accent hover:text-yellow-600 transition-colors">易經升維</a>
+        </div>
+        <div class="text-xs text-gray-400 font-serif">2025戰略白皮書</div>
+    </nav>
+
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-16 left-0 h-[2px] bg-gold-accent z-50 w-0 transition-all duration-100" id="progressBar"></div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-16 z-10">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between relative">
+            <!-- Text Content -->
+            <div class="md:w-1/2 space-y-8 z-10 text-center md:text-left reveal active">
+                <div class="inline-block border border-ink-black px-4 py-1 text-sm tracking-widest uppercase mb-4">CONFIDENTIAL</div>
+                <h1 class="text-5xl md:text-7xl font-serif font-black leading-tight text-ink-black">
+                    東方智慧<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-ink-black to-gray-600">商業生態系</span>
+                </h1>
+                <h2 class="text-2xl font-serif text-seal-red italic">龍心計畫 2025</h2>
+                
+                <p class="text-lg text-gray-600 leading-relaxed max-w-lg">
+                    活化集團文化資產，構建「流量→信任→變現」的商業閉環。<br>
+                    從單點內容生產，轉向用戶全生命週期的現代東方商業智庫。
+                </p>
+
+                <div class="pt-8 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-ink-black text-white flex items-center justify-center font-serif">孫</div>
+                        <span class="text-sm tracking-wide">流量前鋒</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-300 hidden md:block"></div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full border border-ink-black flex items-center justify-center font-serif">道</div>
+                        <span class="text-sm tracking-wide">信任中場</span>
+                    </div>
+                    <div class="w-px h-8 bg-gray-300 hidden md:block"></div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gold-accent text-white flex items-center justify-center font-serif">易</div>
+                        <span class="text-sm tracking-wide">決策核心</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Element (Abstract Calligraphy) -->
+            <div class="md:w-1/2 h-[50vh] md:h-auto flex items-center justify-center relative reveal delay-200">
+                <div class="text-[20rem] font-serif text-gray-100 absolute select-none pointer-events-none" style="z-index: -1;">龍</div>
+                <div class="glass-card p-8 md:p-12 relative max-w-sm rotate-3 transform transition-transform hover:rotate-0 duration-500">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 bg-seal-red rounded-full shadow-lg"></div>
+                    <h3 class="font-serif text-xl font-bold mb-4">戰略核心願景</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        構建合理的商業閉環。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        這是一套現代人的完整生存解決方案：<br>
+                        <strong>外在的劍、內在的藥、頭頂的天。</strong>
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-gray-200 text-xs text-gray-400 text-right">
+                        運用古老文化，成就現代人的生活解藥
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Chapter 1: The Iron Triangle (Horizontal Scroll/Cards) -->
+    <section id="grand-strategy" class="py-24 bg-white/50 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="mb-16 text-center reveal">
+                <span class="text-gold-accent font-bold tracking-widest uppercase text-sm">Chapter 01</span>
+                <h2 class="text-4xl font-serif font-bold mt-2 mb-4">戰略頂層設計</h2>
+                <div class="w-16 h-1 bg-ink-black mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-2xl mx-auto">
+                    東方智慧「鐵三角」架構：基於資源效率與變現邏輯的最優解。
+                </p>
+            </div>
+
+            <!-- The Tri-Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Sun Tzu -->
+                <div class="group relative h-[500px] perspective reveal delay-100">
+                    <div class="absolute inset-0 bg-ink-black text-white p-8 flex flex-col justify-between transition-all duration-500 group-hover:-translate-y-2 shadow-2xl overflow-hidden">
+                        <div class="absolute -right-10 -top-10 text-[10rem] opacity-10 font-serif font-bold">戰</div>
+                        <div>
+                            <div class="text-seal-red font-bold tracking-widest mb-2">TRAFFIC</div>
+                            <h3 class="text-3xl font-serif font-bold mb-4">孫子兵法</h3>
+                            <p class="text-gray-400">外在的劍｜生存</p>
+                        </div>
+                        <div class="space-y-4 border-t border-gray-700 pt-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">痛點</span>
+                                <span class="text-white text-right">職場廝殺、競爭焦慮</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">受眾</span>
+                                <span class="text-white text-right">職場人、中階主管</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">載體</span>
+                                <span class="text-white text-right">短影音 (Shorts)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Tao Te Ching -->
+                <div class="group relative h-[500px] perspective reveal delay-200">
+                    <div class="absolute inset-0 bg-white border border-gray-200 p-8 flex flex-col justify-between transition-all duration-500 group-hover:-translate-y-2 shadow-xl overflow-hidden">
+                        <div class="absolute -right-10 -top-10 text-[10rem] opacity-5 font-serif font-bold">道</div>
+                        <div>
+                            <div class="text-gray-500 font-bold tracking-widest mb-2">TRUST</div>
+                            <h3 class="text-3xl font-serif font-bold mb-4 text-ink-black">道德經</h3>
+                            <p class="text-gray-600">內在的藥｜安頓</p>
+                        </div>
+                        <div class="space-y-4 border-t border-gray-200 pt-6 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">痛點</span>
+                                <span class="text-ink-black text-right">精神內耗、情緒壓力</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">受眾</span>
+                                <span class="text-ink-black text-right">全年齡層、高壓族群</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">載體</span>
+                                <span class="text-ink-black text-right">影音 + 金句圖文</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: I Ching -->
+                <div class="group relative h-[500px] perspective reveal delay-300">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-black text-gold-accent p-8 flex flex-col justify-between transition-all duration-500 group-hover:-translate-y-2 shadow-2xl overflow-hidden border border-gold-accent/30">
+                        <div class="absolute -right-10 -top-10 text-[10rem] opacity-10 font-serif font-bold">易</div>
+                        <div>
+                            <div class="text-white/60 font-bold tracking-widest mb-2">REVENUE</div>
+                            <h3 class="text-3xl font-serif font-bold mb-4">易經</h3>
+                            <p class="text-white/80">頭頂的天｜決策</p>
+                        </div>
+                        <div class="space-y-4 border-t border-gold-accent/20 pt-6">
+                            <div class="flex justify-between">
+                                <span class="text-white/50">痛點</span>
+                                <span class="text-gold-accent text-right">方向迷茫、決策風險</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-white/50">受眾</span>
+                                <span class="text-gold-accent text-right">企業主、投資人</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-white/50">載體</span>
+                                <span class="text-gold-accent text-right">白皮書、決策圖表</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 2: Rationale (Sticky Scrollytelling) -->
+    <section id="rationale" class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- Sticky Sidebar (Visual Anchor) -->
+                <div class="lg:w-1/3">
+                    <div class="sticky top-32">
+                        <div class="text-gold-accent font-bold tracking-widest uppercase text-sm mb-2">Chapter 02</div>
+                        <h2 class="text-4xl font-serif font-bold mb-8">戰略邏輯論證</h2>
+                        <div id="sticky-visual" class="w-full aspect-square bg-ink-black text-white flex items-center justify-center text-8xl font-serif shadow-2xl transition-colors duration-500 rounded-lg overflow-hidden relative">
+                            <!-- Content changes via JS based on scroll -->
+                            <span id="sticky-text" class="relative z-10">戰</span>
+                            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
+                        </div>
+                        <p id="sticky-desc" class="mt-6 text-gray-500 italic font-serif text-lg">
+                            為什麼《孫子兵法》要主攻「職場/普世焦慮」？
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scrolling Content -->
+                <div class="lg:w-2/3 space-y-24 pb-24">
+                    
+                    <!-- Section 2.1 -->
+                    <div class="rationale-block reveal" data-type="war">
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <span class="w-2 h-8 bg-seal-red mr-4"></span>
+                            流量入口：普世焦慮的粉碎機
+                        </h3>
+                        <div class="prose prose-lg text-gray-600">
+                            <p class="mb-4"><strong>為什麼選擇《孫子兵法》？</strong> 這不是為了蹭熱點，而是基於「市場剛需」與「傳播效率」的精算。</p>
+                            <ul class="list-none space-y-4 pl-0">
+                                <li class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-ink-black">
+                                    <h4 class="font-bold text-ink-black mb-2">1. 市場需求的高頻性 (High Frequency)</h4>
+                                    <p>「生存」是最高頻的剛需。每個人每天都要上班、面對老闆、處理同事鬥爭。相比於宏大的國家戰略，「個人的生存焦慮」是頻次最高、痛點最直接的流量入口。</p>
+                                </li>
+                                <li class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-ink-black">
+                                    <h4 class="font-bold text-ink-black mb-2">2. 降維打擊的權威感</h4>
+                                    <p>用研究「國戰」的兵法，來解決「辦公室戰爭」，屬於降維打擊。嚴老師的權威感能讓這些職場建議顯得不僅實用，而且具備「戰略高度」，與一般雞湯形成區隔。</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Section 2.2 -->
+                    <div class="rationale-block reveal" data-type="peace">
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <span class="w-2 h-8 bg-gray-400 mr-4"></span>
+                            信任沈澱：剛柔並濟的情緒急救
+                        </h3>
+                        <div class="prose prose-lg text-gray-600">
+                            <p class="mb-4"><strong>為什麼需要《道德經》？</strong> 如果只講兵法，品牌會過於「功利」且「緊繃」。</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="glass-card p-6">
+                                    <h4 class="font-bold text-ink-black mb-2">品牌平衡 (Balance)</h4>
+                                    <p class="text-sm">《道德經》提供「鬆弛感」，是孫子兵法的解藥。一個能教你「怎麼贏」，又能教你「怎麼放下」的品牌，才能建立立體形象。</p>
+                                </div>
+                                <div class="glass-card p-6">
+                                    <h4 class="font-bold text-ink-black mb-2">佔領「深夜場景」</h4>
+                                    <p class="text-sm">白天戰鬥（孫子），晚上療癒（道德經）。這讓品牌能覆蓋用戶的全天候場景，大幅提升心智佔有率 (Mind Share)。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2.3 -->
+                    <div class="rationale-block reveal" data-type="tech">
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <span class="w-2 h-8 bg-gold-accent mr-4"></span>
+                            利潤收割：高門檻的決策模型
+                        </h3>
+                        <div class="prose prose-lg text-gray-600">
+                            <p class="mb-4"><strong>為什麼《易經》要做高端？</strong> 這是基於「受眾行為學」與「價值錨定」的關鍵決策。</p>
+                            <div class="bg-gradient-to-r from-ink-black to-gray-800 text-white p-8 rounded-lg shadow-xl relative overflow-hidden">
+                                <div class="absolute right-0 top-0 opacity-10 text-9xl font-serif">錢</div>
+                                <h4 class="font-bold text-gold-accent text-xl mb-4">價值錨定 (Value Anchoring)</h4>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-red-400">✕</span> 短影音 = 娛樂 = 低客單價（算命）
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-green-400">✓</span> 專業報告 = 智庫 = 高客單價（顧問）
+                                    </li>
+                                </ul>
+                                <p class="mt-4 text-gray-300 text-sm">
+                                    用高門檻、高質感的圖文內容，自動過濾掉「白嫖黨」，精準篩選出願意為「決策優化」付費的高端客戶。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 3: Tactics (Accordion/List) -->
+    <section id="execution" class="py-24 bg-white relative z-10 border-t border-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="text-gold-accent font-bold tracking-widest uppercase text-sm">Chapter 03</span>
+                <h2 class="text-4xl font-serif font-bold mt-2">分眾執行戰術</h2>
+                <p class="mt-4 text-gray-500">影音搶流量，圖文做留存/權威</p>
+            </div>
+
+            <div class="space-y-6 max-w-4xl mx-auto">
+                <!-- Tactic 1 -->
+                <div class="group border border-gray-200 hover:border-seal-red transition-colors duration-300 rounded-lg overflow-hidden reveal">
+                    <div class="bg-gray-50 p-6 flex flex-col md:flex-row justify-between items-center cursor-default">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-seal-red text-white flex items-center justify-center font-bold text-xl rounded">戰</div>
+                            <div>
+                                <h3 class="font-bold text-lg">普世焦慮粉碎機</h3>
+                                <p class="text-sm text-gray-500">Target: 職場大眾</p>
+                            </div>
+                        </div>
+                        <span class="text-xs uppercase tracking-widest font-bold text-gray-400 mt-4 md:mt-0">Sun Tzu Strategy</span>
+                    </div>
+                    <div class="p-6 bg-white grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-seal-red mb-2">影音 (Reels/Shorts)</h4>
+                            <p class="text-sm text-gray-600 mb-2">風格：節奏快、觀點犀利、直擊痛點。</p>
+                            <div class="bg-gray-100 p-3 rounded text-xs text-gray-500 italic">
+                                Hook:「為什麼越聽話的員工，死得越慘？」<br>
+                                Pain:「老闆說看重你，其實...」<br>
+                                Solution:「孫子曰『奇正相生』...」
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-ink-black mb-2">圖文 (Carousel)</h4>
+                            <p class="text-sm text-gray-600">形式：「職場戰術卡」。<br>目的：激發收藏慾望，成為隨身工具書。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tactic 2 -->
+                <div class="group border border-gray-200 hover:border-gray-500 transition-colors duration-300 rounded-lg overflow-hidden reveal delay-100">
+                    <div class="bg-gray-50 p-6 flex flex-col md:flex-row justify-between items-center cursor-default">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white border border-gray-300 text-ink-black flex items-center justify-center font-bold text-xl rounded">和</div>
+                            <div>
+                                <h3 class="font-bold text-lg">深夜治癒電台</h3>
+                                <p class="text-sm text-gray-500">Target: 高壓族群</p>
+                            </div>
+                        </div>
+                        <span class="text-xs uppercase tracking-widest font-bold text-gray-400 mt-4 md:mt-0">Tao Strategy</span>
+                    </div>
+                    <div class="p-6 bg-white grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-gray-600 mb-2">影音 (Slow Vibe)</h4>
+                            <p class="text-sm text-gray-600 mb-2">風格：慢節奏、留白、432Hz 音樂。</p>
+                            <div class="bg-gray-100 p-3 rounded text-xs text-gray-500 italic">
+                                內容：「睡不著的時候，聽聽老子這句話。」<br>
+                                目的：提供情緒價值，建立依賴。
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-600 mb-2">圖文 (Wallpaper)</h4>
+                            <p class="text-sm text-gray-600">形式：「手機桌布金句」。<br>水墨背景 + 直擊靈魂的一句話，鼓勵轉發限動。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tactic 3 -->
+                <div class="group border border-gray-200 hover:border-gold-accent transition-colors duration-300 rounded-lg overflow-hidden reveal delay-200">
+                    <div class="bg-gray-50 p-6 flex flex-col md:flex-row justify-between items-center cursor-default">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-ink-black text-gold-accent flex items-center justify-center font-bold text-xl rounded">算</div>
+                            <div>
+                                <h3 class="font-bold text-lg">CEO 動態決策演算法</h3>
+                                <p class="text-sm text-gray-500">Target: 決策者/老闆</p>
+                            </div>
+                        </div>
+                        <span class="text-xs uppercase tracking-widest font-bold text-gold-accent mt-4 md:mt-0">I Ching Strategy</span>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <div class="flex items-start gap-4">
+                            <div class="w-full">
+                                <h4 class="font-bold text-gold-accent mb-2">拒絕影片，主攻「白皮書」與「圖表」</h4>
+                                <p class="text-sm text-gray-600 mb-4">視覺風格：「黑金科技風」。結合數據流線、二進位代碼。質感對標麥肯錫。</p>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                                    <div class="bg-ink-black text-gold-accent p-3 rounded">
+                                        <strong>週期模型</strong><br>用曲線圖呈現「乾卦六爻」企業生命週期。
+                                    </div>
+                                    <div class="bg-ink-black text-gold-accent p-3 rounded">
+                                        <strong>決策覆盤</strong><br>解析馬雲、賈伯斯成敗背後的易經邏輯。
+                                    </div>
+                                    <div class="bg-ink-black text-gold-accent p-3 rounded">
+                                        <strong>識人矩陣</strong><br>八卦對應人格分析，用於合夥人篩選。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Feature: I Ching Rebranding (Immersive Dark Mode) -->
+    <section id="iching-rebrand" class="relative py-32 bg-dark-tech text-gray-300 overflow-hidden z-20">
+        <!-- Matrix Rain Background -->
+        <div class="matrix-bg" id="matrixBg"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <div class="inline-block border border-gold-accent text-gold-accent px-3 py-1 text-xs tracking-widest mb-4">REBRANDING STRATEGY</div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">易經：東方動態決策學</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">
+                    如何將「算命」轉型為「演算法」？<br>
+                    這不是迷信，這是中國最早的二進位大數據。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <!-- Left: The Argument -->
+                <div class="space-y-8 reveal">
+                    <div class="border-l-2 border-gold-accent pl-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">1. 底層代碼一致</h3>
+                        <p class="text-sm leading-relaxed">
+                            現代電腦科學的基礎是「0」與「1」。<br>
+                            《易經》的基礎是「陰 (- -)」與「陽 (—)」。<br>
+                            <span class="text-gold-accent block mt-2 font-medium">「在你用電腦運算數據之前，老祖宗已經用陰陽運算宇宙了。」</span>
+                        </p>
+                    </div>
+
+                    <div class="border-l-2 border-gray-700 pl-6 hover:border-gold-accent transition-colors">
+                        <h3 class="text-2xl font-bold text-white mb-2">2. 運作模型一致</h3>
+                        <p class="text-sm leading-relaxed">
+                            演算法：Input (數據) -> Model -> Output (結果)<br>
+                            易經：Input (時空) -> 64卦模型 -> Output (吉凶)<br>
+                            <span class="block mt-2 font-medium">這是「在資訊不完全狀態下，推演事物發展」的超級模型。</span>
+                        </p>
+                    </div>
+
+                    <div class="border-l-2 border-gray-700 pl-6 hover:border-gold-accent transition-colors">
+                        <h3 class="text-2xl font-bold text-white mb-2">3. 行銷新切角</h3>
+                        <ul class="text-sm space-y-2 mt-2">
+                            <li>• <strong class="text-white">動態決策模型</strong>：給 CEO 的未來導航。</li>
+                            <li>• <strong class="text-white">週期管理系統</strong>：Time the Market (擇時)。</li>
+                            <li>• <strong class="text-white">風險控管資料庫</strong>：履霜堅冰至，見微知著。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right: Visualization -->
+                <div class="relative h-[400px] flex items-center justify-center reveal delay-200">
+                    <!-- Spinning Bagua / Data Circle -->
+                    <div class="absolute w-64 h-64 rounded-full border border-gold-accent/30 animate-[spin_20s_linear_infinite]"></div>
+                    <div class="absolute w-80 h-80 rounded-full border border-dashed border-gray-600/50 animate-[spin_30s_linear_infinite_reverse]"></div>
+                    
+                    <div class="text-center z-10 bg-dark-tech/80 backdrop-blur p-6 border border-gold-accent/20 rounded-xl">
+                        <div class="text-4xl font-serif text-white mb-2">規律</div>
+                        <div class="text-xs text-gold-accent tracking-[0.3em] uppercase">Algorithm</div>
+                        <div class="mt-4 flex justify-center gap-1 font-mono text-[10px] text-gray-500">
+                            <span>010110</span>
+                            <span>::</span>
+                            <span>☰☷☳</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 4: Business Model & Footer -->
+    <section id="business-model" class="py-24 bg-paper-bg relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 shadow-2xl rounded-sm border-t-4 border-seal-red reveal">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-serif font-bold">商業變現路徑</h2>
+                    <p class="text-gray-500 mt-2">構建無法複製的閉環</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                    <div class="flex-1">
+                        <div class="text-seal-red font-bold mb-2">流量 (Traffic)</div>
+                        <p class="text-sm text-gray-600">透過《孫子兵法》觸及職場人群，擴大漏斗開口。</p>
+                    </div>
+                    <div class="hidden md:block text-gray-300 text-2xl">→</div>
+                    <div class="flex-1">
+                        <div class="text-ink-black font-bold mb-2">信任 (Trust)</div>
+                        <p class="text-sm text-gray-600">透過《道德經》與私域互動，交換名單，建立黏著。</p>
+                    </div>
+                    <div class="hidden md:block text-gray-300 text-2xl">→</div>
+                    <div class="flex-1">
+                        <div class="text-gold-accent font-bold mb-2">變現 (Revenue)</div>
+                        <p class="text-sm text-gray-600">透過《易經》篩選老闆，銷售「私董會」與「高階決策班」。</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-gray-100 text-center">
+                    <h3 class="font-serif font-bold text-xl mb-4">結語</h3>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm">
+                        <span class="px-4 py-2 bg-gray-100 rounded text-gray-700">影音：把「焦慮」講透</span>
+                        <span class="px-4 py-2 bg-gray-100 rounded text-gray-700">視覺：徹底去迷信化</span>
+                        <span class="px-4 py-2 bg-gray-100 rounded text-gray-700">運營：私域導流</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-ink-black text-white py-12 text-center relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="text-2xl font-serif font-bold mb-4">龍心計畫</div>
+            <p class="text-gray-500 text-sm">
+                東方智慧商業生態系總體戰略<br>
+                2025 Strategic White Paper
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Reveal Elements on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 2. Sticky Section Content Switcher
+        // Logic: When a specific rationale block comes into view, change the left sidebar content
+        const rationaleBlocks = document.querySelectorAll('.rationale-block');
+        const stickyText = document.getElementById('sticky-text');
+        const stickyBox = document.getElementById('sticky-visual');
+        const stickyDesc = document.getElementById('sticky-desc');
+
+        const stickyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const type = entry.target.getAttribute('data-type');
+                    
+                    if (type === 'war') {
+                        stickyText.innerText = '戰';
+                        stickyBox.className = "w-full aspect-square bg-ink-black text-white flex items-center justify-center text-8xl font-serif shadow-2xl transition-colors duration-500 rounded-lg overflow-hidden relative";
+                        stickyDesc.innerText = "為什麼《孫子兵法》要主攻「職場/普世焦慮」？";
+                    } else if (type === 'peace') {
+                        stickyText.innerText = '和';
+                        stickyBox.className = "w-full aspect-square bg-white border border-gray-200 text-ink-black flex items-center justify-center text-8xl font-serif shadow-xl transition-colors duration-500 rounded-lg overflow-hidden relative";
+                        stickyDesc.innerText = "為什麼《道德經》要做「情緒急救包」？";
+                    } else if (type === 'tech') {
+                        stickyText.innerText = '算';
+                        stickyBox.className = "w-full aspect-square bg-gradient-to-br from-ink-black to-gray-900 text-gold-accent flex items-center justify-center text-8xl font-serif shadow-2xl transition-colors duration-500 rounded-lg overflow-hidden relative border border-gold-accent";
+                        stickyDesc.innerText = "為什麼《易經》要轉型做「高端圖文/決策模型」？";
+                    }
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when 50% visible
+
+        rationaleBlocks.forEach(block => stickyObserver.observe(block));
+
+        // 3. Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        });
+
+        // 4. Matrix Rain Effect for I Ching Section
+        function createRain() {
+            const container = document.getElementById('matrixBg');
+            const width = container.offsetWidth;
+            const columnCount = Math.floor(width / 20);
+
+            for (let i = 0; i < columnCount; i++) {
+                const column = document.createElement('div');
+                column.className = 'binary-column';
+                column.style.left = (i * 20) + 'px';
+                column.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Random speed
+                column.style.animationDelay = (Math.random() * 2) + 's';
+                
+                // Generate random binary/hex string
+                let content = '';
+                for(let j=0; j<20; j++) {
+                    content += Math.random() > 0.5 ? '1\n' : '0\n';
+                }
+                column.innerText = content;
+                
+                container.appendChild(column);
+            }
+        }
+        
+        // Initialize rain on load
+        createRain();
+
+    </script>
+</body>
+</html>
