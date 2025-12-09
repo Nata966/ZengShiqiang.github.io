@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業媒體戰略導航 | The Strategic Menu</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zen: {
+                            paper: '#F7F8F5', // 和紙白
+                            ink: '#2B2B2B',   // 墨色
+                            sub: '#555555',   // 加深灰
+                            accent: '#BC412B', // 印泥紅
+                            matcha: '#6A7F60', // 抹茶綠
+                            gold: '#C5A059',   // 金繼
+                            highlight: '#E8EAE6'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Noto Serif TC', 'serif'],
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    },
+                    boxShadow: {
+                        'zen': '8px 8px 0px 0px rgba(43,43,43,0.05)',
+                        'zen-hover': '4px 4px 0px 0px rgba(43,43,43,0.03)',
+                        'zen-focus': '12px 12px 0px 0px rgba(188, 65, 43, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            background-color: #F7F8F5; 
+            color: #2B2B2B;
+        }
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.03%22/%3E%3C/svg%3E');
+        }
+        .vertical-rl {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.1em;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes stamp {
+            0% { opacity: 0; transform: scale(3) rotate(-10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(-2deg); }
+        }
+        .stamp-anim { animation: stamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- ICONS ---
+        const Icon = ({ path, size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" className={className}>
+                <path d={path} />
+            </svg>
+        );
+
+        const ICONS = {
+            Menu: "M3 12h18M3 6h18M3 18h18",
+            ArrowRight: "M5 12h14M12 5l7 7-7 7",
+            ChevronDown: "M6 9l6 6 6-6",
+            Plus: "M12 5v14M5 12h14",
+            Check: "M20 6L9 17l-5-5",
+            TrendingUp: "M23 6l-9.5 9.5-5-5L1 18",
+            Users: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M16 3.13a4 4 0 0 1 0 7.75 M23 21v-2a4 4 0 0 0-3-3.87",
+            Shield: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+            Tool: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z",
+            Alert: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",
+            X: "M18 6L6 18M6 6l12 12",
+            Box: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
+            Search: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z",
+            Help: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01",
+            Heartbeat: "M22 12h-4l-3 9L9 3l-3 9H2",
+            Star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+            Refresh: "M23 4v6h-6 M1 20v-6h6"
+        };
+
+        // --- DATA STRUCTURES ---
+        
+        const STRATEGY_DATA = {
+            A: {
+                id: 'A',
+                title: "營收增長對策",
+                subtitle: "Revenue Growth",
+                tags: ["導購型"],
+                diagnosis: "產品實力強，但業務解釋成本過高，成交週期過長。",
+                painPoint: "「為什麼我的廣告點擊率這麼低？為什麼這支影片上次拍了五萬，一張訂單都沒換到？」",
+                solution: "導入「導購型」短影音體系，將重複的業務說明標準化，解決轉換率瓶頸。",
+                target: "投了廣告沒人買、產品很好但影片沒人看、庫存壓力大的老闆。",
+                monthPlan: [
+                    {
+                        title: "【常見問題】為什麼你賣不掉？(前置分析)",
+                        content: "我們不只是來拍片，我們來幫您抓戰犯。是產品賣點講錯了？還是前三秒太無聊？\n交付：找出一句最強的「必殺宣傳語」。"
+                    },
+                    {
+                        title: "【處理方法】專治「滑過去不看」的廣告短片 (4支/月)",
+                        content: "不做那種美美的但沒用的形象片。我們做「帶貨片」。\n特色：前 3 秒直接下猛藥（Hook），中間講痛點，最後叫他買。\n規格：針對手機觀看優化，字體大、節奏快、看了就想點連結。"
+                    },
+                    {
+                        title: "【實驗】換個說法試試看 (素材測試)",
+                        content: "怕一支影片沒中？我們把主力影片剪成 3 種不同開頭（例如：A版本用嚇的、B版本用利誘的、C版本用見證的）。\n結果：讓市場告訴你哪種說法能賣錢。"
+                    }
+                ],
+                moduleSpec: {
+                    name: "模組 B：【全託管】營收增長引擎",
+                    quote: "「用一個新鮮人的薪水，買下一個具備『作戰能力』的影音行銷部。」",
+                    config: [
+                        { label: "月度戰略校準", desc: "每月 1 次 (60分鐘) 戰略會議 + 《輿情雷達簡報》。" },
+                        { label: "戰略產出矩陣", desc: "每月 8 支短影音 (4支原生 + 4支變體/切片)。" },
+                        { label: "A/B 測試機制", desc: "針對重點產品提供「換頭服務」，找出最低成本獲客素材。" },
+                        { label: "發布工程配套", desc: "4 組動態封面 (Motion Cover) ＋ 導購文案 ＋ 廣告受眾設定。" }
+                    ]
+                }
+            },
+            B: {
+                id: 'B',
+                title: "品牌聲量對策",
+                subtitle: "Brand Presence",
+                tags: ["流量型"],
+                diagnosis: "數位資產匱乏，搜尋能見度低，導致人才招募受阻或被競品淹沒。",
+                painPoint: "「我知道要經營社群，但小編離職了，我自己拍的很醜，發文有一搭沒一搭，客戶覺得我們公司是不是快倒了？」",
+                solution: "導入「流量型」內容矩陣，結合演算法邏輯，建立活躍的企業存在感。",
+                target: "臉書/IG 久久沒更新、怕被客戶遺忘、想讓品牌看起來「還活著」且「很活躍」的企業。",
+                monthPlan: [
+                    {
+                        title: "【整頓】門面大掃除",
+                        content: "幫您的社群媒體換上統一的專業識別（封面、頭像、簡介），讓客戶點進來覺得「這家公司很有規模」。"
+                    },
+                    {
+                        title: "【保溫】讓網路上的你「活跳跳」 (4影+4圖/月)",
+                        content: "維持每週都有高品質內容產出。\n內容：拍攝公司日常、員工專業介紹、客戶好評分享。\n目的：不是為了馬上賣東西，而是為了讓客戶搜尋到你時，看到豐富的內容而產生「信任感」。"
+                    },
+                    {
+                        title: "【導流】把路人變粉絲",
+                        content: "我們幫您下最基礎的廣告設定（讓看過影片的人，下次還能看到你的貼文），把流量池養大。"
+                    }
+                ],
+                moduleSpec: {
+                    name: "模組 A：【流量型】數位資產策展 (Digital Asset Curation)",
+                    quote: "「別讓客戶以為貴公司『暫停營業』了。我們負責維持品牌在網路上的『數位心跳』。」",
+                    config: [
+                        { label: "門面視覺工程", desc: "統一全通路 (FB/IG/YT) 視覺識別，營造正規軍的「規模感」。" },
+                        { label: "保溫內容矩陣", desc: "每月 4 支短影音 + 4 組圖文。聚焦專業側寫與團隊日常。" },
+                        { label: "信任感堆疊", desc: "不只是廣告，而是透過真實紀錄，建立「這間公司很可靠」的印象。" },
+                        { label: "基礎導流地基", desc: "建立再行銷 (Retargeting) 受眾，確保內容能觸及對的人。" }
+                    ]
+                }
+            },
+            C: {
+                id: 'C',
+                title: "企業信賴對策",
+                subtitle: "Corporate Trust",
+                tags: ["權威型"],
+                diagnosis: "企業規模與數位門面（網站/影片）不匹配，影響大型合作案的信任觀感。",
+                painPoint: "「我的技術比對手好，但對手看起來比我高級。客戶因為信任感不足，最後去選了比較貴的那一家。」",
+                solution: "導入「權威型」訪談與高規格形象工程，降低商業信任門檻。",
+                target: "賣高單價服務（醫美、律師、顧問）、傳統產業想轉型、老闆想建立行業話語權。",
+                monthPlan: [
+                    {
+                        title: "【包裝】把老闆變成「行業領袖」",
+                        content: "您不用會演戲，您只要坐在那裡講話。剩下的交給我們的燈光、化妝和後製。\n效果：讓你看起來像是在接受 CNN 或商業周刊專訪，而不是在自拍。"
+                    },
+                    {
+                        title: "【含金量】高質感訪談節目 (2集/月)",
+                        content: "我們幫您企劃腳本，把您腦袋裡的專業知識，變成觀眾聽得懂的「乾貨」。\n規格：電視台等級運鏡、綜藝字卡特效（讓專業內容不無聊）。"
+                    },
+                    {
+                        title: "【背書】強大的信任資產",
+                        content: "這些影片可以放在官網首頁、傳給潛在客戶。\n目的：當客戶看完影片，他對您的專業度不再有懷疑，談價格時您的底氣就更足。"
+                    }
+                ],
+                moduleSpec: {
+                    name: "模組 C：【權威感】領袖 IP 戰略",
+                    quote: "「讓創辦人的經營哲學，成為行業內的標準答案。」",
+                    config: [
+                        { label: "IP 定位工程", desc: "人物設定 (Persona) 分析。結構化題綱（破冰、爭議、專業）。" },
+                        { label: "棚內多機錄製", desc: "3 機位 + 導播機 Live Cutting。同步錄製 Podcast 音軌。" },
+                        { label: "電視級後製", desc: "綜藝包裝 (動態字卡、特效)。長影片額外切出 2 支短影音。" }
+                    ]
+                }
+            }
+        };
+
+        const DIAGNOSTIC_DATA = [
+            {
+                id: '01',
+                symptom: "症狀：流量總是留不住？",
+                diagnosis: "缺乏競品攻防意識",
+                prescription: "競品攻防解剖 (Competitor Analysis)",
+                desc: "這不是單純的分析，這是「止血」。拆解對手邏輯，找出您的市場突破口。",
+                deliverable: "《競品攻防策略書》"
+            },
+            {
+                id: '02',
+                symptom: "症狀：產品很好但賣不動？",
+                diagnosis: "未擊中真實痛點",
+                prescription: "輿情痛點探勘 (Sentiment Mining)",
+                desc: "我們系統化抓取市場的真實提問與負評，將其轉化為精準的腳本彈藥。",
+                deliverable: "《顧客痛點資料庫》"
+            },
+            {
+                id: '03',
+                symptom: "症狀：預算像丟進水裡？",
+                diagnosis: "缺乏戰術節奏",
+                prescription: "季度作戰地圖 (Execution Roadmap)",
+                desc: "不再亂槍打鳥。規劃前三個月節奏：知名度 → 名單獲取 → 商業轉化。",
+                deliverable: "《季度執行藍圖》"
+            }
+        ];
+
+        const SPEC_MYTHS = [
+            {
+                myth: "迷思：影片是不是拍越多越好？",
+                truth: "處方：維持頻率 (Consistency)",
+                desc: "我們不參與「軍備競賽」。堅持符合演算法的「每週 2 更」黃金節奏，像服用維他命一樣規律，維持品牌熱度。",
+                icon: ICONS.TrendingUp
+            },
+            {
+                myth: "迷思：上傳影片只要按個按鈕？",
+                truth: "處方：發布賦能 (Publishing)",
+                desc: "魔鬼藏在細節裡。包含 SEO 標籤優化與高質感「動態封面」設計，決定了你會被看見，還是被滑過。",
+                icon: ICONS.Box
+            },
+            {
+                myth: "迷思：有按讚就代表有效益？",
+                truth: "處方：回診追蹤 (Data Loop)",
+                desc: "拒絕虛榮指標。每週提供《紅綠燈成效週報》，就像定期回診，用數據修正戰術，確保預算精準落地。",
+                icon: ICONS.Search
+            }
+        ];
+
+        const ROADMAP_DATA = [
+            { day: "01", anxiety: "真的會開始嗎？", reality: "PM 進駐，移交素材", desc: "不再空轉，專人接手，即刻啟動。" },
+            { day: "07", anxiety: "方向對了嗎？", reality: "戰略藍圖交付", desc: "白紙黑字，鎖定航向，拒絕模糊。" },
+            { day: "14", anxiety: "到底要拍什麼？", reality: "腳本確認", desc: "逐字對焦，邏輯確認，拒絕臨場發揮。" },
+            { day: "20", anxiety: "會不會拍很久？", reality: "一日完工", desc: "高強度集中作業，一天搞定全月素材。" },
+            { day: "30", anxiety: "真的有效嗎？", reality: "首份數據報表", desc: "數據說話，紅綠燈直觀反饋成效。" }
+        ];
+
+        const PROTOCOL_DATA = [
+            {
+                trigger: "情境：我想改腳本，或是重拍？",
+                rule: "驗收標準：以「藍圖」為準",
+                rationale: "為確保戰略落地，我們拒絕主觀干擾。Day 7 確認的藍圖即為法律。若需架構重練，視為新專案單號。"
+            },
+            {
+                trigger: "情境：可以順便把原始檔給我嗎？",
+                rule: "交付規格：成品料理，非食材",
+                rationale: "如同高級餐廳提供的是料理，而非食譜與生鮮食材。若需買斷 Raw Data，需另行報價 (30%)。"
+            },
+            {
+                trigger: "情境：這次沒拍完的，可以留到下個月嗎？",
+                rule: "時效規範：額度當月歸零",
+                rationale: "此機制旨在治療企業常見的「決策拖延」，迫使雙方團隊保持持續動能，不予遞延。"
+            }
+        ];
+
+        // --- UI COMPONENTS ---
+
+        const VerticalTitle = ({ title, subtitle, className = "" }) => (
+            <div className={`flex flex-col items-center justify-start py-6 border-r border-zen-ink/10 h-full ${className}`}>
+                <div className="vertical-rl font-serif font-bold text-2xl tracking-[0.2em] text-zen-ink">
+                    {title}
+                </div>
+                {subtitle && (
+                    <div className="vertical-rl font-sans text-xs tracking-widest text-zen-sub mt-4 uppercase">
+                        {subtitle}
+                    </div>
+                )}
+                <div className="flex-1 w-px bg-zen-ink/5 my-4"></div>
+                <div className="w-2 h-2 rounded-full bg-zen-accent/20"></div>
+            </div>
+        );
+
+        const Section = ({ title, sub, number, children, className = "" }) => (
+            <div className={`relative border-b border-zen-ink/10 ${className}`}>
+                <div className="absolute top-0 left-0 p-2 text-xs font-mono text-zen-sub opacity-50">
+                    {number}
+                </div>
+                <div className="flex flex-row h-full">
+                    <div className="hidden md:block w-16 lg:w-20 flex-shrink-0 bg-zen-paper">
+                        <VerticalTitle title={title} subtitle={sub} />
+                    </div>
+                    <div className="flex-1 p-4 md:p-10">
+                        <div className="md:hidden mb-6 pb-4 border-b border-zen-ink/10">
+                            <h2 className="text-xl font-serif font-bold text-zen-ink">{title}</h2>
+                            <p className="text-xs font-mono text-zen-sub uppercase mt-1">{sub}</p>
+                        </div>
+                        {children}
+                    </div>
+                </div>
+            </div>
+        );
+
+        const StrategyCard = ({ data, active, onClick }) => {
+            const isExpanded = active === data.id;
+            return (
+                <div 
+                    onClick={onClick}
+                    className={`group relative border border-zen-ink/10 cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden flex flex-col
+                        ${isExpanded ? 'col-span-1 md:col-span-3 bg-white shadow-zen-focus ring-1 ring-zen-ink/5' : 'bg-transparent hover:bg-white/50 hover:shadow-zen-hover h-48 md:h-64 justify-center items-center text-center'}
+                    `}
+                >
+                    <div className={`p-6 transition-all duration-500 ${isExpanded ? 'opacity-100 text-left w-full' : 'opacity-100 flex flex-col items-center'}`}>
+                        <div className={`mb-4 transition-all duration-500 ${isExpanded ? 'flex justify-between items-start' : ''}`}>
+                            <div className={`p-3 rounded-full border border-zen-ink/10 transition-colors ${isExpanded ? 'bg-zen-accent text-white border-zen-accent' : 'text-zen-ink bg-white group-hover:scale-110'}`}>
+                                <Icon path={data.id === 'A' ? ICONS.TrendingUp : data.id === 'B' ? ICONS.Users : ICONS.Shield} size={isExpanded ? 20 : 32} />
+                            </div>
+                            {isExpanded && (
+                                <div className="flex gap-1">
+                                    {data.tags.map((tag, i) => (
+                                        <span key={i} className="text-[10px] px-2 py-0.5 border border-zen-ink/20 rounded-full font-mono text-zen-sub uppercase">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <h3 className={`font-serif font-bold transition-all duration-500 ${isExpanded ? 'text-2xl text-zen-ink mb-2' : 'text-xl text-zen-ink group-hover:text-zen-accent'}`}>
+                            {data.title}
+                        </h3>
+                        {!isExpanded && (
+                            <div className="mt-6 text-zen-accent/50 text-xs animate-pulse">
+                                + 點擊診斷
+                            </div>
+                        )}
+                    </div>
+                    
+                    {/* EXPANDED CONTENT AREA */}
+                    <div className={`transition-all duration-1000 ease-in-out px-6 pb-6 w-full ${isExpanded ? 'max-h-[3000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        
+                        {/* 1. Pain Point */}
+                        <div className="relative p-6 my-6 bg-zen-ink/5 border-l-4 border-zen-accent rounded-r-sm">
+                            <Icon path={ICONS.Alert} size={24} className="text-zen-accent mb-2" />
+                            <p className="font-serif font-bold text-lg text-zen-ink leading-relaxed">
+                                {data.painPoint}
+                            </p>
+                            <p className="text-xs text-zen-sub mt-2 text-right">— 您的痛點 (Your Pain Point)</p>
+                        </div>
+
+                        {/* 2. Diagnosis & Solution */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pt-4 border-t border-zen-ink/10">
+                            <div>
+                                <h4 className="font-mono text-xs text-zen-sub uppercase tracking-widest mb-2">Diagnosis / 現況診斷</h4>
+                                <p className="text-zen-ink font-medium leading-relaxed">{data.diagnosis}</p>
+                            </div>
+                            <div>
+                                <h4 className="font-mono text-xs text-zen-sub uppercase tracking-widest mb-2">Solution / 執行對策</h4>
+                                <p className="text-zen-matcha font-bold leading-relaxed">{data.solution}</p>
+                            </div>
+                        </div>
+
+                        {/* 3. Month Plan */}
+                        <div className="bg-zen-paper p-6 border border-zen-ink/10 rounded-sm mb-8">
+                            <h4 className="font-serif font-bold text-lg text-zen-ink mb-6 flex items-center gap-2">
+                                <span className="w-1 h-4 bg-zen-ink"></span>
+                                我們怎麼幫您解決？ (Month Plan)
+                            </h4>
+                            <div className="space-y-8">
+                                {data.monthPlan.map((plan, i) => (
+                                    <div key={i} className="relative pl-6 border-l border-zen-ink/20 group">
+                                        <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-zen-paper border border-zen-ink transition-colors group-hover:bg-zen-ink"></div>
+                                        <h5 className="font-bold text-zen-ink text-sm mb-2">{plan.title}</h5>
+                                        <p className="text-sm text-zen-sub whitespace-pre-line leading-relaxed">{plan.content}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* 4. INTEGRATED MODULE SPEC (The "What you get") */}
+                        <div className="bg-white p-6 border border-zen-ink/10 shadow-zen rounded-sm">
+                            <h4 className="font-serif font-bold text-lg text-zen-ink mb-2">處方規格 (Specifications)</h4>
+                            <div className="text-xs font-mono text-zen-sub mb-4 uppercase tracking-widest">{data.moduleSpec.name}</div>
+                            
+                            <p className="font-serif italic text-zen-accent text-sm mb-6 border-l-2 border-zen-accent pl-4">
+                                {data.moduleSpec.quote}
+                            </p>
+
+                            <div className="space-y-4">
+                                {data.moduleSpec.config.map((item, i) => (
+                                    <div key={i} className="flex gap-4">
+                                        <div className="mt-1.5"><Icon path={ICONS.Check} size={14} className="text-zen-matcha" /></div>
+                                        <div>
+                                            <strong className="text-sm text-zen-ink block">{item.label}</strong>
+                                            <p className="text-xs text-zen-sub mt-0.5">{item.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* 5. Target Audience */}
+                        <div className="mt-6 flex items-start gap-3 text-xs text-zen-sub bg-zen-ink/5 p-3 rounded-sm">
+                            <Icon path={ICONS.Users} size={16} className="shrink-0 mt-0.5" />
+                            <span><strong>適用對象：</strong>{data.target}</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const DiagnosticCard = ({ id, symptom, diagnosis, prescription, desc, deliverable }) => {
+            const [revealed, setRevealed] = useState(false);
+            return (
+                <div 
+                    onClick={() => setRevealed(!revealed)}
+                    className={`cursor-pointer border transition-all duration-500 relative overflow-hidden group
+                        ${revealed ? 'bg-white border-zen-ink/20 shadow-zen' : 'bg-zen-ink/5 border-transparent hover:bg-zen-ink/10'}
+                    `}
+                >
+                    <div className={`p-6 min-h-[180px] flex flex-col justify-center items-center text-center transition-all duration-500 ${revealed ? 'opacity-0 h-0 p-0 min-h-0' : 'opacity-100'}`}>
+                        <div className="text-zen-accent mb-4 animate-pulse">
+                            <Icon path={ICONS.Heartbeat} size={32} />
+                        </div>
+                        <h4 className="font-serif font-bold text-lg text-zen-ink mb-2">
+                            {symptom}
+                        </h4>
+                        <div className="text-[10px] font-mono text-zen-sub mt-2 opacity-50 uppercase tracking-widest group-hover:text-zen-accent transition-colors">
+                            點擊診斷病灶
+                        </div>
+                    </div>
+                    <div className={`transition-all duration-500 ${revealed ? 'opacity-100 p-6' : 'opacity-0 h-0 p-0 overflow-hidden'}`}>
+                        <div className="flex justify-between items-start mb-4 border-b border-zen-ink/10 pb-2">
+                            <div>
+                                <span className="text-xs text-zen-sub">Diagnosis:</span>
+                                <div className="font-bold text-zen-ink">{diagnosis}</div>
+                            </div>
+                            <div className="text-zen-accent font-mono font-bold text-xl">{id}</div>
+                        </div>
+                        <div className="mb-4">
+                            <span className="text-xs text-zen-matcha font-bold uppercase tracking-widest">Prescription (處方):</span>
+                            <div className="font-serif font-bold text-lg text-zen-ink">{prescription}</div>
+                        </div>
+                        <div className="text-xs text-zen-sub leading-relaxed mb-4">{desc}</div>
+                        <div className="text-[10px] font-mono text-zen-ink bg-zen-ink/5 inline-block px-2 py-1">
+                            交付：{deliverable}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const MythCard = ({ data }) => {
+            const [revealed, setRevealed] = useState(false);
+            return (
+                <div 
+                    onClick={() => setRevealed(!revealed)}
+                    className={`cursor-pointer border border-zen-ink/10 p-6 transition-all duration-500 hover:bg-white bg-zen-ink/5
+                        ${revealed ? 'bg-white shadow-zen' : 'bg-transparent'}
+                    `}
+                >
+                    <div className={`transition-all duration-500 ${revealed ? 'hidden' : 'block'}`}>
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 rounded-full border border-zen-ink/10 text-zen-sub">
+                                <Icon path={ICONS.Help} size={20} />
+                            </div>
+                            <span className="text-xs font-mono text-zen-sub uppercase tracking-widest">MYTH</span>
+                        </div>
+                        <h4 className="font-serif font-bold text-lg text-zen-ink leading-snug">
+                            {data.myth}
+                        </h4>
+                        <div className="mt-4 text-xs text-zen-accent animate-pulse">
+                            + 點擊查看處方
+                        </div>
+                    </div>
+                    <div className={`transition-all duration-500 ${revealed ? 'block animate-in fade-in slide-in-from-bottom-2' : 'hidden'}`}>
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 rounded-full border border-zen-matcha/30 text-zen-matcha bg-zen-matcha/10">
+                                <Icon path={ICONS.Check} size={20} />
+                            </div>
+                            <span className="text-xs font-mono text-zen-matcha uppercase tracking-widest">TRUTH</span>
+                        </div>
+                        <h4 className="font-bold text-sm text-zen-ink mb-2">
+                            {data.truth}
+                        </h4>
+                        <p className="text-sm text-zen-sub leading-relaxed">
+                            {data.desc}
+                        </p>
+                    </div>
+                </div>
+            );
+        };
+
+        const PricingRow = ({ label, price, note }) => (
+            <div className="flex justify-between items-baseline py-3 border-b border-zen-ink/5 hover:bg-zen-ink/5 px-2 transition-colors group">
+                <div className="flex-1">
+                    <span className="font-medium text-zen-ink text-sm">{label}</span>
+                    {note && <span className="block text-[10px] text-zen-sub mt-0.5">{note}</span>}
+                </div>
+                <div className="font-mono text-sm font-bold text-zen-ink group-hover:text-zen-accent">{price}</div>
+            </div>
+        );
+
+        const RoadmapNode = ({ data }) => {
+            const [revealed, setRevealed] = useState(false);
+            return (
+                <div 
+                    onClick={() => setRevealed(!revealed)}
+                    className="flex md:flex-col items-center gap-4 md:gap-4 bg-transparent p-2 md:p-0 w-full md:w-32 mb-4 md:mb-0 group cursor-pointer relative"
+                >
+                    <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-xs font-mono font-bold z-10 transition-all duration-500 shadow-sm
+                        ${revealed ? 'border-zen-matcha bg-zen-matcha text-white scale-110' : 'border-zen-ink/20 bg-white text-zen-ink group-hover:border-zen-accent'}
+                    `}>
+                        {data.day}
+                    </div>
+                    <div className="text-left md:text-center">
+                        <div className={`font-serif font-bold text-sm transition-colors duration-300 ${revealed ? 'text-zen-matcha hidden' : 'text-zen-ink'}`}>
+                            {data.anxiety}
+                        </div>
+                        <div className={`font-serif font-bold text-sm transition-all duration-500 animate-in fade-in ${revealed ? 'block text-zen-matcha' : 'hidden'}`}>
+                            {data.reality}
+                        </div>
+                        <div className={`text-xs text-zen-sub mt-1 transition-all duration-500 ${revealed ? 'opacity-100 max-h-20' : 'opacity-0 max-h-0 overflow-hidden md:opacity-100 md:max-h-20'}`}>
+                            {revealed ? data.desc : <span className="text-zen-accent/50 text-[10px]">(點擊解焦慮)</span>}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ProtocolCard = ({ data }) => {
+            const [revealed, setRevealed] = useState(false);
+            return (
+                <div 
+                    onClick={() => setRevealed(!revealed)}
+                    className={`p-4 border-l-4 cursor-pointer transition-all duration-500 mb-4 rounded-r-sm
+                        ${revealed ? 'bg-zen-ink/5 border-zen-ink' : 'bg-white border-zen-ink/10 hover:bg-zen-ink/5'}
+                    `}
+                >
+                    <div className="flex justify-between items-center">
+                        <strong className={`block text-xs mb-1 transition-colors ${revealed ? 'text-zen-sub line-through' : 'text-zen-ink'}`}>
+                            {data.trigger}
+                        </strong>
+                        <Icon path={revealed ? ICONS.Check : ICONS.Plus} size={14} className="text-zen-sub opacity-50" />
+                    </div>
+                    <div className={`transition-all duration-500 overflow-hidden ${revealed ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
+                        <div className="text-zen-ink font-bold text-sm mb-1">{data.rule}</div>
+                        <div className="text-xs text-zen-sub leading-relaxed">{data.rationale}</div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- MAIN APP ---
+
+        const App = () => {
+            const [activeId, setActiveId] = useState(null); 
+            const [introComplete, setIntroComplete] = useState(false);
+            const [contrastMode, setContrastMode] = useState('risk');
+
+            useEffect(() => {
+                setTimeout(() => setIntroComplete(true), 1500);
+            }, []);
+
+            const activeModule = activeId ? STRATEGY_DATA[activeId].moduleSpec : null;
+
+            if (!introComplete) {
+                return (
+                    <div className="fixed inset-0 bg-zen-paper flex items-center justify-center z-50">
+                        <div className="text-center">
+                            <div className="vertical-rl font-serif text-3xl tracking-widest text-zen-ink animate-pulse mb-8 h-32">
+                                戰略導航
+                            </div>
+                            <div className="w-px h-16 bg-zen-ink/20 mx-auto overflow-hidden">
+                                <div className="w-full bg-zen-ink h-full animate-[loading_1.5s_ease-in-out_infinite]" style={{animation: 'loading 1.5s ease-in-out infinite'}}></div>
+                            </div>
+                            <style>{`@keyframes loading { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }`}</style>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen font-sans selection:bg-zen-ink selection:text-white pb-24">
+                    <div className="texture-overlay"></div>
+
+                    {/* HERO HEADER */}
+                    <header className="relative pt-20 pb-16 px-6 md:px-12 border-b border-zen-ink/10">
+                        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-end">
+                            <div>
+                                <div className="text-xs font-mono tracking-widest text-zen-accent uppercase mb-4 flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-zen-accent rounded-full"></span>
+                                    Corporate Media Strategic Menu
+                                </div>
+                                <h1 className="text-4xl md:text-6xl font-serif font-black text-zen-ink leading-tight mb-4">
+                                    企業媒體<br/>戰略導航
+                                </h1>
+                                <p className="text-zen-sub max-w-md font-light leading-relaxed">
+                                    拒絕無效的流量焦慮。這不是一份菜單，而是一次深度的<b>「戰略問診」</b>。請先放下「什麼都想要」的貪念，誠實面對此刻最致命的單一瓶頸。
+                                </p>
+                            </div>
+                            <div className="mt-8 md:mt-0 text-right">
+                                <div className="vertical-rl h-24 font-serif text-sm text-zen-ink/40 tracking-widest border-r border-zen-ink/10 pr-4">
+                                    曾仕強文化媒體中心
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* SECTION 1: STRATEGIC FOCUS (Integrated) */}
+                    <Section title="戰略鎖定" sub="Focus" number="01">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-500">
+                            <StrategyCard data={STRATEGY_DATA.A} active={activeId} onClick={() => setActiveId(activeId === 'A' ? null : 'A')} />
+                            <StrategyCard data={STRATEGY_DATA.B} active={activeId} onClick={() => setActiveId(activeId === 'B' ? null : 'B')} />
+                            <StrategyCard data={STRATEGY_DATA.C} active={activeId} onClick={() => setActiveId(activeId === 'C' ? null : 'C')} />
+                        </div>
+                        {!activeId && (
+                            <div className="text-center mt-12 text-xs font-mono text-zen-sub animate-pulse">
+                                ↑ 請點擊卡片以開始您的戰略診斷 (含處方規格)
+                            </div>
+                        )}
+                    </Section>
+
+                    {/* SECTION 2: PRE-TREATMENT DIAGNOSIS */}
+                    <Section title="診斷與地基" sub="Diagnosis" number="02">
+                        <div className="bg-white p-8 border border-zen-ink/10 relative overflow-hidden shadow-zen">
+                             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                                <Icon path={ICONS.Tool} size={150} />
+                            </div>
+                            <h3 className="font-serif text-xl font-bold mb-4 flex items-center gap-3">
+                                <span className="w-1.5 h-6 bg-zen-accent"></span>
+                                診療前置：不可省略的戰略地基
+                                <span className="text-xs font-sans font-normal text-zen-sub ml-2 px-2 py-1 bg-zen-ink/5 rounded-full">診斷價值 $35,000 / 由集團吸收</span>
+                            </h3>
+                            <p className="text-sm text-zen-sub mb-8 max-w-2xl italic">
+                                (拒絕「盲目開刀」。請點擊下方卡片，檢視我們如何進行「術前檢查」，確保預算不被浪費。)
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {DIAGNOSTIC_DATA.map((item) => (
+                                    <DiagnosticCard key={item.id} {...item} />
+                                ))}
+                            </div>
+                        </div>
+                    </Section>
+
+                    {/* SECTION 3: UNIVERSAL STANDARDS (Renamed) */}
+                    <Section title="共通標準" sub="Standards" number="03">
+                        <div className="mb-8">
+                            <h3 className="font-serif font-bold text-lg text-zen-ink mb-2">職人堅持 (The Universal Quality)</h3>
+                            <p className="text-xs text-zen-sub">(無論選擇何種戰略，這是我們對品質的共同底線。)</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {SPEC_MYTHS.map((data, i) => (
+                                <MythCard key={i} data={data} />
+                            ))}
+                        </div>
+                    </Section>
+
+                    {/* SECTION 4: OPERATIONAL CONTRAST */}
+                    <Section title="運作對照" sub="Contrast" number="04">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-zen-ink/10 bg-white">
+                            {/* Card 1: The Risk Way */}
+                            <div 
+                                onClick={() => setContrastMode('risk')}
+                                className={`relative p-8 cursor-pointer transition-all duration-500 border-b md:border-b-0 md:border-r border-zen-ink/10
+                                    ${contrastMode === 'risk' ? 'bg-red-50/50' : 'bg-white hover:bg-zen-ink/5'}
+                                `}
+                            >
+                                <div className="flex justify-between items-center mb-6">
+                                    <div className="text-xs font-mono text-red-400 uppercase tracking-widest">🔴 The Risk Way</div>
+                                    {contrastMode !== 'risk' && <Icon path={ICONS.Plus} size={20} className="text-zen-ink/20" />}
+                                </div>
+                                <h3 className={`text-xl font-bold mb-4 ${contrastMode === 'risk' ? 'text-zen-ink' : 'text-zen-ink/50'}`}>
+                                    傳統單點外包
+                                </h3>
+                                
+                                {contrastMode === 'risk' ? (
+                                    <div className="animate-in fade-in slide-in-from-left-4 duration-500">
+                                        <ul className="space-y-4 text-sm text-zen-sub mb-8">
+                                            <li className="flex gap-3">
+                                                <span className="text-red-400 font-bold">×</span>
+                                                <div><strong>品質博弈：</strong><span className="block text-xs mt-1">過度依賴個人狀態，產出如擲骰子。</span></div>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="text-red-400 font-bold">×</span>
+                                                <div><strong>戰略斷層：</strong><span className="block text-xs mt-1">只會拍不懂賣，素材與行銷脫節。</span></div>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="text-red-400 font-bold">×</span>
+                                                <div><strong>效益黑箱：</strong><span className="block text-xs mt-1">無數據反饋，預算淪為消耗。</span></div>
+                                            </li>
+                                        </ul>
+                                        <div className="pt-4 border-t border-red-200 text-xs text-red-500 font-mono font-bold">
+                                            隱形成本代價 > $82,000 / 月
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-zen-sub/50">點擊查看潛在風險</p>
+                                )}
+                            </div>
+
+                            {/* Card 2: The Artisan Way */}
+                            <div 
+                                onClick={() => setContrastMode('artisan')}
+                                className={`relative p-8 cursor-pointer transition-all duration-500
+                                    ${contrastMode === 'artisan' ? 'bg-white' : 'bg-zen-ink/5 hover:bg-zen-ink/10'}
+                                `}
+                            >
+                                <div className="flex justify-between items-center mb-6">
+                                    <div className="text-xs font-mono text-zen-matcha uppercase tracking-widest">🟢 The Artisan Way</div>
+                                    {contrastMode !== 'artisan' && <Icon path={ICONS.Plus} size={20} className="text-zen-ink/20" />}
+                                </div>
+                                <h3 className={`text-xl font-bold mb-4 ${contrastMode === 'artisan' ? 'text-zen-ink' : 'text-zen-ink/50'}`}>
+                                    託管式訂閱
+                                </h3>
+
+                                {contrastMode === 'artisan' ? (
+                                    <div className="animate-in fade-in slide-in-from-right-4 duration-500">
+                                        <ul className="space-y-4 text-sm text-zen-ink mb-8">
+                                            <li className="flex gap-3">
+                                                <span className="text-zen-matcha font-bold">○</span>
+                                                <div><strong>透明制度：</strong><span className="block text-xs text-zen-sub mt-1">日式工廠思維，集團編制，一口價。</span></div>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="text-zen-matcha font-bold">○</span>
+                                                <div><strong>戰略優先：</strong><span className="block text-xs text-zen-sub mt-1">先戰略後執行，確保商業目的。</span></div>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="text-zen-matcha font-bold">○</span>
+                                                <div><strong>數據驅動：</strong><span className="block text-xs text-zen-sub mt-1">紅綠燈週報優化，變動成本轉投資。</span></div>
+                                            </li>
+                                        </ul>
+                                        <div className="pt-4 border-t border-zen-ink/10 flex justify-between items-end">
+                                            <div>
+                                                <div className="text-xs text-zen-sub font-mono mb-1">企業訂閱價 (三個月制)</div>
+                                                <span className="text-3xl font-bold text-zen-accent font-serif">NT$ 50,000<span className="text-xs font-sans text-zen-ink font-normal"> / 月</span></span>
+                                            </div>
+                                            <div className="stamp-anim">
+                                                <div className="border-2 border-zen-accent text-zen-accent px-2 py-1 text-[10px] font-bold uppercase tracking-widest transform -rotate-6">
+                                                    Authorized
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-zen-sub/50">點擊查看訂閱優勢</p>
+                                )}
+                            </div>
+                        </div>
+                    </Section>
+
+                    {/* SECTION 5: ROADMAP & RULES */}
+                    <Section title="進程守則" sub="Rules" number="05">
+                        <div className="mb-12">
+                            <h3 className="font-serif font-bold text-lg text-zen-ink mb-2">啟動後的「黃金 30 天」</h3>
+                            <p className="text-xs text-zen-sub mb-8">(點擊時間軸節點，釋放您的專案焦慮)</p>
+                            
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center relative">
+                                <div className="absolute top-6 left-0 w-full h-px bg-zen-ink/10 -z-10 hidden md:block"></div>
+                                
+                                {ROADMAP_DATA.map((step, i) => (
+                                    <RoadmapNode key={i} data={step} />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-zen-ink/10">
+                            <div>
+                                <h4 className="font-bold text-sm text-zen-ink mb-4 uppercase tracking-widest flex items-center gap-2">
+                                    <Icon path={ICONS.Shield} size={16}/> 合作守則 (The Protocols)
+                                </h4>
+                                <p className="text-[10px] text-zen-sub mb-4 italic">點擊下方情境，檢視我們的職人邊界</p>
+                                <div className="space-y-1">
+                                    {PROTOCOL_DATA.map((proto, i) => (
+                                        <ProtocolCard key={i} data={proto} />
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="bg-white p-6 border border-zen-ink/10 shadow-zen">
+                                <h4 className="font-bold text-sm text-zen-ink mb-4 uppercase tracking-widest flex items-center gap-2 border-b border-zen-ink/10 pb-2">
+                                    <Icon path={ICONS.Box} size={16}/> 隱形菜單 (Emergency Ward)
+                                </h4>
+                                <p className="text-[10px] text-zen-sub mb-4 italic">
+                                    (防禦性定價：這不是為了多收費，而是為了確保標準化產線的順暢運作。)
+                                </p>
+                                <div className="space-y-1">
+                                    <PricingRow label="急件處理費" price="1.5x" note="48hr內交件 (原標準5-7天)" />
+                                    <PricingRow label="原始素材買斷" price="30%" note="交付未調色 Log 檔與原始分軌音檔" />
+                                    <PricingRow label="現場腳本大改" price="$5,000/次" note="拍攝當日更動 > 30%" />
+                                    <PricingRow label="指定資深導演" price="$10,000/次" note="指定特定總監級人員" />
+                                    <PricingRow label="修改次數加購" price="$3,000/次" note="第三次(含)以上之修改" />
+                                </div>
+                            </div>
+                        </div>
+                    </Section>
+
+                    {/* FOOTER */}
+                    <footer className="py-16 px-6 text-center border-t border-zen-ink/10 bg-white mt-12">
+                        <div className="inline-block border-2 border-zen-accent p-6 rounded-sm transform rotate-1 stamp-anim opacity-0 hover:scale-105 transition-transform cursor-default" style={{animationDelay: '1s'}}>
+                            <div className="text-zen-accent font-serif font-bold text-2xl tracking-widest">產能堅持</div>
+                            <div className="text-zen-accent text-xs font-mono mt-2 uppercase tracking-widest">Limited Capacity</div>
+                        </div>
+                        <p className="mt-8 text-sm text-zen-ink/70 max-w-lg mx-auto leading-relaxed font-serif">
+                            「為了確保戰略品質，我們堅持『有限量託管』。」<br/>
+                            每一份《戰略藍圖》皆由資深顧問親自操刀，拒絕工業化量產。
+                        </p>
+                        <div className="mt-12 text-[10px] text-zen-ink/30 font-mono">
+                            © 2026 TSENG CULTURE MEDIA CENTER. ZEN ARCHITECT PROTOCOL.
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
