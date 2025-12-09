@@ -1,387 +1,515 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Target, Lock, Unlock, Activity, Map as MapIcon, Cpu, ChevronRight, Sword, Database, Crosshair, AlertTriangle, Layers, DollarSign, Wrench, Box, Scale } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 數位媒體事業體戰略白皮書 | PROJECT: MERCENARY (Full Intel)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-/**
- * PROJECT: MERCENARY 2026 - FULL STRATEGIC WHITE PAPER EDITION
- * * Chief Creative Technologist Note:
- * Fixed: Removed unused imports (Zap, BarChart2, Anchor, Users) to prevent linting errors.
- * Fixed: Aliased 'Map' to 'MapIcon' to avoid shadowing the global JavaScript Map object.
- * Visuals: 'Scale' icon confirmed for Section 11 equilibrium.
- */
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mercenary: {
+                            base: '#0B0C10',
+                            surface: '#1F2833',
+                            highlight: '#66FCF1',
+                            text: '#C5C6C7',
+                            alert: '#FF003C',
+                            muted: '#45A29E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-// --- Custom Hooks (Unchanged for performance) ---
+    <style>
+        body { background-color: #0B0C10; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0C10; }
+        ::-webkit-scrollbar-thumb { background: #1F2833; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #66FCF1; }
+        .text-glow { text-shadow: 0 0 10px rgba(102, 252, 241, 0.3); }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-const useOnScreen = (options) => {
-  const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.disconnect();
-      }
-    }, options);
-    if (ref.current) observer.observe(ref.current);
-    return () => { if (ref.current) observer.unobserve(ref.current); };
-  }, [ref, options]);
-  return [ref, isVisible];
-};
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-const useCountUp = (end, duration = 2000, start = 0) => {
-  const [count, setCount] = useState(start);
-  const [ref, isVisible] = useOnScreen({ threshold: 0.5 });
-  useEffect(() => {
-    if (!isVisible) return;
-    let startTime;
-    const animate = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      setCount(Math.floor(progress * (end - start) + start));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [isVisible, end, duration, start]);
-  return [ref, count];
-};
+        // --- ICON SYSTEM ---
+        const Icon = ({ path, size = 20, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d={path} />
+            </svg>
+        );
 
-// --- UI Components ---
+        const ICONS = {
+            Shield: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+            Target: "M22 12h-4l-3 9L9 3l-3 9H2", 
+            TargetSimple: "M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 16a6 6 0 1 1 6-6 6 6 0 0 1-6 6zm0-4a2 2 0 1 1 2-2 2 2 0 0 1-2 2z",
+            Lock: "M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zm-7 0V7a5 5 0 0 1 10 0v4",
+            Unlock: "M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z M7 11V7a5 5 0 0 1 10 0",
+            Activity: "M22 12h-4l-3 9L9 3l-3 9H2",
+            Map: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
+            Cpu: "M4 4h16v16H4z M9 9h6v6H9z M9 1v3 M15 1v3 M9 20v3 M15 20v3 M20 9h3 M20 14h3 M1 9h3 M1 14h3",
+            ChevronRight: "M9 18l6-6-6-6",
+            Sword: "M14.5 17.5L3 22l4.5-11.5L20 2l1.5 1.5z",
+            Database: "M12 2c5.52 0 10 2 10 4.5S17.52 11 12 11 2 9 2 6.5 6.48 2 12 2z M2 6.5v9c0 2.5 4.48 4.5 10 4.5s10-2 10-4.5v-9 M2 11c0 2.5 4.48 4.5 10 4.5s10-2 10-4.5",
+            Crosshair: "M12 2v4 M12 18v4 M2 12h4 M18 12h4 M12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4",
+            AlertTriangle: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",
+            Layers: "M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5",
+            DollarSign: "M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+            Wrench: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z",
+            Box: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12",
+            Scale: "M12 3v19 M5 8h14 M2 8a3 3 0 0 0 3 3h2a3 3 0 0 0 3-3 M14 8a3 3 0 0 0 3 3h2a3 3 0 0 0 3-3",
+            Check: "M20 6L9 17l-5-5"
+        };
 
-const GlitchText = ({ text, subtext }) => {
-  return (
-    <div className="relative group cursor-default">
-      <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-white mb-2 relative z-10 mix-blend-difference font-sans">
-        {text}
-      </h1>
-      <div className="text-cyan-400 text-sm md:text-base font-mono tracking-[0.15em] uppercase opacity-80">
-        {subtext}
-      </div>
-      <div className="absolute top-0 left-1 w-full h-full text-4xl md:text-7xl font-black tracking-tighter text-red-600 opacity-0 group-hover:opacity-40 animate-pulse pointer-events-none z-0 translate-x-[2px]">{text}</div>
-      <div className="absolute top-0 -left-1 w-full h-full text-4xl md:text-7xl font-black tracking-tighter text-blue-600 opacity-0 group-hover:opacity-40 animate-pulse pointer-events-none z-0 translate-x-[-2px] delay-75">{text}</div>
-    </div>
-  );
-};
+        // --- COMPONENTS ---
 
-const SectionHeader = ({ title, number }) => (
-  <div className="flex items-center space-x-3 mb-4 border-b border-[#1F2833] pb-2">
-    <span className="text-cyan-400 font-mono text-lg">/{number.toString().padStart(2, '0')}</span>
-    <h3 className="text-white font-bold uppercase tracking-wider text-sm md:text-base font-sans truncate">{title}</h3>
-  </div>
-);
-
-const DecryptButton = ({ hiddenText }) => {
-  const [decrypted, setDecrypted] = useState(false);
-  return (
-    <div className="mt-4">
-      {!decrypted ? (
-        <button onClick={() => setDecrypted(true)} className="group relative inline-flex items-center justify-center px-6 py-3 w-full overflow-hidden font-mono text-sm tracking-tighter text-white bg-gray-900 border border-red-500/50 rounded-sm hover:bg-red-900/20 transition-all shadow-[0_0_10px_rgba(239,68,68,0.2)]">
-          <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-red-600 rounded-full group-hover:w-96 group-hover:h-96 opacity-10"></span>
-          <span className="relative flex items-center gap-2">
-            <Lock size={16} className="text-red-500 animate-pulse" />
-            <span className="text-red-100">CLASSIFIED // DECRYPT FINANCIALS</span>
-          </span>
-        </button>
-      ) : (
-        <div className="p-4 border-l-2 border-cyan-400 bg-cyan-900/10 animate-in fade-in slide-in-from-left-4 duration-500">
-          <div className="flex items-center gap-2 mb-2 text-cyan-400 font-mono text-xs uppercase"><Unlock size={14} /><span>Protocol Unlocked</span></div>
-          <p className="text-gray-300 leading-relaxed font-sans text-xs md:text-sm whitespace-pre-line">{hiddenText}</p>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const GridCard = ({ children, colSpan = "md:col-span-4", className = "" }) => (
-  <div className={`${colSpan} bg-[#1F2833]/30 border border-gray-800 p-6 rounded-sm backdrop-blur-sm relative overflow-hidden hover:border-cyan-900/50 transition-colors ${className}`}>
-    {children}
-  </div>
-);
-
-const ListItem = ({ children, icon: Icon = ChevronRight, color = "text-cyan-400" }) => (
-  <div className="flex items-start gap-2 mb-2 group">
-    <div className={`mt-1 p-0.5 bg-gray-900/50 rounded-sm border border-gray-700 group-hover:border-${color.split('-')[1]}-400 transition-colors`}>
-      <Icon className={`${color} shrink-0`} size={12} />
-    </div>
-    <span className="text-gray-300 text-xs md:text-sm leading-snug">{children}</span>
-  </div>
-);
-
-// --- Main Application Component ---
-
-const App = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="fixed inset-0 bg-[#0B0C10] flex items-center justify-center z-50">
-        <div className="text-center font-mono">
-          <div className="text-cyan-500 text-xl animate-pulse mb-4 tracking-widest">LOADING TACTICAL MAP...</div>
-          <div className="w-48 h-1 bg-gray-800 mx-auto rounded-full overflow-hidden">
-            <div className="h-full bg-cyan-400 animate-[loading_1.5s_ease-in-out_infinite]"></div>
-          </div>
-          <style>{`@keyframes loading { 0% { width: 0%; margin-left: 0; } 50% { width: 100%; margin-left: 0; } 100% { width: 0%; margin-left: 100%; } }`}</style>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-[#0B0C10] text-gray-300 font-sans selection:bg-cyan-900 selection:text-cyan-100 overflow-x-hidden pb-20">
-      
-      {/* Background Grid */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.04] z-0" style={{ backgroundImage: `linear-gradient(#66FCF1 1px, transparent 1px), linear-gradient(90deg, #66FCF1 1px, transparent 1px)`, backgroundSize: '40px 40px' }}></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        
-        {/* HERO SECTION */}
-        <header className="mb-12">
-          <div className="border-l-4 border-cyan-400 pl-6 py-2">
-            <GlitchText text="PROJECT: MERCENARY" subtext="2026 數位媒體事業體戰略白皮書" />
-          </div>
-          <div className="mt-6 flex flex-wrap gap-4 text-xs font-mono text-gray-500">
-             <span className="flex items-center gap-2"><span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>ONLINE</span>
-             <span>|</span>
-             <span>UNIT: SMU-ALPHA</span>
-             <span>|</span>
-             <span>TARGET: B2B DOMINATION</span>
-          </div>
-        </header>
-
-        {/* --- GRID SYSTEM START (12 Columns) --- */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-min">
-          
-          {/* 1. 市場分析 (Battlefield) & 2. 利益空缺口 (Opportunity Gap) */}
-          <GridCard colSpan="md:col-span-8">
-            {/* FIXED: Use MapIcon alias */}
-            <div className="absolute top-0 right-0 p-4 opacity-10"><MapIcon size={120} /></div>
-            <SectionHeader number={1} title="Battlefield & Opportunity (市場與缺口)" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-               <div>
-                  <h4 className="text-red-400 font-bold text-sm mb-2 flex items-center gap-2"><AlertTriangle size={14}/> 市場極端化</h4>
-                  <div className="space-y-2">
-                     <div className="bg-red-900/20 p-2 border-l-2 border-red-800 text-xs">
-                        <strong className="text-gray-200">左端：低價紅海 (SOHO)</strong><br/>無商業邏輯、品質參差
-                     </div>
-                     <div className="bg-red-900/20 p-2 border-l-2 border-red-800 text-xs">
-                        <strong className="text-gray-200">右端：高價黑箱 (廣代)</strong><br/>人治色彩重、溝通成本高
-                     </div>
-                  </div>
-               </div>
-               <div>
-                  <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2"><Crosshair size={14}/> 利益空缺口</h4>
-                  <div className="bg-cyan-900/20 p-3 border border-cyan-700/50 h-full rounded-sm">
-                     <p className="text-sm text-white font-bold mb-1">中間戰場：工業化部隊</p>
-                     <p className="text-xs text-gray-400">中大型企業需要的是「可控預算 + 穩定品質 + 數據成效」。這是從手工業轉向精密工業的暴利機會。</p>
-                  </div>
-               </div>
+        const GlitchText = ({ text, subtext }) => (
+            <div className="relative group cursor-default mb-8">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-2 relative z-10 font-sans">
+                    {text}
+                </h1>
+                <div className="text-mercenary-highlight text-sm md:text-base font-mono tracking-[0.15em] uppercase opacity-90">
+                    {subtext}
+                </div>
             </div>
-          </GridCard>
+        );
 
-          {/* 3. 集團施力點 (Leverage) */}
-          <GridCard colSpan="md:col-span-4">
-             <SectionHeader number={3} title="Why Us? (集團施力點)" />
-             <div className="space-y-3 mt-4">
-                <ListItem icon={Sword} color="text-red-400"><strong>軟實力：</strong>帝王學管理哲學 (制度背書)</ListItem>
-                <ListItem icon={Database} color="text-blue-400"><strong>硬實力：</strong>潛在頂級攝影棚 (軍火庫)</ListItem>
-                <ListItem icon={Cpu} color="text-cyan-400"><strong>戰鬥力：</strong>數據技術團隊 (SOP建構)</ListItem>
-             </div>
-          </GridCard>
+        const SectionHeader = ({ title, number }) => (
+            <div className="flex items-center space-x-3 mb-4 border-b border-[#1F2833] pb-2">
+                <span className="text-mercenary-highlight font-mono text-xl font-bold">/{number.toString().padStart(2, '0')}</span>
+                <h3 className="text-white font-bold uppercase tracking-wider text-base font-sans truncate">{title}</h3>
+            </div>
+        );
 
-          {/* 4. 戰略定位 (Identity) - NEW SECTION */}
-          <GridCard colSpan="md:col-span-4">
-             <div className="absolute top-0 right-0 p-3 opacity-10"><Shield size={80} /></div>
-             <SectionHeader number={4} title="Identity (戰略定位)" />
-             <div className="bg-gray-900/50 p-3 border border-gray-700 rounded-sm mb-3">
-                <div className="text-xs text-gray-500 uppercase font-mono mb-1">UNIT DEFINITION</div>
-                <div className="text-white font-bold text-sm">正規軍底下的「獨立傭兵」</div>
-                <div className="text-xs text-gray-400 mt-1">自負盈虧 / 隨插即用</div>
-             </div>
-             <div className="space-y-2">
-                <h4 className="text-xs font-bold text-gray-300">政治防護：去標籤化</h4>
-                <ListItem icon={Unlock} color="text-green-400">榮耀歸於品牌 (去個人化)</ListItem>
-                <ListItem icon={Lock} color="text-red-400">責任歸於制度 (SOP回應)</ListItem>
-             </div>
-          </GridCard>
+        const DecryptButton = ({ content, title }) => {
+            const [decrypted, setDecrypted] = useState(false);
+            return (
+                <div className="mt-4 w-full">
+                    {!decrypted ? (
+                        <button onClick={() => setDecrypted(true)} className="group relative w-full flex items-center justify-center px-6 py-4 overflow-hidden font-mono text-sm tracking-tighter text-white bg-gray-900 border border-red-500/50 rounded-sm hover:bg-red-900/20 transition-all shadow-[0_0_10px_rgba(239,68,68,0.2)]">
+                            <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-red-600 rounded-full group-hover:w-[150%] group-hover:h-96 opacity-10"></span>
+                            <span className="relative flex items-center gap-2">
+                                <Icon path={ICONS.Lock} size={16} className="text-red-500 animate-pulse" />
+                                <span className="text-red-100 font-bold">CLASSIFIED // DECRYPT {title}</span>
+                            </span>
+                        </button>
+                    ) : (
+                        <div className="p-4 border-l-2 border-mercenary-highlight bg-cyan-900/10 animate-in fade-in duration-500">
+                            <div className="flex items-center gap-2 mb-3 text-mercenary-highlight font-mono text-xs uppercase border-b border-cyan-800 pb-2">
+                                <Icon path={ICONS.Unlock} size={14} /><span>Protocol Unlocked: {title}</span>
+                            </div>
+                            <div className="text-gray-200 leading-relaxed font-sans text-sm whitespace-pre-line">
+                                {content}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
 
-          {/* 5. 產品戰略 (Product Strategy) */}
-          <GridCard colSpan="md:col-span-4">
-             <SectionHeader number={5} title="Core Weapons (三大鐵律)" />
-             <div className="space-y-3 mt-2">
-                <div className="group border-b border-gray-800 pb-2">
-                   <div className="flex justify-between items-center text-sm font-bold text-gray-200">
-                      <span>1. 菜單化 (Menu-ization)</span>
-                      <Target size={14} className="text-cyan-500 opacity-50 group-hover:opacity-100"/>
-                   </div>
-                   <div className="text-xs text-gray-500 mt-1">拒絕客製化。模組A(導購) / 模組B(形象)。</div>
-                </div>
-                <div className="group border-b border-gray-800 pb-2">
-                   <div className="flex justify-between items-center text-sm font-bold text-gray-200">
-                      <span>2. 透明化 (Transparency)</span>
-                      <Activity size={14} className="text-cyan-500 opacity-50 group-hover:opacity-100"/>
-                   </div>
-                   <div className="text-xs text-gray-500 mt-1">先小人後君子。隱形菜單明碼標價。</div>
-                </div>
-                <div className="group">
-                   <div className="flex justify-between items-center text-sm font-bold text-gray-200">
-                      <span>3. 標準化 (Standard)</span>
-                      <Layers size={14} className="text-cyan-500 opacity-50 group-hover:opacity-100"/>
-                   </div>
-                   <div className="text-xs text-gray-500 mt-1">SOP流水線生產，確保品質恆定。</div>
-                </div>
-             </div>
-          </GridCard>
+        const GridCard = ({ children, colSpan = "md:col-span-4", className = "" }) => (
+            <div className={`${colSpan} bg-[#1F2833]/50 border border-gray-700 p-6 rounded-sm relative overflow-hidden hover:border-cyan-500/30 transition-colors ${className}`}>
+                {children}
+            </div>
+        );
 
-          {/* 6. 商業模式 (Business Model) */}
-          <GridCard colSpan="md:col-span-4" className="flex flex-col justify-between">
-             <SectionHeader number={6} title="Business Model (雙引擎)" />
-             <div className="grid grid-cols-2 gap-3 h-full">
-                <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-sm border border-gray-700 flex flex-col justify-center text-center">
-                   <div className="text-xs text-gray-400 font-mono mb-1">ENGINE 01</div>
-                   <div className="text-red-400 font-bold text-sm">數位轉型建置費</div>
-                   <div className="text-2xl text-white font-mono font-bold my-1">$300K+</div>
-                   <div className="text-[10px] text-gray-500">IP設計 / 創造利潤</div>
+        const InfoBlock = ({ title, children, type = "neutral" }) => {
+            const colors = {
+                neutral: "border-gray-700 bg-gray-900/40",
+                danger: "border-red-900/50 bg-red-900/10",
+                success: "border-green-900/50 bg-green-900/10",
+                highlight: "border-cyan-900/50 bg-cyan-900/10"
+            };
+            return (
+                <div className={`p-3 rounded-sm border ${colors[type]} mb-3`}>
+                    {title && <div className="text-xs font-bold text-gray-300 mb-1 font-mono uppercase">{title}</div>}
+                    <div className="text-sm text-gray-400 leading-snug">{children}</div>
                 </div>
-                <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-sm border border-gray-700 flex flex-col justify-center text-center">
-                   <div className="text-xs text-gray-400 font-mono mb-1">ENGINE 02</div>
-                   <div className="text-cyan-400 font-bold text-sm">媒體管家維運費</div>
-                   <div className="text-2xl text-white font-mono font-bold my-1">$50K/mo</div>
-                   <div className="text-[10px] text-gray-500">維穩 / 現金流</div>
-                </div>
-             </div>
-          </GridCard>
+            );
+        };
 
-          {/* 7. 建軍路徑 (Roadmap) */}
-          <GridCard colSpan="md:col-span-4">
-             <SectionHeader number={7} title="Roadmap (建軍路徑)" />
-             <div className="relative pl-4 border-l border-gray-800 space-y-4 font-mono text-xs mt-3">
-                <div className="relative">
-                   <div className="absolute -left-[21px] top-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                   <span className="text-green-500 font-bold">PHASE 1 (0-6M)</span>
-                   <p className="text-gray-400 mt-1">潛龍勿用：內部練兵，SOP建置。</p>
-                </div>
-                <div className="relative opacity-70">
-                   <div className="absolute -left-[21px] top-1 w-2 h-2 bg-gray-600 rounded-full"></div>
-                   <span className="text-gray-300 font-bold">PHASE 2 (6-18M)</span>
-                   <p className="text-gray-500 mt-1">見龍在田：生存扎根，累積15客戶。</p>
-                </div>
-                <div className="relative opacity-40">
-                   <div className="absolute -left-[21px] top-1 w-2 h-2 bg-gray-600 rounded-full"></div>
-                   <span className="text-gray-500 font-bold">PHASE 3 (18M+)</span>
-                   <p className="text-gray-600 mt-1">飛龍在天：進軍標案，規模擴張。</p>
-                </div>
-             </div>
-          </GridCard>
+        // --- APP CONTENT ---
+        const App = () => {
+            return (
+                <div className="min-h-screen bg-[#0B0C10] text-gray-300 font-sans pb-20">
+                    {/* Background Grid */}
+                    <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0" style={{ backgroundImage: `linear-gradient(#66FCF1 1px, transparent 1px), linear-gradient(90deg, #66FCF1 1px, transparent 1px)`, backgroundSize: '40px 40px' }}></div>
 
-          {/* 8. 內務建設 (Internal Infrastructure) - NEW SECTION */}
-          <GridCard colSpan="md:col-span-4">
-             <SectionHeader number={8} title="Internal Infra (內務建設)" />
-             <div className="grid grid-cols-2 gap-2 mt-2">
-                <div className="bg-gray-900/40 p-2 rounded-sm border border-gray-800">
-                   <div className="flex items-center gap-2 text-cyan-400 mb-1"><DollarSign size={12}/> <span className="text-xs font-bold">收費制度化</span></div>
-                   <div className="text-[10px] text-gray-500">內部計價單、規格書</div>
-                </div>
-                <div className="bg-gray-900/40 p-2 rounded-sm border border-gray-800">
-                   <div className="flex items-center gap-2 text-cyan-400 mb-1"><Crosshair size={12}/> <span className="text-xs font-bold">企劃數據化</span></div>
-                   <div className="text-[10px] text-gray-500">戰前偵蒐表、腳本庫</div>
-                </div>
-                <div className="bg-gray-900/40 p-2 rounded-sm border border-gray-800">
-                   <div className="flex items-center gap-2 text-cyan-400 mb-1"><Wrench size={12}/> <span className="text-xs font-bold">後製流程化</span></div>
-                   <div className="text-[10px] text-gray-500">中央素材庫、工程目錄</div>
-                </div>
-                <div className="bg-gray-900/40 p-2 rounded-sm border border-gray-800">
-                   <div className="flex items-center gap-2 text-cyan-400 mb-1"><Box size={12}/> <span className="text-xs font-bold">後勤編制化</span></div>
-                   <div className="text-[10px] text-gray-500">3-2-1 備份、維修履歷</div>
-                </div>
-             </div>
-          </GridCard>
+                    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                        
+                        {/* HERO */}
+                        <header className="mb-10">
+                            <div className="border-l-4 border-mercenary-highlight pl-6 py-2">
+                                <GlitchText text="PROJECT: MERCENARY" subtext="2026 數位媒體事業體戰略白皮書 (完整戰略版)" />
+                            </div>
+                            <div className="flex flex-wrap gap-6 text-xs font-mono text-gray-500 mt-4">
+                                <span className="flex items-center gap-2"><span className="w-2 h-2 bg-green-500 rounded-full"></span>SYSTEM ONLINE</span>
+                                <span>|</span>
+                                <span>提案人：[您的職稱]</span>
+                                <span>|</span>
+                                <span>核心宗旨：打造正規體制下的獨立作戰部隊</span>
+                            </div>
+                        </header>
 
-          {/* 9. 軍備擴充 (Arsenal Acquisition) - NEW SECTION */}
-          <GridCard colSpan="md:col-span-4">
-             <div className="absolute top-0 right-0 p-3 opacity-10"><Database size={80} /></div>
-             <SectionHeader number={9} title="Arsenal (軍備擴充)" />
-             <div className="space-y-3 mt-2">
-                <div className="flex items-start gap-2 bg-red-900/10 p-2 rounded-sm border border-red-900/30">
-                   <AlertTriangle className="text-red-500 shrink-0 mt-0.5" size={14} />
-                   <div>
-                      <div className="text-red-400 text-xs font-bold">風險揭露：資產空洞化</div>
-                      <div className="text-[10px] text-gray-500 leading-tight">目前產能依賴顧問私有設備，不符長治久安。</div>
-                   </div>
-                </div>
-                <div>
-                   <h4 className="text-xs font-bold text-gray-300 mb-1">行動：抄底時刻 (Market Timing)</h4>
-                   <p className="text-xs text-gray-400 leading-relaxed">
-                      AI 衝擊導致工作室倒閉潮。策略：<strong className="text-white">降維打擊採購法</strong>，以 30% 預算收購 2-3 年前頂級電影設備 (RED/Arri)。
-                   </p>
-                </div>
-             </div>
-          </GridCard>
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 auto-rows-min">
+                            
+                            {/* 1. 市場分析 (Battlefield) - 內容增強版 */}
+                            <GridCard colSpan="md:col-span-7">
+                                <div className="absolute top-0 right-0 p-4 opacity-10"><Icon path={ICONS.Map} size={100} /></div>
+                                <SectionHeader number={1} title="Market Battlefield (市場戰場)" />
+                                <div className="space-y-4">
+                                    <p className="text-sm text-gray-300 font-bold">現狀：台灣影音市場呈現嚴重的兩極分化，且充斥「人治」亂象。</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <InfoBlock title="左端：低價紅海 (SOHO)" type="danger">
+                                            <ul className="list-disc list-inside space-y-1">
+                                                <li>價格透明但極度低廉</li>
+                                                <li>品質參差，缺乏商業邏輯</li>
+                                                <li>單兵作戰，無法承接系統性需求</li>
+                                            </ul>
+                                        </InfoBlock>
+                                        <InfoBlock title="右端：高價黑箱 (傳統廣代)" type="danger">
+                                            <ul className="list-disc list-inside space-y-1">
+                                                <li>依賴名導光環與人治</li>
+                                                <li>報價不透明 (黑箱作業)</li>
+                                                <li>溝通成本極高，充滿不確定性</li>
+                                            </ul>
+                                        </InfoBlock>
+                                    </div>
+                                    <div className="bg-red-900/10 p-3 border border-red-500/30 rounded-sm">
+                                        <h4 className="text-xs font-bold text-mercenary-alert mb-1 flex items-center gap-2">
+                                            <Icon path={ICONS.AlertTriangle} size={12}/> 市場亂象與代價
+                                        </h4>
+                                        <p className="text-xs text-gray-300 leading-relaxed">
+                                            市場普遍存在<strong>「講人情、愛凹單、無標準」</strong>的惡習。<br/>
+                                            結果：企業主付了錢卻像在大冒險，製作方則陷入無限修改的泥淖，雙方皆輸。
+                                        </p>
+                                    </div>
+                                </div>
+                            </GridCard>
 
-          {/* 10. 組織編制 (Organization) - NEW SECTION */}
-          <GridCard colSpan="md:col-span-6">
-             <SectionHeader number={10} title="Organization (鐵三角戰鬥群)" />
-             <div className="flex justify-around items-center mt-6 relative h-32">
-                {/* Visual Connection Lines */}
-                <div className="absolute top-1/2 left-10 right-10 h-0.5 bg-gray-800 -z-10"></div>
-                <div className="absolute top-10 bottom-10 left-1/2 w-0.5 bg-gray-800 -z-10"></div>
+                            {/* 2. 利益空缺口 (Opportunity) - 佈局修復與論述加強 */}
+                            <GridCard colSpan="md:col-span-5">
+                                <SectionHeader number={2} title="Opportunity Gap (利益空缺)" />
+                                {/* Changed from h-full/justify-between to flex-col/gap-4 to fix overflow */}
+                                <div className="flex flex-col gap-4">
+                                    
+                                    <div className="bg-gradient-to-br from-cyan-900/20 to-transparent p-4 border border-cyan-500/30 rounded-sm">
+                                        <h4 className="text-mercenary-highlight font-bold mb-2 flex items-center gap-2">
+                                            <Icon path={ICONS.Crosshair} size={16}/> 中間戰場 (The Blue Ocean)
+                                        </h4>
+                                        <p className="text-sm text-gray-200 leading-relaxed">
+                                            市場缺乏一個<strong>「工業化、規格化、數據化」</strong>的中間選項。
+                                        </p>
+                                    </div>
 
-                <div className="text-center bg-[#0B0C10] p-2 z-10 border border-gray-700 rounded-sm w-28">
-                   <div className="text-cyan-400 font-bold text-sm mb-1">PM 指揮官</div>
-                   <div className="text-[10px] text-gray-500">對外擋箭牌<br/>制度回應</div>
+                                    <InfoBlock title="缺口定義 (GAP DEFINITION)" type="highlight">
+                                        中大型企業（傳產、連鎖品牌、專業服務業）需要的是：
+                                        <ul className="list-disc list-inside mt-1 text-white">
+                                            <li>可控的預算</li>
+                                            <li>穩定的品質</li>
+                                            <li>數據化的成效</li>
+                                        </ul>
+                                        <span className="block mt-1 text-gray-400 italic">而非個人的藝術創作。</span>
+                                    </InfoBlock>
+
+                                    <InfoBlock title="利潤來源 (PROFIT SOURCE)" type="success">
+                                        <p className="text-white font-bold mb-1">從「手工業」轉向「精密工業」</p>
+                                        <p className="text-gray-400">
+                                            誰能將「創意服務」轉化為「標準工業製品」，誰就能吃下這塊巨大的 B2B 轉型市場。這是一個結構性的暴利機會。
+                                        </p>
+                                    </InfoBlock>
+
+                                </div>
+                            </GridCard>
+
+                            {/* 3. 集團施力點 */}
+                            <GridCard colSpan="md:col-span-4">
+                                <SectionHeader number={3} title="Why Us? (集團施力點)" />
+                                <div className="space-y-3">
+                                    <InfoBlock title="軟實力 (管理哲學)" type="neutral">
+                                        曾教授的「持經達變」與「先小人後君子」智慧。建立制度化服務的最強品牌背書。
+                                    </InfoBlock>
+                                    <InfoBlock title="硬實力 (潛在資產)" type="neutral">
+                                        極具潛力的攝影棚空間，具備成為頂級軍火庫的基礎條件。
+                                    </InfoBlock>
+                                    <InfoBlock title="戰鬥力 (技術團隊)" type="highlight">
+                                        具備數據思維與技術實戰經驗的核心團隊，能快速建構 SOP。
+                                    </InfoBlock>
+                                </div>
+                            </GridCard>
+
+                            {/* 4. 戰略定位 */}
+                            <GridCard colSpan="md:col-span-4">
+                                <div className="absolute top-0 right-0 p-3 opacity-10"><Icon path={ICONS.Shield} size={80} /></div>
+                                <SectionHeader number={4} title="Identity (戰略定位)" />
+                                <div className="space-y-4">
+                                    <div>
+                                        <h4 className="text-sm font-bold text-white mb-1">組織定義：獨立傭兵</h4>
+                                        <p className="text-xs text-gray-400">正規軍底下的高階技術承包商。自負盈虧，隨插即用，不依賴集團輸血。</p>
+                                    </div>
+                                    <div className="border-t border-gray-700 pt-3">
+                                        <h4 className="text-sm font-bold text-mercenary-highlight mb-2">政治防護：去標籤化 (De-labeling)</h4>
+                                        <ul className="space-y-2 text-xs">
+                                            <li className="flex items-start gap-2">
+                                                <Icon path={ICONS.Check} className="text-green-500 shrink-0" size={12} />
+                                                <span><strong>榮耀歸於品牌：</strong>對外統一使用「數位媒體中心」，嚴禁出現個人標籤。</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <Icon path={ICONS.Check} className="text-green-500 shrink-0" size={12} />
+                                                <span><strong>責任歸於制度：</strong>決策與拒絕皆引用「數據報告」與「SOP」，避免個人成為政治標靶。</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 5. 產品戰略 */}
+                            <GridCard colSpan="md:col-span-4">
+                                <SectionHeader number={5} title="Product Strategy (核心武器)" />
+                                <p className="text-xs text-gray-400 mb-3">導入日本短廣告思維，執行三大鐵律：</p>
+                                <div className="space-y-3 h-[calc(100%-60px)] overflow-y-auto pr-1">
+                                    <div className="bg-gray-900/50 p-3 border-l-2 border-mercenary-highlight">
+                                        <div className="font-bold text-sm text-white">1. 菜單化 (Menu-ization)</div>
+                                        <div className="text-xs text-gray-400 mt-1">
+                                            像點菜一樣清晰。不賣「影片」，賣「解決方案」。<br/>
+                                            • 模組 A (導購)：日本 Hook->Problem->Solution 結構。<br/>
+                                            • 模組 B (形象)：電視台規格訪談。
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-900/50 p-3 border-l-2 border-mercenary-highlight">
+                                        <div className="font-bold text-sm text-white">2. 透明化 (Transparency)</div>
+                                        <div className="text-xs text-gray-400 mt-1">
+                                            先小人後君子。防禦性定價。<br/>
+                                            • <strong>隱形菜單 (Add-on)：</strong>急件、大改、原始檔買斷皆明碼標價，杜絕凹單。
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-900/50 p-3 border-l-2 border-mercenary-highlight">
+                                        <div className="font-bold text-sm text-white">3. 標準化 (Standardization)</div>
+                                        <div className="text-xs text-gray-400 mt-1">
+                                            SOP 流水線。企劃有模板、運鏡有規範、剪輯有預設。確保人員流動不影響品質。
+                                        </div>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 6. 商業模式 */}
+                            <GridCard colSpan="md:col-span-5">
+                                <SectionHeader number={6} title="Business Model (雙引擎金流)" />
+                                <div className="grid grid-cols-2 gap-4 h-full">
+                                    <div className="bg-[#0B0C10] p-4 border border-red-900/30 rounded-sm">
+                                        <div className="text-xs text-gray-500 font-mono mb-2">ENGINE 01</div>
+                                        <div className="text-red-400 font-bold text-lg mb-1">數位轉型建置費</div>
+                                        <div className="text-2xl text-white font-mono font-bold mb-2">$300-500K</div>
+                                        <ul className="text-xs text-gray-400 space-y-1">
+                                            <li>• 一次性收費</li>
+                                            <li>• 企業 IP 頂層設計</li>
+                                            <li>• 創造初期高毛利</li>
+                                            <li>• 部門的安全氣囊</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-[#0B0C10] p-4 border border-mercenary-highlight/30 rounded-sm">
+                                        <div className="text-xs text-gray-500 font-mono mb-2">ENGINE 02</div>
+                                        <div className="text-mercenary-highlight font-bold text-lg mb-1">媒體管家維運費</div>
+                                        <div className="text-2xl text-white font-mono font-bold mb-2">$50K/mo</div>
+                                        <ul className="text-xs text-gray-400 space-y-1">
+                                            <li>• 綁定年約</li>
+                                            <li>• 日常短影音維穩</li>
+                                            <li>• 覆蓋人事成本</li>
+                                            <li>• 確保現金流不斷鏈</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 7. 建軍路徑 */}
+                            <GridCard colSpan="md:col-span-7">
+                                <SectionHeader number={7} title="Roadmap (建軍路徑)" />
+                                <div className="text-xs text-gray-400 mb-4">不求快，求穩。前六個月是關鍵的「基礎建設期」。</div>
+                                <div className="relative pl-6 border-l-2 border-gray-800 space-y-6">
+                                    {/* Phase 1 */}
+                                    <div className="relative">
+                                        <div className="absolute -left-[31px] top-1 w-4 h-4 bg-gray-900 border-2 border-green-500 rounded-full z-10"></div>
+                                        <div className="bg-gray-900/80 p-4 border border-green-900/30 rounded-sm">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-green-400 font-bold font-mono text-sm">PHASE 1: 潛龍勿用 (0-6M)</span>
+                                                <span className="text-xs bg-green-900/20 text-green-400 px-2 py-0.5 rounded">內部練兵</span>
+                                            </div>
+                                            <div className="text-sm text-gray-300">
+                                                只做內部案，不對外接單。將個人技術複製到團隊。<br/>
+                                                <span className="text-gray-500 text-xs">目標：團隊能獨立產出 70 分及格作品，無需顧問親手操作。</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Phase 2 */}
+                                    <div className="relative">
+                                        <div className="absolute -left-[31px] top-1 w-4 h-4 bg-gray-900 border-2 border-mercenary-highlight rounded-full z-10"></div>
+                                        <div className="bg-gray-900/80 p-4 border border-cyan-900/30 rounded-sm">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-mercenary-highlight font-bold font-mono text-sm">PHASE 2: 見龍在田 (6-18M)</span>
+                                                <span className="text-xs bg-cyan-900/20 text-cyan-400 px-2 py-0.5 rounded">生存扎根</span>
+                                            </div>
+                                            <div className="text-sm text-gray-300">
+                                                啟動 B2B 維運方案 ($50k/月)。累積 10-15 個中型客戶。<br/>
+                                                <span className="text-gray-500 text-xs">目標：實現單月損益兩平，累積跨產業數據案例。</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Phase 3 */}
+                                    <div className="relative">
+                                        <div className="absolute -left-[31px] top-1 w-4 h-4 bg-gray-900 border-2 border-purple-500 rounded-full z-10"></div>
+                                        <div className="bg-gray-900/80 p-4 border border-purple-900/30 rounded-sm">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-purple-400 font-bold font-mono text-sm">PHASE 3: 飛龍在天 (18M+)</span>
+                                                <span className="text-xs bg-purple-900/20 text-purple-400 px-2 py-0.5 rounded">規模擴張</span>
+                                            </div>
+                                            <div className="text-sm text-gray-300">
+                                                進軍大型標案與上市櫃公司 ($500k+ 級別)。<br/>
+                                                <span className="text-gray-500 text-xs">目標：利用數據庫優勢撰寫標案建議書，實現超額利潤。</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 8. 內務建設 */}
+                            <GridCard colSpan="md:col-span-6">
+                                <SectionHeader number={8} title="Internal Infrastructure (內務建設)" />
+                                <p className="text-xs text-gray-400 mb-3">前六個月練兵，只做這四大指標，確保系統大於個人：</p>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="bg-gray-900/40 p-3 border border-gray-700 rounded-sm">
+                                        <div className="flex items-center gap-2 text-mercenary-highlight mb-1 font-bold text-xs"><Icon path={ICONS.DollarSign} size={14}/> 收費制度化</div>
+                                        <div className="text-xs text-gray-400">建立「內部轉嫁計價單」與「規格確認書」，杜絕憑感覺報價。</div>
+                                    </div>
+                                    <div className="bg-gray-900/40 p-3 border border-gray-700 rounded-sm">
+                                        <div className="flex items-center gap-2 text-mercenary-highlight mb-1 font-bold text-xs"><Icon path={ICONS.Crosshair} size={14}/> 企劃數據化</div>
+                                        <div className="text-xs text-gray-400">導入「戰前偵蒐表」(Google Trends) 與「模組化腳本庫」。</div>
+                                    </div>
+                                    <div className="bg-gray-900/40 p-3 border border-gray-700 rounded-sm">
+                                        <div className="flex items-center gap-2 text-mercenary-highlight mb-1 font-bold text-xs"><Icon path={ICONS.Wrench} size={14}/> 後製流程化</div>
+                                        <div className="text-xs text-gray-400">統一「工程目錄結構」與建置「中央素材庫」，確保檔案交接。</div>
+                                    </div>
+                                    <div className="bg-gray-900/40 p-3 border border-gray-700 rounded-sm">
+                                        <div className="flex items-center gap-2 text-mercenary-highlight mb-1 font-bold text-xs"><Icon path={ICONS.Box} size={14}/> 後勤編制化</div>
+                                        <div className="text-xs text-gray-400">落實「器材維護履歷」與「3-2-1 備份戰略」，確保資產安全。</div>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 9. 軍備擴充 */}
+                            <GridCard colSpan="md:col-span-6">
+                                <div className="absolute top-0 right-0 p-3 opacity-10"><Icon path={ICONS.Database} size={100} /></div>
+                                <SectionHeader number={9} title="Arsenal Acquisition (軍備擴充)" />
+                                <div className="space-y-4">
+                                    <InfoBlock title="風險揭露：資產空洞化 (Status Quo Alert)" type="danger">
+                                        集團目前名下無核心影音資產，產能 100% 依賴顧問個人私有設備。若人員異動，媒體戰力瞬間歸零。不符機構化原則。
+                                    </InfoBlock>
+                                    <div className="bg-gray-900/40 p-3 border-l-4 border-mercenary-highlight">
+                                        <h4 className="text-sm font-bold text-white mb-2">市場機會：歷史性的抄底時刻</h4>
+                                        <p className="text-xs text-gray-400 leading-relaxed mb-2">
+                                            AI 影片生成技術導致大量低階影像工作室倒閉，市場湧現大量高品質二手拋售潮。
+                                        </p>
+                                        <div className="text-sm font-bold text-mercenary-highlight">
+                                            策略：「降維打擊採購法」
+                                        </div>
+                                        <p className="text-xs text-gray-300">
+                                            不買新品，專收 2-3 年前的電影級攝影機 (RED/Arri) 與燈光。
+                                            <br/>預計以 <strong>30% 的預算</strong>，建置出 100% 的電影級棚內戰力。
+                                        </p>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 10. 組織編制 */}
+                            <GridCard colSpan="md:col-span-6">
+                                <SectionHeader number={10} title="Organization (鐵三角戰鬥群)" />
+                                <div className="flex justify-around items-center mt-8 relative h-32">
+                                    <div className="absolute top-1/2 left-10 right-10 h-0.5 bg-gray-800 -z-10"></div>
+                                    <div className="absolute top-10 bottom-10 left-1/2 w-0.5 bg-gray-800 -z-10"></div>
+                                    <div className="text-center bg-[#0B0C10] p-3 z-10 border border-gray-700 rounded-sm w-32">
+                                        <div className="text-mercenary-highlight font-bold text-sm mb-1">PM 指揮官</div>
+                                        <div className="text-xs text-gray-500">對外擋箭牌<br/>制度回應</div>
+                                    </div>
+                                    <div className="text-center bg-[#0B0C10] p-3 z-10 border border-gray-700 rounded-sm w-32 scale-110 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-cyan-500/50">
+                                        <div className="text-white font-bold text-sm mb-1">企劃參謀</div>
+                                        <div className="text-xs text-gray-500">數據大腦<br/>模組產出</div>
+                                    </div>
+                                    <div className="text-center bg-[#0B0C10] p-3 z-10 border border-gray-700 rounded-sm w-32">
+                                        <div className="text-red-400 font-bold text-sm mb-1">製作特種兵</div>
+                                        <div className="text-xs text-gray-500">執行手腳<br/>技術產出</div>
+                                    </div>
+                                </div>
+                            </GridCard>
+
+                            {/* 11. 收支平衡 */}
+                            <GridCard colSpan="md:col-span-6">
+                                {/* Fixed Icon Position: Lowered z-index and moved slightly */}
+                                <div className="absolute top-4 right-4 opacity-5 z-0"><Icon path={ICONS.Scale} size={150} /></div>
+                                
+                                <div className="relative z-10">
+                                    <SectionHeader number={11} title="Financial Equilibrium (收支平衡)" />
+                                    
+                                    <div className="bg-gray-900/60 p-4 border border-gray-600 rounded-sm mb-4 backdrop-blur-sm">
+                                        <div className="text-xs text-gray-400 mb-2 font-mono">EQUILIBRIUM FORMULA:</div>
+                                        <div className="text-sm md:text-base font-bold text-white font-mono">
+                                            (<span className="text-green-400">建置費利潤</span> / 攤提月數) + <span className="text-cyan-400">維運費</span>
+                                            <br/> &gt; <span className="text-red-400">團隊固定成本</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <h4 className="text-sm font-bold text-white mb-1">成本控制核心：集中生產制 (Batch Production)</h4>
+                                        <p className="text-xs text-gray-400 leading-relaxed">
+                                            將一個客戶一個月的產量集中在 <strong>0.5 天內</strong> 完成，極大化產能利用率。
+                                            前期依賴「建置費」作為緩衝資金池，維運費則作為底層保障。
+                                        </p>
+                                    </div>
+
+                                    <DecryptButton 
+                                        title="結語 (CONCLUSION)"
+                                        content={`這是一場「資產保衛戰」與「商業轉型戰」。\n\n我們現在投入的資源（設備、半年的人事練兵），不是費用，而是為了建立一座會自動運轉的印鈔工廠。\n\n曾仕強文化媒體部，將成為市場上唯一一支擁有「帝王學智慧」與「科學化戰力」的正規部隊。`}
+                                    />
+                                </div>
+                            </GridCard>
+
+                        </div>
+
+                        {/* FOOTER */}
+                        <footer className="mt-16 pt-8 border-t border-gray-800 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-600">
+                            <div>© 2026 TSENG CULTURE MEDIA CENTER. ALL RIGHTS RESERVED.</div>
+                            <div className="mt-4 md:mt-0 flex gap-4">
+                                <span>SECURE CONNECTION: ENCRYPTED</span>
+                                <span className="text-cyan-900">|</span>
+                                <span>NO: 2026-SMU-FINAL-V2</span>
+                            </div>
+                        </footer>
+
+                    </div>
                 </div>
-                
-                <div className="text-center bg-[#0B0C10] p-2 z-10 border border-gray-700 rounded-sm w-28 scale-110 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-cyan-500/50">
-                   <div className="text-white font-bold text-sm mb-1">企劃參謀</div>
-                   <div className="text-[10px] text-gray-500">數據大腦<br/>模組產出</div>
-                </div>
-                
-                <div className="text-center bg-[#0B0C10] p-2 z-10 border border-gray-700 rounded-sm w-28">
-                   <div className="text-red-400 font-bold text-sm mb-1">製作特種兵</div>
-                   <div className="text-[10px] text-gray-500">執行手腳<br/>技術產出</div>
-                </div>
-             </div>
-          </GridCard>
+            );
+        };
 
-          {/* 11. 收支正平衡 (Financial Equilibrium) - Includes Decrypt Button */}
-          <GridCard colSpan="md:col-span-6">
-             {/* VISUAL FIX: Added Scale Icon for Visual Consistency */}
-             <div className="absolute top-0 right-0 p-3 opacity-10"><Scale size={80} /></div>
-             
-             <SectionHeader number={11} title="Financial Equilibrium (收支平衡)" />
-             <div className="flex flex-col h-full justify-between">
-                <div className="text-sm text-gray-300 font-mono mb-2">
-                   平衡公式：<br/>
-                   <span className="text-green-400">(建置費 / 攤提) + 維運費</span> {'>'} <span className="text-red-400">固定成本</span>
-                </div>
-                <div className="bg-gray-800/50 p-3 rounded-sm text-xs text-gray-400 mb-2">
-                   <strong>集中生產制 (Batch Production):</strong><br/>
-                   將單一客戶月產量集中於 0.5 天完成，極大化產能。
-                </div>
-                <DecryptButton 
-                  hiddenText={`【資產轉型戰略】\n我們現在投入的設備與半年人事練兵，不是「費用」，而是為了建立一座會自動運轉的「印鈔工廠」。\n\n曾仕強文化媒體部，將成為市場上唯一擁有「帝王學智慧」與「科學化戰力」的正規部隊。`}
-                />
-             </div>
-          </GridCard>
-
-        </div>
-        {/* --- GRID SYSTEM END --- */}
-
-        {/* FOOTER */}
-        <footer className="mt-16 pt-8 border-t border-gray-800 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-600">
-          <div>© 2026 TSENG CULTURE MEDIA CENTER. ALL RIGHTS RESERVED.</div>
-          <div className="mt-4 md:mt-0 flex gap-4">
-            <span>SECURE CONNECTION: ENCRYPTED</span>
-            <span className="text-cyan-900">|</span>
-            <span>NO: 2026-SMU-FINAL</span>
-          </div>
-        </footer>
-
-      </div>
-    </div>
-  );
-};
-
-export default App;
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
