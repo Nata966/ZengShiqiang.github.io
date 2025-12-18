@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 曾仕強專案：市場推廣預算與預期效益評估</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .budget-bar-active {
+            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+        }
+        .budget-bar-passive {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-slate-900 text-white pt-16 pb-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 opacity-10">
+            <i class="fas fa-chess-rook text-9xl transform translate-x-12 -translate-y-12"></i>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end">
+                <div>
+                    <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 inline-block tracking-wider">運作建議表</span>
+                    <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">2026 曾仕強專案<br><span class="text-amber-500">市場推廣預算與效益評估</span></h1>
+                    <p class="text-slate-400 text-lg max-w-2xl">面對流量紅利終結的 2026 年，廣告預算不再是選項，而是專案存活的必要條件。</p>
+                </div>
+                <div class="mt-6 md:mt-0 text-right">
+                    <p class="text-slate-500 text-sm">日期：2025.12.18</p>
+                    <p class="text-slate-500 text-sm">版本：v2.0 (決策版)</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 -mt-16 pb-20 relative z-20">
+
+        <!-- Section 1: Market Analysis -->
+        <section class="mb-16">
+            <div class="bg-white rounded-2xl shadow-xl p-8 border-l-8 border-red-500">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3"></i>
+                    2026 市場殘酷現況：為何必須花錢？
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Fact 1 -->
+                    <div class="bg-red-50 rounded-xl p-6 card-hover border border-red-100">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-4">
+                                <i class="fas fa-chart-line-down text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">流量紅利徹底終結</h3>
+                        </div>
+                        <p class="text-slate-600 leading-relaxed">
+                            對於商業帳號，FB/IG 的<span class="font-bold text-red-600">自然觸及率趨近於 0%</span>。不投廣告，內容僅有內部員工與舊粉絲能看到，專案將陷入「自嗨」困境。
+                        </p>
+                    </div>
+                    <!-- Fact 2 -->
+                    <div class="bg-red-50 rounded-xl p-6 card-hover border border-red-100">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-4">
+                                <i class="fas fa-user-lock text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">受眾斷層危機</h3>
+                        </div>
+                        <p class="text-slate-600 leading-relaxed">
+                            年輕職場主力（25-45歲）不在現有粉絲池內。唯有透過付費廣告的<span class="font-bold text-red-600">精準鎖定 (Targeting)</span>，才能主動跨出同溫層，避免品牌老化。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Budget Strategy -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8 text-center">預算建議與平台配置</h2>
+            
+            <!-- Total Budget Highlight -->
+            <div class="flex justify-center mb-10">
+                <div class="bg-slate-800 text-white rounded-2xl p-8 text-center shadow-2xl transform scale-110 relative">
+                    <div class="absolute -top-3 -right-3 bg-amber-500 text-slate-900 font-bold text-xs px-3 py-1 rounded-full animate-bounce">
+                        最低可行性 (MVP)
+                    </div>
+                    <p class="text-slate-400 text-sm uppercase tracking-widest mb-2">每月建議投入 (含稅)</p>
+                    <div class="text-5xl font-serif font-bold text-amber-400">NT$ 30,000</div>
+                    <p class="text-slate-400 text-xs mt-2">約 NT$ 1,000 / 日</p>
+                </div>
+            </div>
+
+            <!-- Platform Split -->
+            <div class="grid md:grid-cols-5 gap-6">
+                
+                <!-- Meta Ads (80%) -->
+                <div class="md:col-span-4 bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200 flex flex-col md:flex-row">
+                    <div class="bg-blue-600 text-white p-6 md:w-1/4 flex flex-col justify-center items-center text-center">
+                        <i class="fab fa-facebook-f text-4xl mb-3"></i>
+                        <h3 class="text-xl font-bold">Meta 廣告</h3>
+                        <p class="text-blue-100 text-sm mt-1">FB / IG</p>
+                        <div class="mt-4 text-3xl font-bold">80%</div>
+                        <div class="text-xs opacity-75">$24,000 / 月</div>
+                    </div>
+                    <div class="p-6 md:w-3/4 flex flex-col justify-center">
+                        <div class="mb-2 flex items-center">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded uppercase mr-2">戰術</span>
+                            <h4 class="font-bold text-lg">主動捕撈 (Active Hunting)</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li class="flex items-start"><i class="fas fa-check text-blue-500 mt-1 mr-2"></i> <span><strong>鎖定對象：</strong>25-45歲、興趣標籤為「職場發展」、「商業思維」、「經理人」的台灣用戶。</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-blue-500 mt-1 mr-2"></i> <span><strong>操作目標：</strong>設定為「轉換 (Conversion)」，強迫曝光於動態牆，導流至 Accupass。</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accupass (20%) -->
+                <div class="md:col-span-1 md:col-start-5 bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200 flex flex-col">
+                    <div class="bg-emerald-500 text-white p-6 flex flex-col justify-center items-center text-center h-1/2">
+                        <i class="fas fa-ticket-alt text-3xl mb-2"></i>
+                        <h3 class="text-lg font-bold">Accupass</h3>
+                        <div class="mt-2 text-2xl font-bold">20%</div>
+                        <div class="text-xs opacity-75">$6,000 / 月</div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-center bg-emerald-50">
+                        <div class="mb-2">
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded uppercase">戰術</span>
+                        </div>
+                        <h4 class="font-bold text-sm mb-2">精準攔截</h4>
+                        <p class="text-xs text-slate-600 leading-snug">購買「類別置頂」版位，攔截主動搜尋「講座」的高意願流量。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Expected Outcomes -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">預期效益評估</h2>
+                <span class="text-sm text-slate-500 italic">Based on $30k budget/month</span>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Outcome 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-amber-500 card-hover">
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mb-4">
+                        <i class="fas fa-sync-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">新客源自動進帳</h3>
+                    <p class="text-slate-600 text-sm">不再被動等待，每月穩定獲取 <span class="font-bold text-slate-900">200-300 筆</span> 全新潛在客戶名單（Email/手機）。解決粉絲老化危機。</p>
+                </div>
+
+                <!-- Outcome 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
+                        <i class="fas fa-database text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">流量資產私有化</h3>
+                    <p class="text-slate-600 text-sm">將社群公域流量導入 Accupass，轉化為<span class="font-bold text-slate-900">私有資產</span>。未來推廣高價課程時，大幅降低行銷成本。</p>
+                </div>
+
+                <!-- Outcome 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-emerald-500 card-hover">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-4">
+                        <i class="fas fa-check-circle text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">商業模式驗證</h3>
+                    <p class="text-slate-600 text-sm">透過真實廣告數據，驗證市場對「孫子穿西裝」主題的反應，避免閉門造車，<span class="font-bold text-slate-900">降低產品開發風險</span>。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-slate-900 rounded-2xl p-10 text-center relative overflow-hidden">
+             <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <svg width="100%" height="100%">
+                    <pattern id="pattern-circles" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <circle cx="20" cy="20" r="2" fill="#fff"></circle>
+                    </pattern>
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)"></rect>
+                </svg>
+            </div>
+            <div class="relative z-10 max-w-3xl mx-auto">
+                <i class="fas fa-quote-left text-amber-500 text-3xl mb-4 block opacity-50"></i>
+                <h3 class="text-2xl md:text-3xl font-serif text-white mb-6 leading-normal">
+                    在 2026 年的環境下，<span class="text-amber-500 font-bold border-b-4 border-amber-600">「免費的最貴」</span>。
+                </h3>
+                <p class="text-slate-300 text-lg mb-8">
+                    若不投入這筆基礎預算，我們將需耗費數倍的人力成本去換取微薄的自然曝光。<br>
+                    每月 3 萬元的投入，是以最低成本，換取專案在市場上的<span class="text-white font-bold">能見度</span>與<span class="text-white font-bold">變現機會</span>。
+                </p>
+                <button class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300">
+                    請求詳細分析
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-50 text-slate-400 py-8 text-center border-t border-slate-200">
+        <p>&copy; 2025 影像行銷顧問 林詮宗. All Rights Reserved. Confidential.</p>
+    </footer>
+
+</body>
+</html>
