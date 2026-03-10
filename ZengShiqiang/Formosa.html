@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>福爾摩沙公益勳章 - 歲月插畫與炭筆記憶</title>
+    <title>福爾摩沙公益勳章 - 形象樣板網站/title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
@@ -13,11 +13,18 @@
             --line-height-paper: 3.5rem;
         }
 
+        /* 終極防跑版護城河：鎖死最大視窗寬度 */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+            position: relative;
+        }
+
         body {
             font-family: 'Noto Serif TC', serif; /* 內文全面使用明體，模擬活字印刷 */
             background-color: var(--color-paper-bg);
             color: var(--color-charcoal-dark);
-            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
@@ -59,7 +66,6 @@
         .chalk-wash-bg::before {
             content: '';
             position: absolute;
-            /* 手機版適度縮小邊緣延伸，避免撐破視窗 */
             inset: -10px -15px; 
             background: radial-gradient(ellipse at center, rgba(245, 243, 235, 0.95) 40%, rgba(245, 243, 235, 0.3) 75%, transparent 100%);
             z-index: -1;
@@ -92,8 +98,6 @@
         /* =========================================
            4. 完美融合的插畫原圖 (少年背影與吊橋)
            ========================================= */
-        
-        /* 第一章：月台上的少年背影 (進一步優化柔化程度) */
         .boy-illustration-container {
             position: absolute;
             inset: -5%;
@@ -103,12 +107,10 @@
             mix-blend-mode: multiply; 
             opacity: 0.9; 
             filter: grayscale(100%) contrast(1.2) brightness(0.9); 
-            /* 調整：將上方與左方的柔化範圍擴大，讓少年自然融入背景 */
             mask-image: radial-gradient(ellipse at 75% 75%, black 15%, rgba(0,0,0,0.05) 70%, transparent 100%);
             -webkit-mask-image: radial-gradient(ellipse at 75% 75%, black 15%, rgba(0,0,0,0.05) 70%, transparent 100%);
         }
 
-        /* 第四章：港口吊橋 (加入緩慢呼吸動態) */
         .bridge-illustration-container {
             position: absolute;
             inset: -2%; 
@@ -219,20 +221,22 @@
             100% { transform: translateY(-100vh) translateX(var(--drift)) scale(1.5); opacity: 0; }
         }
 
-        /* 品牌字樣 (替代 LOGO) */
+        /* 品牌字樣 (替代 LOGO) - 手機版縮小邊距避免佔用畫面 */
         .brand-header {
             position: fixed;
-            top: 2rem;
-            left: 2rem;
+            top: 1.25rem;
+            left: 1.25rem;
             z-index: 10000;
             pointer-events: none;
+        }
+        @media (min-width: 768px) {
+            .brand-header { top: 2rem; left: 2rem; }
         }
         .brand-text {
             font-family: 'Noto Serif TC', serif;
             font-weight: 900;
             letter-spacing: 0.4em;
             font-size: clamp(0.75rem, 2vw, 1.1rem);
-            /* 使用差值模式處理黑白背景切換 */
             mix-blend-mode: difference;
             color: rgba(255, 255, 255, 0.85); 
             white-space: nowrap;
@@ -266,10 +270,10 @@
     </svg>
 
     <!-- ▎首頁：墜入深淵的黑 -->
-    <section class="relative min-h-screen flex flex-col justify-center items-center text-[#e5e1d5] px-4 z-10 bg-[#080808]">
+    <section class="relative min-h-screen flex flex-col justify-center items-center text-[#e5e1d5] px-4 z-10 bg-[#080808] overflow-hidden">
         <div class="text-center relative z-10 w-full flex flex-col items-center">
             <div class="h-[2em] flex items-center justify-center max-w-full overflow-hidden">
-                <div id="hero-title" class="typewriter-wrapper font-serif font-light text-[clamp(14px,4vw,2rem)] tracking-[0.3em] opacity-80" style="text-shadow: 0 0 15px rgba(255,255,255,0.2);">
+                <div id="hero-title" class="typewriter-wrapper font-serif font-light text-[clamp(13px,4vw,2rem)] tracking-[0.3em] opacity-80" style="text-shadow: 0 0 15px rgba(255,255,255,0.2);">
                     <!-- JS 注入 -->
                 </div>
             </div>
@@ -285,19 +289,20 @@
         </div>
     </section>
 
-    <!-- ▎序幕：白堊粉閱讀區 (回到泛黃畫紙，精準擊心) -->
-    <section id="prologue" class="py-24 md:py-32 px-4 md:px-6 reveal z-20 relative bg-[var(--color-paper-bg)]">
+    <!-- ▎序幕：白堊粉閱讀區 (精算字體大小，100%防跑版) -->
+    <section id="prologue" class="py-24 md:py-32 px-4 md:px-6 reveal z-20 relative bg-[var(--color-paper-bg)] overflow-hidden">
         <div class="max-w-4xl mx-auto flex flex-col items-center md:items-start space-y-10 md:space-y-12 pt-10 text-center md:text-left">
             
             <div class="chalk-wash-bg w-full">
+                <!-- 最小值降至 12px，確保 320px 螢幕也能容納 -->
                 <div class="font-serif text-[clamp(12px,3.5vw,1.3rem)] tracking-widest letterpress-text text-[#3a3a3a] single-line-fit text-center md:text-left">
                     不是因為你不夠努力，也不是因為你不夠聰明。
                 </div>
             </div>
 
-            <!-- 情緒爆發：生存的無力感 -->
+            <!-- 情緒爆發：生存的無力感 (最容易跑版的超長金句，最小值嚴格下調至 11px) -->
             <div class="relative inline-block mt-4 chalk-wash-bg max-w-full">
-                <div class="font-hand font-bold text-[clamp(14px,4.5vw,2.5rem)] tracking-wider text-[#161616] single-line-fit ink-text-blend">
+                <div class="font-hand font-bold text-[clamp(11px,4vw,2.5rem)] tracking-wider text-[#161616] single-line-fit ink-text-blend">
                     只是因為……在沉重的生存面前，連作夢都成了一種奢侈。
                 </div>
                 <svg class="absolute -bottom-1 left-[-2%] w-[104%] h-6 md:h-8 charcoal-stroke text-[#161616] opacity-80" viewBox="0 0 100 20" preserveAspectRatio="none">
@@ -314,11 +319,11 @@
         </div>
     </section>
 
-    <!-- ▎第一章：單程車票 (月台少年的背影 - 鏡頭語言重塑) -->
+    <!-- ▎第一章：單程車票 (月台少年的背影) -->
     <section class="py-24 md:py-32 px-4 md:px-6 reveal relative z-20 overflow-hidden bg-[var(--color-paper-bg)]">
         <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-8 md:gap-16 items-center relative z-10">
             
-            <!-- 左側：活字印刷解說區 (主動敘事方) -->
+            <!-- 左側：活字印刷解說區 -->
             <div class="md:col-span-6 space-y-6 md:space-y-10 font-serif text-base md:text-lg leading-[2.4] text-[#161616] order-2 md:order-1 relative z-30 md:pr-10">
                 <div class="chalk-wash-bg p-2 md:p-0">
                     <h2 class="font-serif font-black text-[clamp(22px,5vw,2.2rem)] tracking-widest relative inline-block single-line-fit letterpress-text">
@@ -330,11 +335,9 @@
                         <p class="letterpress-text opacity-90 text-justify">民國 62 年，夏天。15 歲的年紀，別的孩子正雀躍地準備換上高中制服，我卻獨自在月台上，默默提著簡陋的行李。</p>
                         
                         <div class="relative py-4 pl-5 md:pl-6 border-l-[4px] border-[#161616]/40 charcoal-stroke">
-                            <p class="font-hand text-[clamp(16px,4vw,1.8rem)] font-bold leading-relaxed ink-text-blend single-line-fit">
+                            <!-- 嚴格控管最低字級為 12px，徹底解決此句撐破版面的問題 -->
+                            <p class="font-hand text-[clamp(12px,4vw,1.8rem)] font-bold leading-relaxed ink-text-blend single-line-fit">
                                 「如果我繼續讀書，弟妹們就得跟著餓肚子了。」
-                            </p>
-                            <p class="font-hand text-[clamp(16px,4vw,1.8rem)] font-bold leading-relaxed ink-text-blend single-line-fit mt-1">
-                               
                             </p>
                         </div>
                         
@@ -343,8 +346,8 @@
                 </div>
             </div>
 
-            <!-- 右側：少年背影插畫 (被動承受方) -->
-            <div class="md:col-span-6 relative h-[350px] md:h-[550px] w-full mt-4 md:mt-0 order-1 md:order-2">
+            <!-- 右側：少年背影插畫 (高度自適應，留出更多閱讀空間) -->
+            <div class="md:col-span-6 relative h-[300px] sm:h-[350px] md:h-[550px] w-full mt-4 md:mt-0 order-1 md:order-2">
                 <div class="absolute top-0 left-0 md:left-[10%] w-[100%] h-[100%]">
                     <div class="boy-illustration-container"></div>
                 </div>
@@ -353,12 +356,12 @@
         </div>
     </section>
 
-    <!-- ▎第二章：耗盡力氣 (純黑反轉區塊，重置視覺疲乏) -->
+    <!-- ▎第二章：耗盡力氣 -->
     <section class="py-24 md:py-40 px-4 md:px-6 reveal relative z-20 overflow-hidden dark-charcoal-section shadow-[0_0_50px_rgba(0,0,0,0.9)]">
         <svg class="absolute top-0 left-0 w-full h-4 text-[#e5e1d5] charcoal-stroke opacity-80" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0,0 L100,0 L100,5 Q50,10 0,5 Z" fill="currentColor"/></svg>
         
         <div class="max-w-4xl mx-auto text-center space-y-12 md:space-y-16 relative z-10 py-6 md:py-10">
-            <h2 class="font-serif font-black text-[clamp(24px,6vw,3.5rem)] tracking-widest text-[#e5e1d5] single-line-fit mx-auto" style="text-shadow: 0 4px 15px rgba(0,0,0,1);">
+            <h2 class="font-serif font-black text-[clamp(22px,6vw,3.5rem)] tracking-widest text-[#e5e1d5] single-line-fit mx-auto" style="text-shadow: 0 4px 15px rgba(0,0,0,1);">
                 光是活著，就耗盡了力氣
             </h2>
             <div class="font-serif text-[clamp(14px,3.5vw,1.2rem)] text-gray-400 leading-loose max-w-2xl mx-auto px-2 letterpress-text">
@@ -385,21 +388,23 @@
     </section>
 
     <!-- ▎第三章：贖回青春 -->
-    <section class="py-24 md:py-32 px-4 md:px-6 reveal z-20 relative bg-[var(--color-paper-bg)]">
+    <section class="py-24 md:py-32 px-4 md:px-6 reveal z-20 relative bg-[var(--color-paper-bg)] overflow-hidden">
         <div class="max-w-4xl mx-auto">
             <div class="relative z-10 p-6 md:p-16 border-[3px] border-[#1c1c1c] charcoal-stroke chalk-wash-bg bg-[#f4f2ea]/30 shadow-2xl">
                 
-                <h2 class="font-serif font-black text-[clamp(20px,4.5vw,2rem)] text-[#161616] mb-8 md:mb-10 tracking-widest inline-block letterpress-text single-line-fit">
+                <h2 class="font-serif font-black text-[clamp(18px,4.5vw,2rem)] text-[#161616] mb-8 md:mb-10 tracking-widest inline-block letterpress-text single-line-fit">
                     第三章：贖回青春的承諾
                 </h2>
                 
                 <div class="font-serif text-[15px] md:text-xl leading-[2.5] tracking-wide ink-text-blend">
-                    <p class="font-hand text-[clamp(18px,4.5vw,1.8rem)] mb-4 md:mb-6 font-bold single-line-fit">這份痛，我懂。所以，福爾摩沙公益勳章誕生了。</p>
+                    <!-- 最低字級設為 12px 保證安全 -->
+                    <p class="font-hand text-[clamp(12px,4vw,1.8rem)] mb-4 md:mb-6 font-bold single-line-fit">這份痛，我懂。所以，福爾摩沙公益勳章誕生了。</p>
                     <p class="letterpress-text opacity-90">我們給出的是一份無比沉重的承諾：</p>
                     
                     <div class="relative inline-block my-10 md:my-12 transform rotate-[1.5deg] ml-2 md:ml-10">
-                        <span class="font-serif font-black text-[clamp(60px,12vw,120px)] leading-none charcoal-stroke text-[#161616]">$10,000</span>
-                        <svg class="absolute -inset-6 md:-inset-8 w-[calc(100%+3rem)] md:w-[calc(100%+4rem)] h-[calc(100%+3rem)] md:h-[calc(100%+4rem)] pointer-events-none text-[#161616] charcoal-stroke opacity-80" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <!-- 金額字級稍降，避免 SVG 圓圈超出螢幕 -->
+                        <span class="font-serif font-black text-[clamp(45px,12vw,120px)] leading-none charcoal-stroke text-[#161616]">$10,000</span>
+                        <svg class="absolute -inset-4 md:-inset-8 w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] h-[calc(100%+2rem)] md:h-[calc(100%+4rem)] pointer-events-none text-[#161616] charcoal-stroke opacity-80" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <path class="svg-draw-path" d="M10,50 C10,10 90,10 90,50 C90,90 10,90 10,50 M15,45 C15,15 85,15 85,45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
                         </svg>
                     </div>
@@ -411,16 +416,16 @@
         </div>
     </section>
 
-    <!-- ▎第四章：擁抱與印鑑 (港口吊橋與唯一鮮紅) -->
+    <!-- ▎第四章：擁抱與印鑑 -->
     <section class="py-32 md:py-40 px-4 md:px-6 reveal z-20 relative overflow-hidden bg-[var(--color-paper-bg)]">
         <div class="bridge-illustration-container"></div>
 
         <div class="max-w-4xl mx-auto text-center space-y-16 md:space-y-20 chalk-wash-bg p-4 md:p-12 relative z-10">
             <div class="space-y-3 md:space-y-4">
-                <div class="font-hand text-[clamp(14px,3.5vw,1.5rem)] text-[#161616] font-bold ink-text-blend single-line-fit opacity-90">
+                <div class="font-hand text-[clamp(13px,3.5vw,1.5rem)] text-[#161616] font-bold ink-text-blend single-line-fit opacity-90">
                     「孩子，外面的風雨再大，你們都不要怕。
                 </div>
-                <div class="font-hand text-[clamp(14px,3.5vw,1.5rem)] text-[#161616] font-bold ink-text-blend single-line-fit opacity-90">
+                <div class="font-hand text-[clamp(13px,3.5vw,1.5rem)] text-[#161616] font-bold ink-text-blend single-line-fit opacity-90">
                     安心去飛吧，底下的網，王爸替你們撐著。」
                 </div>
             </div>
@@ -443,13 +448,13 @@
     </section>
 
     <!-- ▎第五章：行動區 -->
-    <section class="pb-32 md:pb-40 pt-16 reveal z-10 relative bg-[var(--color-paper-bg)]">
+    <section class="pb-32 md:pb-40 pt-16 reveal z-10 relative bg-[var(--color-paper-bg)] overflow-hidden">
         <div class="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-6 md:gap-12">
             
             <div class="thick-card-cta p-8 md:p-14 flex flex-col justify-between group cursor-pointer text-[#161616]">
                 <div class="relative z-10">
                     <span class="font-sans text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase mb-6 md:mb-8 block opacity-60">For Students</span>
-                    <h4 class="font-serif font-black text-[clamp(18px,4vw,2rem)] mb-4 md:mb-6 leading-tight single-line-fit letterpress-text">我是快撐不下去的學子</h4>
+                    <h4 class="font-serif font-black text-[clamp(16px,4vw,2rem)] mb-4 md:mb-6 leading-tight single-line-fit letterpress-text">我是快撐不下去的學子</h4>
                     <p class="font-serif text-sm md:text-lg font-medium leading-relaxed mb-10 md:mb-12 opacity-80 letterpress-text text-justify">別再一個人咬牙硬撐了。這張通往未來的車票，王爸為你買好了。</p>
                 </div>
                 <div class="font-serif font-bold text-base md:text-xl border-b-[3px] border-[#161616] pb-1 md:pb-2 inline-block self-start letterpress-text group-hover:pr-4 transition-all">
@@ -460,7 +465,7 @@
             <div class="thick-card-cta bg-[#1c1c1c] text-[#e5e1d5] p-8 md:p-14 flex flex-col justify-between group cursor-pointer">
                 <div class="relative z-10">
                     <span class="font-sans text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase mb-6 md:mb-8 block opacity-60">For Donors</span>
-                    <h4 class="font-serif font-black text-[clamp(18px,4vw,2rem)] mb-4 md:mb-6 leading-tight single-line-fit letterpress-text text-[#e5e1d5]">我想成為黑夜中的星光</h4>
+                    <h4 class="font-serif font-black text-[clamp(16px,4vw,2rem)] mb-4 md:mb-6 leading-tight single-line-fit letterpress-text text-[#e5e1d5]">我想成為黑夜中的星光</h4>
                     <p class="font-serif text-sm md:text-lg font-medium leading-relaxed mb-10 md:mb-12 opacity-80 letterpress-text text-[#e5e1d5] text-justify">請把這個故事傳遞出去。你的分享，就能穩穩接住一個即將墜落的生命。</p>
                 </div>
                 <div class="font-serif font-bold text-base md:text-xl border-b-[3px] border-[#e5e1d5] pb-1 md:pb-2 inline-block self-start letterpress-text text-[#e5e1d5] group-hover:pr-4 transition-all">
