@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>福爾摩沙公益勳章 - 形像網站測試樣板</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-paper-bg: #e5e1d5; /* 畫紙主色：帶灰的暖米黃 */
+            --color-charcoal-dark: #161616; /* 炭筆極黑 */
+            --line-height-paper: 3.5rem;
+        }
+
+        /* 終極防跑版護城河：重置 body 並交由 wrapper 控制 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--color-paper-bg);
+            color: var(--color-charcoal-dark);
+            font-family: 'Noto Serif TC', serif;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .font-serif { font-family: 'Noto Serif TC', serif; }
+        .font-hand { font-family: 'LXGW WenKai TC', cursive; } 
+        .font-sans { font-family: 'Noto Sans TC', sans-serif; }
+
+        /* =========================================
+           1. 畫冊基底：泛黃、霉斑、微塵
+           ========================================= */
+        .sketchbook-paper {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.08) 0%, transparent 15%),
+                radial-gradient(circle at 80% 80%, rgba(139, 115, 85, 0.06) 0%, transparent 20%),
+                radial-gradient(ellipse at 50% 10%, rgba(28, 28, 28, 0.05) 0%, transparent 40%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: inset 0 0 150px rgba(10, 10, 10, 0.5);
+        }
+
+        /* =========================================
+           2. 物理級 80/20：白堊粉擦拭保護區
+           ========================================= */
+        .chalk-wash-bg {
+            position: relative;
+            z-index: 10;
+        }
+        .chalk-wash-bg::before {
+            content: '';
+            position: absolute;
+            /* 手機版極度縮小暈染外擴，確保絕對不超出螢幕產生卷軸 */
+            inset: -5px -8px; 
+            background: radial-gradient(ellipse at center, rgba(245, 243, 235, 0.95) 40%, rgba(245, 243, 235, 0.3) 75%, transparent 100%);
+            z-index: -1;
+            filter: blur(8px);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+        @media (min-width: 768px) {
+            .chalk-wash-bg::before { inset: -20px -30px; filter: blur(15px); }
+        }
+
+        .letterpress-text {
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.4), 0px -0.5px 0px rgba(22, 22, 22, 0.5);
+            font-weight: 600;
+        }
+
+        /* =========================================
+           3. 狂亂的炭筆濾鏡
+           ========================================= */
+        .charcoal-stroke {
+            filter: url(#charcoal-filter);
+            mix-blend-mode: multiply;
+        }
+        
+        .ink-text-blend {
+            mix-blend-mode: multiply;
+            opacity: 0.95;
+        }
+
+        /* =========================================
+           4. 完美融合的插畫原圖 (少年背影與吊橋)
+           ========================================= */
+        .boy-illustration-container {
+            position: absolute;
+            inset: -5%;
+            background-image: url('https://i.postimg.cc/3rvnhSJC/Gemini-Generated-Image-jjmdxqjjmdxqjjmd.png'); 
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: multiply; 
+            opacity: 0.9; 
+            filter: grayscale(100%) contrast(1.2) brightness(0.9); 
+            mask-image: radial-gradient(ellipse at 75% 75%, black 15%, rgba(0,0,0,0.05) 70%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse at 75% 75%, black 15%, rgba(0,0,0,0.05) 70%, transparent 100%);
+        }
+
+        .bridge-illustration-container {
+            position: absolute;
+            inset: -2%; 
+            background-image: url('https://i.postimg.cc/h473G3vR/Gemini-Generated-Image-gjm6nzgjm6nzgjm6.png'); 
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: multiply;
+            opacity: 0.45;
+            filter: grayscale(100%) contrast(1.3) brightness(1.1); 
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+            animation: slow-zoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes slow-zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .svg-draw-path {
+            stroke-dasharray: 1000; 
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .reveal.active .svg-draw-path {
+            stroke-dashoffset: 0;
+        }
+
+        /* =========================================
+           5. 實體厚卡紙按鈕
+           ========================================= */
+        .thick-card-cta {
+            background-color: #f2f0e6;
+            border: 2px solid var(--color-charcoal-dark);
+            box-shadow: 8px 8px 0px rgba(22, 22, 22, 0.85);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative; /* 防溢出保護 */
+        }
+        /* 將濾鏡改放於絕對定位子層，避免干擾文字排版 */
+        .thick-card-cta::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border: 2px solid var(--color-charcoal-dark);
+            filter: url(#charcoal-filter);
+            pointer-events: none;
+        }
+        .thick-card-cta:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0px rgba(22, 22, 22, 0.85);
+        }
+
+        /* =========================================
+           6. 黑暗反轉區塊
+           ========================================= */
+        .dark-charcoal-section {
+            background-color: #080808;
+            color: #e5e1d5;
+            position: relative;
+        }
+        .dark-charcoal-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px);
+            pointer-events: none;
+        }
+
+        /* =========================================
+           7. 嚴謹排版 (Mobile UX 護城河)
+           ========================================= */
+        .single-line-fit {
+            /* 移除原本強制不換行的設定，改為支援大字體用戶的「優雅折行」 */
+            word-break: keep-all; 
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        /* 只有在平板與電腦螢幕上，才強制單行不折行 */
+        @media (min-width: 768px) {
+            .single-line-fit {
+                white-space: nowrap;
+            }
+        }
+
+        .typewriter-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap; 
+            border-right: 2px solid transparent;
+        }
+        .typewriter-wrapper.typing { animation: blink 0.8s step-end infinite; }
+        @keyframes blink { 0%, 100% { border-color: transparent; } 50% { border-color: currentColor; } }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 1.8s ease-out, transform 1.8s ease-out;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* 全站唯一色彩：血紅印章重擊動畫 */
+        @keyframes stamp-thump {
+            0% { transform: scale(2) rotate(0deg); opacity: 0; }
+            40% { transform: scale(0.9) rotate(12deg); opacity: 1; }
+            100% { transform: scale(1) rotate(10deg); opacity: 1; box-shadow: inset 0 0 8px rgba(161, 35, 35, 0.4); }
+        }
+        .reveal.active .stamp-animate {
+            opacity: 0; 
+            animation: stamp-thump 0.6s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+            animation-delay: 0.5s; 
+        }
+
+        /* 飄浮微塵動畫 */
+        .dust-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: float-up var(--float-duration) linear infinite;
+            filter: blur(1px); 
+        }
+        @keyframes float-up {
+            0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+            20% { opacity: var(--max-opacity); }
+            80% { opacity: var(--max-opacity); }
+            100% { transform: translateY(-100vh) translateX(var(--drift)) scale(1.5); opacity: 0; }
+        }
+
+        /* 品牌字樣 */
+        .brand-header {
+            position: fixed;
+            top: 1.25rem;
+            left: 1.25rem;
+            z-index: 10000;
+            pointer-events: none;
+        }
+        @media (min-width: 768px) {
+            .brand-header { top: 2rem; left: 2rem; }
+        }
+        .brand-text {
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 900;
+            letter-spacing: 0.4em;
+            font-size: clamp(0.75rem, 2vw, 1.1rem);
+            mix-blend-mode: difference;
+            color: rgba(255, 255, 255, 0.85); 
+            white-space: nowrap;
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 終極防護：用 wrapper 包覆全站內容，強制切斷任何元素的水平溢出 -->
+    <div id="app-wrapper" class="w-full max-w-[100vw] overflow-x-hidden relative flex flex-col min-h-screen">
+
+        <div class="sketchbook-paper"></div>
+        <div class="vignette"></div>
+        
+        <!-- ▎品牌識別區 -->
+        <header class="brand-header">
+            <div class="brand-text letterpress-text">福爾摩沙公益勳章</div>
+        </header>
+        
+        <div id="dust-container" class="fixed inset-0 pointer-events-none z-[9997]"></div>
+
+        <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;">
+            <defs>
+                <filter id="charcoal-filter">
+                    <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+                    <feGaussianBlur in="displaced" stdDeviation="0.4" />
+                </filter>
+            </defs>
+        </svg>
+
+        <!-- ▎首頁：墜入深淵的黑 (修正背景顏色遺失問題，將黑色背景直接綁定於區塊) -->
+        <section class="relative min-h-[100vh] flex flex-col justify-center items-center text-[#e5e1d5] px-4 z-10 overflow-hidden bg-[#080808] w-full">
+            <div class="text-center relative z-10 w-full flex flex-col items-center">
+                <div class="h-[2em] flex items-center justify-center max-w-full overflow-hidden">
+                    <div id="hero-title" class="typewriter-wrapper font-serif font-light text-[clamp(12px,4vw,2rem)] tracking-[0.3em] opacity-80" style="text-shadow: 0 0 15px rgba(255,255,255,0.2);">
+                        <!-- JS 注入 -->
+                    </div>
+                </div>
+                
+                <svg class="mt-4 w-48 h-2 opacity-30 text-[#e5e1d5]" filter="url(#charcoal-filter)" viewBox="0 0 100 10" preserveAspectRatio="none">
+                    <path d="M0,5 Q30,2 100,6 M10,8 Q50,4 90,9" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            
+            <div class="absolute bottom-16 flex flex-col items-center gap-5 opacity-40 cursor-pointer hover:opacity-100 transition-opacity" onclick="document.getElementById('prologue').scrollIntoView()">
+                <span class="font-sans text-[10px] tracking-[0.5em] uppercase">Scroll</span>
+                <div class="w-[1px] h-12 bg-[#e5e1d5]" filter="url(#charcoal-filter)"></div>
+            </div>
+        </section>
+
+        <!-- ▎序幕：白堊粉閱讀區 -->
+        <section id="prologue" class="py-24 md:py-32 px-4 md:px-6 reveal z-20 relative bg-[var(--color-paper-bg)]">
+            <div class="max-w-4xl mx-auto flex flex-col items-center md:items-start space-y-10 md:space-y-12 pt-10 text-center md:text-left">
+                
+                <div class="chalk-wash-bg w-full">
+                    <!-- 安全字級下調，確保防跑版 -->
+                    <div class="font-serif text-[clamp(12px,3.5vw,1.3rem)] tracking-widest letterpress-text text-[#3a3a3a] single-line-fit text-center md:text-left">
+                        不是因為你不夠努力，也不是因為你不夠聰明。
+                    </div>
+                </div>
+
+                <!-- 情緒爆發：針對高齡大字體用戶加入 <br class="md:hidden"> 進行優雅折行，並修正線條覆蓋問題 -->
+                <div class="relative inline-block mt-4 chalk-wash-bg max-w-full px-2">
+                    <div class="font-hand font-bold text-[clamp(16px,4.5vw,2.5rem)] tracking-wider text-[#161616] ink-text-blend relative z-10 leading-relaxed md:whitespace-nowrap">
+                        只是因為……在沉重的生存面前，<br class="md:hidden">連作夢都成了一種奢侈。
+                    </div>
+                    <!-- 將 z-index 設為 0，確保線條在文字下方，並微調高度與位置 -->
+                    <svg class="absolute bottom-2 md:-bottom-1 left-0 w-full h-4 md:h-8 charcoal-stroke text-[#161616] opacity-80 z-0 pointer-events-none" viewBox="0 0 100 20" preserveAspectRatio="none">
+                        <path d="M0,12 Q50,2 100,15 M5,8 Q50,18 95,5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="chalk-wash-bg mt-12 w-full">
+                    <div class="font-serif text-[clamp(12px,3.5vw,1.1rem)] leading-[2.5] letterpress-text text-[#3a3a3a] text-center md:text-left">
+                        這是一個關於遺憾的故事。<br>
+                        也是一個用 48 個月的陪伴，替偏鄉貧窮孩子「買回青春」的故事。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ▎第一章：單程車票 -->
+        <section class="py-24 md:py-32 px-4 md:px-6 reveal relative z-20 bg-[var(--color-paper-bg)]">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-8 md:gap-16 items-center relative z-10">
+                
+                <!-- 左側：活字印刷解說區 (加入 min-w-0 防止 Grid 子元素撐破版面) -->
+                <div class="md:col-span-6 min-w-0 space-y-6 md:space-y-10 font-serif text-base md:text-lg leading-[2.4] text-[#161616] order-2 md:order-1 relative z-30 md:pr-10">
+                    <div class="chalk-wash-bg p-2 md:p-0">
+                        <h2 class="font-serif font-black text-[clamp(20px,5vw,2.2rem)] tracking-widest relative inline-block single-line-fit letterpress-text">
+                            第一章：單程車票
+                            <div class="absolute -bottom-2 left-0 w-full h-[3px] bg-[#161616] charcoal-stroke opacity-50"></div>
+                        </h2>
+                        
+                        <div class="space-y-6 md:space-y-8 mt-6 md:mt-8">
+                            <p class="letterpress-text opacity-90 text-justify">民國 62 年，夏天。15 歲的年紀，別的孩子正雀躍地準備換上高中制服，我卻獨自在月台上，默默提著簡陋的行李。</p>
+                            
+                            <!-- 修正：讓長句在手機版優雅換行，字體放大回歸易讀性 -->
+                            <div class="relative py-4 pl-5 md:pl-6">
+                                <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#161616]/40 charcoal-stroke pointer-events-none"></div>
+                                <p class="font-hand text-[clamp(16px,4vw,1.8rem)] font-bold leading-relaxed ink-text-blend">
+                                    「如果我繼續讀書，<br class="md:hidden">弟妹們就得跟著餓肚子了。」
+                                </p>
+                            </div>
+                            
+                            <p class="letterpress-text opacity-90 text-justify">那天，我把渴望讀書的眼淚吞進肚子裡。口袋死死捏著僅有的 <strong class="font-black text-lg md:text-xl">50 塊錢</strong>，換了一張往北的普通車票。火車開動那刻，我不敢回頭。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：少年背影插畫 -->
+                <div class="md:col-span-6 min-w-0 relative h-[300px] sm:h-[350px] md:h-[550px] w-full mt-4 md:mt-0 order-1 md:order-2">
+                    <div class="absolute top-0 left-0 md:left-[10%] w-[100%] h-[100%]">
+                        <div class="boy-illustration-container"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ▎第二章：耗盡力氣 -->
+        <section class="py-24 md:py-40 px-4 md:px-6 reveal relative z-20 dark-charcoal-section shadow-[0_0_50px_rgba(0,0,0,0.9)]">
+            <!-- 裝飾用 SVG 絕對安全 -->
+            <svg class="absolute top-0 left-0 w-full h-4 text-[#e5e1d5] charcoal-stroke opacity-80 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0,0 L100,0 L100,5 Q50,10 0,5 Z" fill="currentColor"/></svg>
+            
+            <div class="max-w-4xl mx-auto text-center space-y-12 md:space-y-16 relative z-10 py-6 md:py-10">
+                <h2 class="font-serif font-black text-[clamp(20px,5vw,3.5rem)] tracking-widest text-[#e5e1d5] single-line-fit mx-auto" style="text-shadow: 0 4px 15px rgba(0,0,0,1);">
+                    光是活著，就耗盡了力氣
+                </h2>
+                <div class="font-serif text-[clamp(14px,3.5vw,1.2rem)] text-gray-400 leading-loose max-w-2xl mx-auto px-2 letterpress-text">
+                    幾十年過去了，當年的少年成了事業有成的董事長。<br>但他始終忘不掉那種「窮到連明天都不敢想」的恐懼。
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 md:gap-8 text-left mt-8 md:mt-12 px-2 md:px-4">
+                    <div class="p-6 md:p-8 border border-[#e5e1d5]/20 bg-black/40 backdrop-blur-sm relative min-w-0">
+                        <span class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#555] to-transparent opacity-60"></span>
+                        <p class="font-serif text-sm md:text-lg text-gray-300 leading-relaxed text-justify">
+                            有多少清寒學子，為了一個 <strong class="text-[#e5e1d5] font-bold border-b border-[#e5e1d5]/50 pb-1">100元的便當</strong> 猶豫半天？
+                        </p>
+                    </div>
+                    <div class="p-6 md:p-8 border border-[#e5e1d5]/20 bg-black/40 backdrop-blur-sm relative min-w-0">
+                        <span class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#555] to-transparent opacity-40"></span>
+                        <p class="font-serif text-sm md:text-lg text-gray-300 leading-relaxed text-justify">
+                            下了課只能直奔打工餐廳端盤子，連 <strong class="text-[#e5e1d5] font-bold border-b border-[#e5e1d5]/50 pb-1">圖書館的椅子</strong> 都沒坐熱過？
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <svg class="absolute bottom-0 left-0 w-full h-4 text-[#e5e1d5] charcoal-stroke opacity-80 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0,10 L100,10 L100,5 Q50,0 0,5 Z" fill="currentColor"/></svg>
+        </section>
+
+        <!-- ▎第三章：贖回青春 -->
+        <section class="py-24 md:py-32 px-4 md:px-6 reveal z-20 relative bg-[var(--color-paper-bg)]">
+            <div class="max-w-4xl mx-auto">
+                <!-- 【關鍵修復】將卡片外框的濾鏡抽離，保護內文 -->
+                <div class="relative z-10 p-6 md:p-16 chalk-wash-bg bg-[#f4f2ea]/30 shadow-2xl">
+                    <div class="absolute inset-0 border-[3px] border-[#1c1c1c] charcoal-stroke pointer-events-none"></div>
+                    
+                    <div class="relative z-20">
+                        <h2 class="font-serif font-black text-[clamp(18px,4.5vw,2rem)] text-[#161616] mb-8 md:mb-10 tracking-widest inline-block letterpress-text single-line-fit">
+                            第三章：贖回青春的承諾
+                        </h2>
+                        
+                        <div class="font-serif text-[15px] md:text-xl leading-[2.5] tracking-wide ink-text-blend">
+                            <p class="font-hand text-[clamp(10px,3.2vw,1.8rem)] mb-4 md:mb-6 font-bold single-line-fit">這份痛，我懂。所以，福爾摩沙公益勳章誕生了。</p>
+                            <p class="letterpress-text opacity-90">我們給出的是一份無比沉重的承諾：</p>
+                            
+                            <div class="relative inline-block my-10 md:my-12 transform rotate-[1.5deg] ml-2 md:ml-10">
+                                <span class="font-serif font-black text-[clamp(45px,12vw,120px)] leading-none charcoal-stroke text-[#161616]">$10,000</span>
+                                <svg class="absolute -inset-4 md:-inset-8 w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] h-[calc(100%+2rem)] md:h-[calc(100%+4rem)] pointer-events-none text-[#161616] charcoal-stroke opacity-80" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <path class="svg-draw-path" d="M10,50 C10,10 90,10 90,50 C90,90 10,90 10,50 M15,45 C15,15 85,15 85,45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            
+                            <p class="letterpress-text opacity-90">每月一萬元，連續 4 年，一天都不間斷。</p>
+                            <p class="letterpress-text opacity-90">這是讓你不用再去端盤子的錢，更是讓你安心做夢的時間。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ▎第四章：擁抱與印鑑 -->
+        <section class="py-32 md:py-40 px-4 md:px-6 reveal z-20 relative overflow-hidden bg-[var(--color-paper-bg)]">
+            <div class="bridge-illustration-container"></div>
+
+            <div class="max-w-4xl mx-auto text-center space-y-16 md:space-y-20 chalk-wash-bg p-4 md:p-12 relative z-10">
+                <div class="space-y-3 md:space-y-4">
+                    <div class="font-hand text-[clamp(14px,3.5vw,1.5rem)] text-[#161616] font-bold ink-text-blend single-line-fit opacity-90">
+                        「孩子，外面的風雨再大，你們都不要怕。
+                    </div>
+                    <div class="font-hand text-[clamp(14px,3.5vw,1.5rem)] text-[#161616] font-bold ink-text-blend single-line-fit opacity-90">
+                        安心去飛吧，底下的網，王爸替你們撐著。」
+                    </div>
+                </div>
+                
+                <div class="pt-8 flex flex-col items-center overflow-visible max-w-full px-4">
+                    <!-- 修正：改用 inline-flex 與 max-w-full，確保字體放大時印章絕對不會飛出螢幕 -->
+                    <div class="relative inline-flex items-center justify-center pr-14 md:pr-20 max-w-full">
+                        <div class="flex items-end gap-1 md:gap-2 ink-text-blend text-[#161616] shrink-0">
+                            <span class="font-hand font-bold text-[clamp(40px,9vw,70px)] transform rotate-[-3deg]">王</span>
+                            <span class="font-hand font-bold text-[clamp(40px,9vw,70px)] transform translate-y-2 rotate-[2deg]">敏</span>
+                            <span class="font-hand font-bold text-[clamp(40px,9vw,70px)] transform rotate-[-1deg]">勳</span>
+                        </div>
+                        
+                        <div class="stamp-animate absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border-[3.5px] border-[#a12323] text-[#a12323] charcoal-stroke mix-blend-multiply bg-[#e5e1d5]/50 rotate-[10deg] shrink-0">
+                            <span class="font-serif font-black text-sm md:text-lg leading-none tracking-widest" style="writing-mode: vertical-rl;">敏勳<br>之印</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ▎第五章：行動區 -->
+        <section class="pb-32 md:pb-40 pt-16 reveal z-10 relative bg-[var(--color-paper-bg)]">
+            <div class="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-6 md:gap-12">
+                
+                <div class="thick-card-cta p-8 md:p-14 flex flex-col justify-between group cursor-pointer text-[#161616] min-w-0">
+                    <div class="relative z-10">
+                        <span class="font-sans text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase mb-6 md:mb-8 block opacity-60">For Students</span>
+                        <h4 class="font-serif font-black text-[clamp(14px,4vw,2rem)] mb-4 md:mb-6 leading-tight single-line-fit letterpress-text">我是快撐不下去的學子</h4>
+                        <p class="font-serif text-sm md:text-lg font-medium leading-relaxed mb-10 md:mb-12 opacity-80 letterpress-text text-justify">別再一個人咬牙硬撐了。這張通往未來的車票，王爸為你買好了。</p>
+                    </div>
+                    <div class="font-serif font-bold text-base md:text-xl border-b-[3px] border-[#161616] pb-1 md:pb-2 inline-block self-start letterpress-text group-hover:pr-4 transition-all">
+                        申請獎助學金 ➔
+                    </div>
+                </div>
+
+                <div class="thick-card-cta bg-[#1c1c1c] text-[#e5e1d5] p-8 md:p-14 flex flex-col justify-between group cursor-pointer min-w-0">
+                    <div class="relative z-10">
+                        <span class="font-sans text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase mb-6 md:mb-8 block opacity-60">For Donors</span>
+                        <h4 class="font-serif font-black text-[clamp(14px,4vw,2rem)] mb-4 md:mb-6 leading-tight single-line-fit letterpress-text text-[#e5e1d5]">我想成為黑夜中的星光</h4>
+                        <p class="font-serif text-sm md:text-lg font-medium leading-relaxed mb-10 md:mb-12 opacity-80 letterpress-text text-[#e5e1d5] text-justify">請把這個故事傳遞出去。你的分享，就能穩穩接住一個即將墜落的生命。</p>
+                    </div>
+                    <div class="font-serif font-bold text-base md:text-xl border-b-[3px] border-[#e5e1d5] pb-1 md:pb-2 inline-block self-start letterpress-text text-[#e5e1d5] group-hover:pr-4 transition-all">
+                        支持我們 / 聯絡協會 ➔
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- ▎頁尾 -->
+        <footer class="py-16 md:py-20 px-4 md:px-6 z-10 relative bg-[var(--color-paper-bg)]">
+            <div class="absolute top-0 left-0 w-full border-t-[3px] border-[#161616] charcoal-stroke pointer-events-none"></div>
+            
+            <div class="max-w-5xl mx-auto text-center space-y-10 md:space-y-16 chalk-wash-bg p-4 md:p-8 w-full">
+                <!-- 修正：加入手機版斷行，確保長輩大字體也不會被裁切 -->
+                <div class="font-serif text-[clamp(14px,3.5vw,1.5rem)] tracking-[0.2em] md:tracking-[0.5em] font-bold ink-text-blend letterpress-text leading-relaxed">
+                    「願所有的夢想，<br class="md:hidden">都能找到降落的依靠。」
+                </div>
+                <div class="font-sans text-[8px] md:text-[10px] tracking-[0.1em] md:tracking-[0.2em] uppercase ink-text-blend opacity-70 font-bold single-line-fit">
+                    財團法人福爾摩沙公益勳章教育基金會 © All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+
+    </div> <!-- /#app-wrapper -->
+
+    <script>
+        // 打字機：單行不跨行
+        const heroText = "你還記得，夢想被撕碎的感覺嗎？";
+        async function startHero() {
+            const container = document.getElementById('hero-title');
+            if(!container) return;
+            container.classList.add('typing');
+            for (let i = 0; i <= heroText.length; i++) {
+                container.textContent = heroText.slice(0, i);
+                await new Promise(r => setTimeout(r, 150)); 
+            }
+        }
+
+        // 動態生成飄浮炭灰
+        function generateDust() {
+            const container = document.getElementById('dust-container');
+            if(!container) return;
+            for (let i = 0; i < 50; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust-particle';
+                dust.style.width = `${Math.random() * 3 + 1}px`;
+                dust.style.height = dust.style.width;
+                dust.style.left = `${Math.random() * 100}%`;
+                dust.style.bottom = '-5%';
+                
+                if (Math.random() > 0.5) {
+                    dust.style.backgroundColor = '#161616';
+                } else {
+                    dust.style.backgroundColor = '#e5e1d5';
+                    dust.style.mixBlendMode = 'overlay';
+                }
+                
+                dust.style.setProperty('--float-duration', `${15 + Math.random() * 30}s`);
+                dust.style.setProperty('--max-opacity', `${0.1 + Math.random() * 0.4}`);
+                dust.style.setProperty('--drift', `${-100 + Math.random() * 200}px`);
+                dust.style.animationDelay = `-${Math.random() * 20}s`; 
+                
+                container.appendChild(dust);
+            }
+        }
+
+        // 動態 SVG 自繪動畫
+        function setupSvgDrawing() {
+            const paths = document.querySelectorAll('.svg-draw-path');
+            paths.forEach(path => {
+                const length = path.getTotalLength();
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        window.onload = () => {
+            startHero();
+            generateDust();
+            setupSvgDrawing();
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        };
+    </script>
+</body>
+</html>
