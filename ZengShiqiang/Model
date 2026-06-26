@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康家 HealthHome - 歡迎回家，卸下防備</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for warm warm-homey icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for premium serif and sans-serif typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FAF8F5; /* Cozy Warm Beige background */
+            color: #333333;
+            overflow-x: hidden;
+        }
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
+        }
+        /* Soft, premium visual glow for home lamp */
+        .lamp-glow {
+            box-shadow: 0 0 100px 40px rgba(245, 158, 11, 0.2);
+        }
+        /* Custom transitions for a fluid aesthetic */
+        .smooth-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom scrollbar to match the design style */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5DCD3;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CDBCAC;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- STAGE 1: Splash Welcome Screen with sequential narrative -->
+    <div id="splashScreen" class="fixed inset-0 z-50 bg-stone-900 text-stone-100 flex flex-col justify-center items-center px-4 smooth-transition">
+        <!-- Floating lamp light symbol -->
+        <div class="absolute top-1/4 w-32 h-32 rounded-full bg-amber-500 opacity-20 filter blur-3xl lamp-glow"></div>
+        <div class="absolute top-1/4 w-0.5 h-20 bg-gradient-to-b from-stone-900 to-amber-500/80 rounded-b-lg"></div>
+        
+        <div class="max-w-2xl text-center space-y-10 z-10">
+            <!-- Sequential texts -->
+            <div class="h-28 flex flex-col justify-center items-center space-y-3">
+                <p id="splashText1" class="text-xl md:text-2xl font-serif-tc tracking-wider text-stone-400 opacity-0 transform translate-y-4 smooth-transition duration-1000">
+                    「把外面的風雨留給世界，」
+                </p>
+                <p id="splashText2" class="text-xl md:text-2xl font-serif-tc tracking-wider text-amber-100/90 opacity-0 transform translate-y-4 smooth-transition duration-1000">
+                    「把最暖的健康帶回家。」
+                </p>
+            </div>
+
+            <!-- Welcome message & button -->
+            <div id="splashText3" class="space-y-6 opacity-0 transform translate-y-8 smooth-transition duration-1000">
+                <h1 class="text-4xl md:text-5xl font-serif-tc font-bold tracking-widest text-amber-500">
+                    歡迎回家，健康家
+                </h1>
+                <p class="text-sm md:text-base text-stone-400 max-w-md mx-auto leading-relaxed">
+                    在我們家，你不需要當化學專家，也能吃得安心。<br>
+                    放鬆下來，隨意逛逛吧。
+                </p>
+                
+                <div class="pt-6 space-y-3">
+                    <button 
+                        onclick="enterSite()"
+                        class="px-8 py-4 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold tracking-wider rounded-full shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 font-serif-tc"
+                    >
+                        輕推開門，回到健康家
+                    </button>
+                    <p class="text-xs text-stone-500 tracking-wide animate-pulse">
+                        *換上拖鞋，卸下在外面一整天的防備
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 2: Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-orange-100/50 smooth-transition">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <div onclick="switchTab('home')" class="flex items-center space-x-2 cursor-pointer group">
+                <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-serif-tc text-xl font-bold shadow-md shadow-orange-500/20 group-hover:scale-105 smooth-transition">
+                    家
+                </div>
+                <div>
+                    <span class="text-lg font-bold font-serif-tc text-stone-800 group-hover:text-orange-600 smooth-transition">健康家</span>
+                    <p class="text-[10px] text-stone-400 tracking-wider">HealthHome</p>
+                </div>
+            </div>
+
+            <!-- Desktop Menu Structure -->
+            <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-stone-600">
+                <!-- Dropdown 1: 我想照顧... -->
+                <div class="relative group py-2">
+                    <button class="flex items-center space-x-1 hover:text-orange-600 transition font-semibold text-stone-800">
+                        <span>我想照顧...</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 group-hover:text-orange-600 transition"></i>
+                    </button>
+                    
+                    <!-- Expanded Submenu -->
+                    <div class="absolute left-1/2 -translate-x-1/2 mt-2 w-[520px] bg-white rounded-2xl shadow-xl border border-orange-100/50 p-4 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top grid grid-cols-2 gap-3 z-50">
+                        <div onclick="switchTab('products', 'self')" class="p-3.5 rounded-xl hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-800 font-serif-tc text-sm flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                <span>照顧自己</span>
+                            </p>
+                            <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed">給工作滿載、辛苦一整天的你。補滿電力。</p>
+                        </div>
+                        <div onclick="switchTab('products', 'parents')" class="p-3.5 rounded-xl hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-800 font-serif-tc text-sm flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                <span>照顧爸媽</span>
+                            </p>
+                            <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed">關節關卡靈活、調整體質、夜夜好眠。這次換我們當靠山。</p>
+                        </div>
+                        <div onclick="switchTab('products', 'family')" class="p-3.5 rounded-xl hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-800 font-serif-tc text-sm flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                <span>照顧全家</span>
+                            </p>
+                            <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed">換季時的溫暖底子、腸道消化守護。全家人天天安心吃。</p>
+                        </div>
+                        <div onclick="switchTab('products', 'women')" class="p-3.5 rounded-xl hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-800 font-serif-tc text-sm flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                <span>寵愛女性</span>
+                            </p>
+                            <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed">由內而外的透亮、最細緻的私密守護。妳認真愛自己的證據。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dropdown 2: 我們家的廚房 -->
+                <div class="relative group py-2">
+                    <button class="flex items-center space-x-1 hover:text-orange-600 transition">
+                        <span>我們家的廚房</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 group-hover:text-orange-600 transition"></i>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-[260px] bg-white rounded-2xl shadow-xl border border-orange-100/50 p-3 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top-left space-y-1 z-50">
+                        <div onclick="switchTab('kitchen', 'promise')" class="p-2.5 rounded-lg hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-700 text-xs">我們對家人的減法承諾</p>
+                            <p class="text-[10px] text-stone-400 mt-0.5">堅持無非必要添加劑、0防腐劑</p>
+                        </div>
+                        <div onclick="switchTab('kitchen', 'sourcing')" class="p-2.5 rounded-lg hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-700 text-xs">嚴選食材溯源牆</p>
+                            <p class="text-[10px] text-stone-400 mt-0.5">原料產地、大廠專利大方公開</p>
+                        </div>
+                        <div onclick="switchTab('kitchen', 'reports')" class="p-2.5 rounded-lg hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-700 text-xs">天天安心吃下的實證報告</p>
+                            <p class="text-[10px] text-stone-400 mt-0.5">重金屬塑化劑零殘留，透明如家書</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dropdown 3: 常備溫暖好物 -->
+                <div class="relative group py-2">
+                    <button class="flex items-center space-x-1 hover:text-orange-600 transition">
+                        <span>常備溫暖好物</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 group-hover:text-orange-600 transition"></i>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-[280px] bg-white rounded-2xl shadow-xl border border-orange-100/50 p-3 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top-left space-y-1 z-50">
+                        <div onclick="switchTab('products', 'all')" class="p-2.5 rounded-lg hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-700 text-xs">櫃子裡的常備補給</p>
+                            <p class="text-[10px] text-stone-400 mt-0.5">全系列常備配方：魚油、B群、益生菌</p>
+                        </div>
+                        <div onclick="switchTab('products', 'subscription')" class="p-2.5 rounded-lg hover:bg-orange-50/50 cursor-pointer text-left transition">
+                            <p class="font-bold text-stone-700 text-xs">家人的定時關心（定期購 85 折）</p>
+                            <p class="text-[10px] text-stone-400 mt-0.5">每個月新鮮配送到家，愛不中斷</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4: 客廳泡茶聊聊天 -->
+                <button onclick="switchTab('faq')" class="hover:text-orange-600 transition py-2">
+                    客廳泡茶聊聊天
+                </button>
+            </nav>
+
+            <!-- Utility and Shopping Cart Controls -->
+            <div class="flex items-center space-x-4">
+                <!-- Mobile Navigation Toggle -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-stone-600 hover:text-orange-600 transition">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
+                <!-- Room Door (Login) -->
+                <button onclick="openModal('loginModal')" class="text-stone-600 hover:text-orange-600 transition flex items-center space-x-1.5 text-sm font-medium">
+                    <i class="fa-regular fa-user text-lg"></i>
+                    <span class="hidden sm:inline">回家房門</span>
+                </button>
+
+                <!-- Cozy Cabinet Drawer (Cart) -->
+                <button onclick="toggleCartDrawer()" class="relative p-2.5 bg-orange-50 hover:bg-orange-100/80 rounded-full transition group">
+                    <i class="fa-solid fa-basket-shopping text-orange-600 text-base group-hover:scale-110 smooth-transition"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-orange-600 text-white text-[10px] w-5 h-5 rounded-full hidden items-center justify-center font-bold shadow-md">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-orange-50 p-4 space-y-4 shadow-inner">
+            <div class="space-y-2">
+                <p class="text-xs font-bold text-stone-400 tracking-wider mb-2 uppercase">我想照顧...</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="switchTab('products', 'self'); toggleMobileMenu()" class="p-2 text-left bg-orange-50/40 hover:bg-orange-50 rounded-xl text-xs font-medium text-stone-700">照顧自己</button>
+                    <button onclick="switchTab('products', 'parents'); toggleMobileMenu()" class="p-2 text-left bg-orange-50/40 hover:bg-orange-50 rounded-xl text-xs font-medium text-stone-700">照顧爸媽</button>
+                    <button onclick="switchTab('products', 'family'); toggleMobileMenu()" class="p-2 text-left bg-orange-50/40 hover:bg-orange-50 rounded-xl text-xs font-medium text-stone-700">照顧全家</button>
+                    <button onclick="switchTab('products', 'women'); toggleMobileMenu()" class="p-2 text-left bg-orange-50/40 hover:bg-orange-50 rounded-xl text-xs font-medium text-stone-700">寵愛女性</button>
+                </div>
+            </div>
+            <hr class="border-orange-50">
+            <div class="space-y-1 text-sm font-semibold">
+                <button onclick="switchTab('kitchen'); toggleMobileMenu()" class="w-full text-left py-2 text-stone-600 hover:text-orange-600">我們家的廚房</button>
+                <button onclick="switchTab('products', 'all'); toggleMobileMenu()" class="w-full text-left py-2 text-stone-600 hover:text-orange-600">櫃子裡的常備好物</button>
+                <button onclick="switchTab('faq'); toggleMobileMenu()" class="w-full text-left py-2 text-stone-600 hover:text-orange-600">客廳泡茶聊聊天</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN INTERACTIVE PORTALS -->
+    <main class="flex-grow">
+        
+        <!-- ================= HOME PAGE ================= -->
+        <section id="tab-home" class="tab-content transition-opacity duration-300">
+            <!-- Hero banner section -->
+            <div class="relative overflow-hidden py-16 md:py-24 bg-gradient-to-b from-orange-50/50 to-stone-50">
+                <div class="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Narrative block -->
+                    <div class="lg:col-span-7 space-y-6 text-left">
+                        <div class="inline-flex items-center space-x-2 bg-orange-100 text-orange-700 px-3.5 py-1.5 rounded-full text-xs font-semibold">
+                            <span>🏡 健康家，把客戶當家人</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-serif-tc font-bold text-stone-800 leading-tight">
+                            外面的世界很大很吵，<br>
+                            <span class="text-orange-600">回到家，就把疲憊卸下來。</span>
+                        </h2>
+                        <p class="text-stone-500 max-w-lg leading-relaxed text-sm md:text-base">
+                            在健康家，我們不強推大份量促銷，更不堆砌艱深的化學術語。就像媽媽在廚房張羅飯菜，我們坦誠公開每一款產地原料，堅持零化學防腐劑，只為給最親愛的家人最真誠的照顧。
+                        </p>
+                        <div class="pt-4 flex flex-wrap gap-4">
+                            <button onclick="switchTab('products', 'all')" class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-full shadow-lg shadow-orange-500/20 transition duration-300">
+                                帶些常備好物回家
+                            </button>
+                            <button onclick="switchTab('kitchen')" class="px-8 py-4 bg-white hover:bg-orange-50 text-orange-700 font-medium rounded-full border border-orange-200/60 transition duration-300">
+                                參觀我們家的廚房
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick family分流 selection panel -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-stone-200/50 border border-orange-100/20 relative">
+                            <h3 class="text-xl font-bold font-serif-tc text-stone-800 text-left mb-6">
+                                👪 今天你想先照顧誰？
+                            </h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div onclick="switchTab('products', 'self')" class="group p-4 bg-orange-50/50 hover:bg-orange-50 rounded-2xl cursor-pointer transition border border-transparent hover:border-orange-200 flex justify-between items-center text-left">
+                                    <div>
+                                        <p class="font-bold text-stone-800 font-serif-tc text-base">辛苦了，日夜奔忙的自己</p>
+                                        <p class="text-xs text-stone-500 mt-1">日夜奔忙，幫你補滿每日元氣與清晰思緒</p>
+                                    </div>
+                                    <span class="text-orange-500 font-serif-tc font-bold text-lg group-hover:translate-x-1 transition-transform">→</span>
+                                </div>
+
+                                <div onclick="switchTab('products', 'parents')" class="group p-4 bg-orange-50/50 hover:bg-orange-50 rounded-2xl cursor-pointer transition border border-transparent hover:border-orange-200 flex justify-between items-center text-left">
+                                    <div>
+                                        <p class="font-bold text-stone-800 font-serif-tc text-base">最珍視、也開始變老的爸媽</p>
+                                        <p class="text-xs text-stone-500 mt-1">關節靈活、安穩好眠，換我們來當大樹守護</p>
+                                    </div>
+                                    <span class="text-orange-500 font-serif-tc font-bold text-lg group-hover:translate-x-1 transition-transform">→</span>
+                                </div>
+
+                                <div onclick="switchTab('products', 'family')" class="group p-4 bg-orange-50/50 hover:bg-orange-50 rounded-2xl cursor-pointer transition border border-transparent hover:border-orange-200 flex justify-between items-center text-left">
+                                    <div>
+                                        <p class="font-bold text-stone-800 font-serif-tc text-base">守護全家人健康的那頂大傘</p>
+                                        <p class="text-xs text-stone-500 mt-1">最基本的常備防護，調整好體質與健康基底</p>
+                                    </div>
+                                    <span class="text-orange-500 font-serif-tc font-bold text-lg group-hover:translate-x-1 transition-transform">→</span>
+                                </div>
+
+                                <div onclick="switchTab('products', 'women')" class="group p-4 bg-orange-50/50 hover:bg-orange-50 rounded-2xl cursor-pointer transition border border-transparent hover:border-orange-200 flex justify-between items-center text-left">
+                                    <div>
+                                        <p class="font-bold text-stone-800 font-serif-tc text-base">值得寵愛、閃閃發光的妳</p>
+                                        <p class="text-xs text-stone-500 mt-1">內在純淨守護，綻放自然光采的自信實證</p>
+                                    </div>
+                                    <span class="text-orange-500 font-serif-tc font-bold text-lg group-hover:translate-x-1 transition-transform">→</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Core brand trust values -->
+            <div class="py-20 max-w-7xl mx-auto px-4 md:px-8">
+                <div class="text-center max-w-xl mx-auto mb-16">
+                    <h3 class="text-3xl font-serif-tc font-bold text-stone-800">
+                        在我們家，健康變得很簡單
+                    </h3>
+                    <p class="text-stone-500 mt-3 text-sm leading-relaxed">
+                        把繁瑣的生技名詞，交給我們的廚房把關；你只需要安心陪伴你愛的人。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100/50 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mx-auto text-orange-600 text-2xl font-bold font-serif-tc">
+                            減
+                        </div>
+                        <h4 class="text-xl font-bold font-serif-tc text-stone-800">無添加的極致減法</h4>
+                        <p class="text-stone-500 text-sm leading-relaxed">
+                            我們不放任何非必要的化學賦形劑、0防腐劑、0化學色素。用純粹天然成分，減少你身體每天的額外負擔。
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100/50 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mx-auto text-orange-600 text-2xl font-bold font-serif-tc">
+                            誠
+                        </div>
+                        <h4 class="text-xl font-bold font-serif-tc text-stone-800">產地與原料誠實牆</h4>
+                        <p class="text-stone-500 text-sm leading-relaxed">
+                            我們主動公開每一款原料的專利來源與生產地，讓你像認得巷口有機菜攤的老闆一樣放心。
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100/50 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mx-auto text-orange-600 text-2xl font-bold font-serif-tc">
+                            信
+                        </div>
+                        <h4 class="text-xl font-bold font-serif-tc text-stone-800">像家書般透明報告</h4>
+                        <p class="text-stone-500 text-sm leading-relaxed">
+                            每一批產品皆經SGS塑化劑與重金屬全方位檢驗。不合格的絕對不上桌，保障家人的生活底線。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= KITCHEN PAGE ================= -->
+        <section id="tab-kitchen" class="tab-content hidden transition-opacity duration-300">
+            <div class="py-16 max-w-5xl mx-auto px-4 md:px-8 space-y-16 text-left">
+                
+                <div class="text-center space-y-4">
+                    <span class="text-orange-600 font-semibold tracking-wider text-sm uppercase">Our Kitchen</span>
+                    <h2 class="text-4xl font-serif-tc font-bold text-stone-800">我們家的廚房</h2>
+                    <p class="text-stone-500 max-w-xl mx-auto text-sm leading-relaxed">
+                        在這裡，沒有工廠冷冰冰的化學氣味。像媽媽張羅全家的晚餐，我們對成分嚴苛挑剔，全過程溫柔透明。
+                    </p>
+                </div>
+
+                <!-- Part 1: 減法承諾 -->
+                <div id="section-promise" class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-orange-100/40 grid grid-cols-1 md:grid-cols-2 gap-8 items-center scroll-mt-24">
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-orange-500 uppercase tracking-widest">PROMISE</span>
+                        <h3 class="text-2xl font-serif-tc font-bold text-stone-800">
+                            對家人的減法承諾
+                        </h3>
+                        <p class="text-stone-500 text-sm leading-relaxed">
+                            在一般保健品中，經常可以見到人工色素、二氧化鈦、化學防腐劑或糖粉，目的是讓外觀更好看、口感更好吃，或加速機器運轉。
+                        </p>
+                        <p class="text-stone-700 text-sm leading-relaxed font-semibold font-serif-tc border-l-2 border-orange-500 pl-3">
+                            「但吃在肚子裡給家人的，我們不求漂亮，只求乾淨。」
+                        </p>
+                        <ul class="pt-2 space-y-2.5 text-stone-600 text-xs md:text-sm">
+                            <li class="flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-check text-orange-500"></i>
+                                <span>堅持零添加非必要賦形劑、化學合成著色料</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-check text-orange-500"></i>
+                                <span>全素或天然膠囊包材選用，易吞服無殘留</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-check text-orange-500"></i>
+                                <span>無防腐劑，高精密度密閉小瓶包裝</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-orange-50/40 p-6 rounded-2xl text-center space-y-4 border border-orange-100/50">
+                        <div class="text-stone-800 font-bold font-serif-tc text-base mb-2">我們在廚房大方剔除了：</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-white p-3.5 rounded-xl border border-stone-100 text-xs text-stone-600 font-semibold shadow-sm">❌ 人工色素</div>
+                            <div class="bg-white p-3.5 rounded-xl border border-stone-100 text-xs text-stone-600 font-semibold shadow-sm">❌ 糖粉與果汁粉</div>
+                            <div class="bg-white p-3.5 rounded-xl border border-stone-100 text-xs text-stone-600 font-semibold shadow-sm">❌ 化學安定劑</div>
+                            <div class="bg-white p-3.5 rounded-xl border border-stone-100 text-xs text-stone-600 font-semibold shadow-sm">❌ 二氧化鈦</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: 嚴選食材溯源牆 -->
+                <div id="section-sourcing" class="space-y-6 scroll-mt-24">
+                    <div class="border-l-4 border-orange-500 pl-4">
+                        <h3 class="text-2xl font-serif-tc font-bold text-stone-800">
+                            嚴選食材溯源牆
+                        </h3>
+                        <p class="text-stone-500 text-sm mt-1">
+                            每一粒安心的原料，都有清澈的來處，不需當化學專家也能看得懂。
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition text-center border border-stone-100 flex flex-col justify-between">
+                            <div>
+                                <span class="bg-orange-50 text-orange-700 text-[10px] px-2.5 py-1 rounded-full font-bold">專利高純魚油</span>
+                                <h4 class="font-bold text-lg text-stone-800 font-serif-tc mt-4">智利純淨海域</h4>
+                            </div>
+                            <p class="text-xs text-stone-500 mt-3 leading-relaxed">南太平洋無污染、重金屬與塑化劑累積之小型深海魚</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition text-center border border-stone-100 flex flex-col justify-between">
+                            <div>
+                                <span class="bg-orange-50 text-orange-700 text-[10px] px-2.5 py-1 rounded-full font-bold">深層放鬆 GABA</span>
+                                <h4 class="font-bold text-lg text-stone-800 font-serif-tc mt-4">日本專利大廠</h4>
+                            </div>
+                            <p class="text-xs text-stone-500 mt-3 leading-relaxed">乳酸菌發酵提純，精準維持夜晚的高品質安定與好眠</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition text-center border border-stone-100 flex flex-col justify-between">
+                            <div>
+                                <span class="bg-orange-50 text-orange-700 text-[10px] px-2.5 py-1 rounded-full font-bold">常衛益生菌</span>
+                                <h4 class="font-bold text-lg text-stone-800 font-serif-tc mt-4">台灣在地發酵</h4>
+                            </div>
+                            <p class="text-xs text-stone-500 mt-3 leading-relaxed">適合東方人日常飲食習慣與敏感體質的多重複合菌株</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition text-center border border-stone-100 flex flex-col justify-between">
+                            <div>
+                                <span class="bg-orange-50 text-orange-700 text-[10px] px-2.5 py-1 rounded-full font-bold">UC-II膠原蛋白</span>
+                                <h4 class="font-bold text-lg text-stone-800 font-serif-tc mt-4">美國專利原廠</h4>
+                            </div>
+                            <p class="text-xs text-stone-500 mt-3 leading-relaxed">原廠認證足量授權，靈活行動力的科學守護配方</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 3: 天天安心吃的實證報告 -->
+                <div id="section-reports" class="bg-stone-800 text-stone-100 p-8 md:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-8 scroll-mt-24">
+                    <div class="space-y-4 text-left">
+                        <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-semibold">
+                            TRUST & SECURITY
+                        </span>
+                        <h3 class="text-2xl font-serif-tc font-bold">
+                            天天安心吃下的實證報告
+                        </h3>
+                        <p class="text-stone-300 text-sm max-w-xl leading-relaxed">
+                            我們的每一批成品包裝，像「寫給家人的家書」一樣清澈明亮。不搞含糊其詞，從重金屬、防腐劑，到大腸桿菌與農藥殘留，皆取得最高規的合格安全證明。
+                        </p>
+                        <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-stone-400">
+                            <span><i class="fa-solid fa-shield-halved text-amber-500 mr-1.5"></i>SGS 檢驗 100% 重金屬無檢出</span>
+                            <span><i class="fa-solid fa-shield-halved text-amber-500 mr-1.5"></i>380項常見西藥及農藥零殘留</span>
+                            <span><i class="fa-solid fa-shield-halved text-amber-500 mr-1.5"></i>塑化劑安全合格檢驗報告</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center flex flex-col justify-center items-center w-52 h-52 shrink-0">
+                        <div class="text-4xl font-serif-tc font-bold text-amber-500">100%</div>
+                        <p class="text-xs font-bold mt-2 text-stone-200">安全誠實底線</p>
+                        <p class="text-[11px] text-stone-400 mt-2 leading-relaxed">全線產品均投保5000萬責任險</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= PRODUCTS PAGE ================= -->
+        <section id="tab-products" class="tab-content hidden transition-opacity duration-300">
+            <div class="py-16 max-w-7xl mx-auto px-4 md:px-8 space-y-12">
+                
+                <div class="text-center space-y-4 max-w-2xl mx-auto">
+                    <span class="text-orange-600 font-semibold tracking-wider text-sm uppercase">Home Supplying Cabinet</span>
+                    <h2 class="text-3xl md:text-4xl font-serif-tc font-bold text-stone-800">
+                        櫃子裡的常備好物
+                    </h2>
+                    <p class="text-stone-500 text-sm">
+                        生活一忙常常忘記補給嗎？除去令人防備的推銷，這就是你家桌上隨時需要的溫暖補充。
+                    </p>
+                    
+                    <!-- Sub-category filters for interactive routing -->
+                    <div class="flex flex-wrap justify-center gap-2 pt-4">
+                        <button onclick="filterProducts('all')" id="btn-filter-all" class="filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-600 text-white shadow-md">
+                            顯示全部
+                        </button>
+                        <button onclick="filterProducts('self')" id="btn-filter-self" class="filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-50 text-orange-800 hover:bg-orange-100">
+                            辛苦的自己 (B群/魚油)
+                        </button>
+                        <button onclick="filterProducts('parents')" id="btn-filter-parents" class="filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-50 text-orange-800 hover:bg-orange-100">
+                            親愛的爸媽 (關節/好眠)
+                        </button>
+                        <button onclick="filterProducts('family')" id="btn-filter-family" class="filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-50 text-orange-800 hover:bg-orange-100">
+                            全家人日常 (消化/元氣)
+                        </button>
+                        <button onclick="filterProducts('women')" id="btn-filter-women" class="filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-50 text-orange-800 hover:bg-orange-100">
+                            閃閃發光的妳 (美顏/私密)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Dynamic Product Cards will be injected here via JavaScript -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= FAQ PAGE ================= -->
+        <section id="tab-faq" class="tab-content hidden transition-opacity duration-300">
+            <div class="py-16 max-w-4xl mx-auto px-4 md:px-8 space-y-12 text-left">
+                
+                <div class="text-center space-y-4">
+                    <span class="text-orange-600 font-semibold tracking-wider text-sm uppercase">Living Room Chat</span>
+                    <h2 class="text-4xl font-serif-tc font-bold text-stone-800">客廳泡茶聊聊天</h2>
+                    <p class="text-stone-500 max-w-xl mx-auto text-sm leading-relaxed">
+                        在我們家，不強求你馬上點擊購買，我們像鄰居一樣在這裡準備了一壺熱茶，隨時歡迎你來坐坐，聊聊最近的生活與身體狀況。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Informative left section -->
+                    <div class="space-y-6">
+                        <div class="bg-orange-50/50 p-6 rounded-2xl border border-orange-100/60">
+                            <h3 class="text-lg font-bold text-stone-800 font-serif-tc flex items-center space-x-2">
+                                <i class="fa-solid fa-mug-hot text-orange-600"></i>
+                                <span>敲敲健康長輩（隨時在客廳等您）</span>
+                            </h3>
+                            <p class="text-xs text-stone-500 mt-2 leading-relaxed">
+                                對吃法有疑問？不知道該怎麼幫爸媽挑選？隨時在網頁右下角敲敲長輩。完全不強迫銷售，就像老鄰居般的誠懇解答。
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-orange-100/50 flex space-x-3">
+                                <button onclick="toggleChatbox(true)" class="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-full transition shadow-sm">
+                                    現在跟長輩聊聊
+                                </button>
+                                <a href="tel:0800000111" class="px-5 py-2.5 bg-white hover:bg-orange-50 text-orange-800 text-xs font-bold rounded-full border border-orange-200 transition">
+                                    撥打家常熱線
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-4">
+                            <h4 class="font-bold text-stone-800 text-sm">🏡 我們家最堅定的安全網</h4>
+                            <div class="space-y-3 text-xs text-stone-600 leading-relaxed">
+                                <p><strong>• 30天無痛退換保證：</strong> 家裡最重要的是放心。若家人吃不習慣、不適應，30天內隨時退換，無需繁雜手續與質問。</p>
+                                <p><strong>• 絕不電話騷擾：</strong> 我們絕對不會主動打推銷電話給您，更不會洩漏您與家人的個資給外界。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Accoridan/List Section -->
+                    <div class="bg-white p-8 rounded-3xl shadow-md border border-orange-100/20 space-y-6">
+                        <h3 class="text-xl font-bold font-serif-tc text-stone-800">
+                            ☕ 客廳最常被問到的家常話
+                        </h3>
+                        
+                        <div class="space-y-4 divide-y divide-stone-100">
+                            <div class="pt-4 first:pt-0">
+                                <p class="font-bold text-stone-800 text-sm">Q. 這裡的產品吃不習慣可以退款嗎？</p>
+                                <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                                    當然可以！家人吃得放心是我們的第一宗旨。只要是不合適、不習慣，購買後 30 天內，跟我們說一聲，我們便無痛為你處理退換，就像在家跟媽媽說不喜歡這道菜一樣自然。
+                                </p>
+                            </div>
+
+                            <div class="pt-4">
+                                <p class="font-bold text-stone-800 text-sm">Q. 什麼是「家人的定時關心」自動配送？</p>
+                                <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                                    日常繁忙，常常一累就忘了按時吃或補貨。自動配送計畫每個月會在固定的時候為你準備好最新鮮的營養配方送到府上。因為是回頭常客，我們大方提供85折專屬家人價，隨時可以取消，不收任何綁約費。
+                                </p>
+                            </div>
+
+                            <div class="pt-4">
+                                <p class="font-bold text-stone-800 text-sm">Q. 素食者可以吃你們的配方嗎？</p>
+                                <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                                    我們廚房的所有產品中，除了深海魚油來自海洋，其他的如 GABA安心鎂、常衛益生菌、雙效蔓越莓等，我們都堅持選用 100% 植物性天然膠囊，素食者可以安心吃下。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- STAGE 3: Footer Navigation System -->
+    <footer class="bg-stone-900 text-stone-400 pt-16 pb-8 border-t border-stone-800 text-left">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            
+            <!-- Company Intro -->
+            <div class="space-y-4">
+                <span class="text-lg font-bold font-serif-tc text-stone-200">健康家 HealthHome</span>
+                <p class="text-xs text-stone-500 leading-relaxed">
+                    我們相信，真正好的保健食品不用過度吹噓。回歸到家人的初衷，像照顧身邊最愛的人一樣，提供實質誠懇的原料。
+                </p>
+                <div class="text-xs text-stone-500">
+                    © 2026 健康家. All rights reserved.
+                </div>
+            </div>
+
+            <!-- Footer Room Links -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-stone-200 text-sm tracking-wider">回到各個房間</h4>
+                <ul class="space-y-2.5 text-xs">
+                    <li><button onclick="switchTab('home')" class="hover:text-amber-500 transition">玄關門口 (回首頁)</button></li>
+                    <li><button onclick="switchTab('kitchen')" class="hover:text-amber-500 transition">我們家的廚房 (選品哲學)</button></li>
+                    <li><button onclick="switchTab('products')" class="hover:text-amber-500 transition">櫃子裡的常備好物 (全產品)</button></li>
+                    <li><button onclick="switchTab('faq')" class="hover:text-amber-500 transition">客廳泡茶聊聊 (售後諮詢)</button></li>
+                </ul>
+            </div>
+
+            <!-- Footer Terms and Warnings -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-stone-200 text-sm tracking-wider">我們給你的底線保障</h4>
+                <ul class="space-y-2.5 text-xs">
+                    <li><button onclick="switchTab('faq')" class="hover:text-amber-500 transition">30天安心退換條款 (寫得像家書般好懂)</button></li>
+                    <li><a href="#" class="hover:text-amber-500 transition">隱私與數據安全 (不外洩任何家人資料)</a></li>
+                    <li class="text-amber-500 font-semibold space-y-1">
+                        <span>🛡️ 防詐騙體貼提醒：</span>
+                        <span class="block text-[11px] text-stone-500 font-normal leading-relaxed">
+                            家人注意：健康家絕對不會打電話要求您去 ATM 匯款或解除分期，接獲可疑電話請立刻撥打 165。
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact and Help Desk info -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-stone-200 text-sm tracking-wider">聯絡長輩與家人</h4>
+                <ul class="space-y-3.5 text-xs text-stone-400">
+                    <li>
+                        <p class="text-stone-500">諮詢與家常熱線：</p>
+                        <a href="tel:0800000111" class="text-amber-500 font-bold text-sm">0800-000-111</a>
+                        <span class="block text-[10px] text-stone-600">週一至週五 09:30-18:00，像跟鄰居聊天一樣簡單</span>
+                    </li>
+                    <li>
+                        <p class="text-stone-500">寫封家書給我們：</p>
+                        <a href="mailto:support@healthhome.me" class="hover:text-amber-500 transition">support@healthhome.me</a>
+                    </li>
+                    <li>
+                        <p class="text-stone-500">我們家在這裡：</p>
+                        <span>台北市信義區暖心路77號5樓</span>
+                    </li>
+                    <li class="pt-2 border-t border-stone-800">
+                        <span class="text-[10px] text-stone-600 leading-normal block">
+                            🎯 投保資訊：本網站已為所有常備好物投保 5000 萬責任險，這是我們給家人最基本的底線。
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ================= SYSTEM OVERLAYS & MODALS ================= -->
+
+    <!-- Modal 1: Login Portal (歡迎回家！請輸入密碼打開房門) -->
+    <div id="loginModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative text-left border border-orange-100/50">
+            <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- State 1: Input -->
+            <div id="loginFormState" class="space-y-6">
+                <div class="text-center">
+                    <h3 class="text-2xl font-serif-tc font-bold text-stone-800">
+                        歡迎回家！請輸入密碼打開房門
+                    </h3>
+                    <p class="text-xs text-stone-400 mt-1">登入即可查詢您的日常配送訂單與家人福利</p>
+                </div>
+
+                <form onsubmit="handleRegistrationSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 mb-1.5">家人的手機或信箱</label>
+                        <input type="text" placeholder="support@healthhome.me" required class="w-full px-4 py-3 border border-stone-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 mb-1.5">房間密碼</label>
+                        <input type="password" placeholder="••••••••" required class="w-full px-4 py-3 border border-stone-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none text-sm">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition text-sm shadow-md">
+                        轉動鑰匙，開門回家
+                    </button>
+                </form>
+
+                <div class="text-center text-xs text-stone-500 pt-2 border-t border-stone-100">
+                    第一次來嗎？<button onclick="switchLoginState(true)" class="text-orange-600 font-semibold underline ml-1">立即加入全家福會員</button>
+                </div>
+            </div>
+
+            <!-- State 2: Welcome coupon gift -->
+            <div id="loginSuccessState" class="hidden text-center space-y-6 py-4">
+                <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🎉</div>
+                <h3 class="text-2xl font-serif-tc font-bold text-stone-800">
+                    很高興我們成為了一家人！
+                </h3>
+                <p class="text-sm text-stone-500 leading-relaxed max-w-sm mx-auto">
+                    為了祝賀你「回家」，我們在你的帳戶裡放了一張 <span class="text-orange-600 font-bold">100 元</span>的見面折價券。出外打拼，也要記得好好照顧自己喔。
+                </p>
+                <button onclick="closeModal('loginModal')" class="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-full transition text-sm shadow-md">
+                    收下家裡的見面禮，去逛逛
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer: Cart Slider Storage (家人的儲藏櫃) -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 bg-black/50 hidden">
+        <div class="absolute inset-0" onclick="toggleCartDrawer()"></div>
+        <div class="bg-white w-full max-w-md h-full absolute right-0 top-0 shadow-2xl p-6 flex flex-col justify-between text-left smooth-transition">
+            
+            <div class="space-y-6 flex-grow overflow-y-auto">
+                <div class="flex justify-between items-center pb-4 border-b border-stone-100">
+                    <h3 class="text-lg font-bold font-serif-tc text-stone-800 flex items-center space-x-1">
+                        <span>📦 家人的儲藏櫃</span>
+                        <span id="cartCountLabel" class="text-xs font-normal text-stone-400">(0 件補給)</span>
+                    </h3>
+                    <button onclick="toggleCartDrawer()" class="text-stone-400 hover:text-stone-600 transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Empty State for empty cart -->
+                <div id="emptyCartMessage" class="text-center py-16 space-y-4">
+                    <div class="text-5xl">☕</div>
+                    <h4 class="text-lg font-serif-tc font-bold text-stone-800">
+                        家裡的儲藏櫃目前空空的耶。
+                    </h4>
+                    <p class="text-xs text-stone-400 max-w-xs mx-auto leading-relaxed">
+                        是不是忘記帶上這星期的健康補給了？快去櫃子裡逛逛吧。
+                    </p>
+                    <button onclick="switchTab('products'); toggleCartDrawer();" class="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-full transition">
+                        去帶些好物回家
+                    </button>
+                </div>
+
+                <!-- Active Items inside cart list -->
+                <div id="cartItemsList" class="space-y-4 hidden">
+                    <!-- Dynamic Cart Items injected here -->
+                </div>
+            </div>
+
+            <!-- Checkout panel inside cart footer -->
+            <div id="cartCheckoutPanel" class="pt-4 border-t border-stone-100 space-y-4 hidden">
+                <div class="flex justify-between font-bold text-stone-800 text-base">
+                    <span>全家健康總投資：</span>
+                    <span id="cartTotalSum">NT$ 0</span>
+                </div>
+                <p class="text-[10px] text-stone-400 leading-normal">
+                    * 本網站產品均已投保投保 5,000 萬責任險，享 30 天無痛退換服務，請放心購買。
+                </p>
+                <button onclick="handleCheckout()" class="w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-center text-sm transition shadow-lg shadow-orange-500/10">
+                    確認補給，送至我們家
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Message notification alert system (Never alert()) -->
+    <div id="toastMessage" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-stone-900 text-white text-xs md:text-sm font-medium py-3 px-6 rounded-full shadow-xl opacity-0 scale-95 pointer-events-none transition-all duration-300">
+        <!-- Message string dynamic -->
+    </div>
+
+    <!-- STAGE 5: 客廳找長輩聊聊 - Floating Chat Box -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3">
+        <!-- Active conversation container -->
+        <div id="grandpaChatbox" class="hidden w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-orange-100/50 flex flex-col overflow-hidden text-left mb-2 transition-all duration-300">
+            <div class="bg-orange-600 p-4 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center font-bold text-stone-950 text-sm">爺</div>
+                    <div>
+                        <p class="font-bold text-sm">客廳裡的健康老長輩</p>
+                        <p class="text-[10px] text-orange-200">不推銷，只給最溫暖的家常話</p>
+                    </div>
+                </div>
+                <button onclick="toggleChatbox(false)" class="text-orange-200 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Dialogue container -->
+            <div id="chatMessages" class="p-4 h-64 overflow-y-auto bg-orange-50/20 space-y-3 flex-grow text-xs leading-relaxed">
+                <div class="flex justify-start">
+                    <div class="p-3 bg-white text-stone-700 border border-orange-100 rounded-2xl rounded-tl-none max-w-[85%]">
+                        你好呀，我是健康家的長輩！今天身體還舒服嗎？快來客廳坐下喝口熱茶吧 🍵
+                    </div>
+                </div>
+                <div class="flex justify-start">
+                    <div class="p-3 bg-white text-stone-700 border border-orange-100 rounded-2xl rounded-tl-none max-w-[85%]">
+                        在我們家裡聊天，絕不強迫推銷。不論你是想幫爸媽問問腰酸背痛，還是自己忙到睡不好，隨時都可以敲我聊聊家常喔！
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing submit form -->
+            <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-stone-100 flex space-x-2 bg-white">
+                <input id="chatInput" type="text" placeholder="輸入文字...（如：爸媽適合吃什麼、魚油）" class="flex-grow px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:border-orange-500 text-xs">
+                <button type="submit" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs font-bold transition">
+                    發送
+                </button>
+            </form>
+        </div>
+
+        <!-- Floating ball prompt -->
+        <button onclick="toggleChatbox()" class="w-14 h-14 bg-orange-600 hover:bg-orange-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-105 active:scale-95 group relative">
+            <i class="fa-regular fa-comments text-xl group-hover:rotate-12 smooth-transition"></i>
+            <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-amber-500"></span>
+            </span>
+        </button>
+    </div>
+
+    <!-- ================= SYSTEM LOGIC & DATA SCRIPTS ================= -->
+    <script>
+        // Integrated Mock Product Database with premium warm branding tags
+        const productsDatabase = [
+            {
+                id: 'b-complex',
+                name: '緩釋雙效精神B群',
+                category: 'self',
+                tag: '辛苦了，日夜奔忙的自己',
+                price: 580,
+                desc: '給工作滿載、眼睛與腦袋辛苦一整天的你。幫你補滿電力。',
+                ingredients: '高單位維生素B群、牛磺酸、黑大蒜萃取物',
+                kitchenPromise: '堅持不添加任何人工防腐劑與色素，使用植物性緩釋膠原，維持12小時穩定釋放。'
+            },
+            {
+                id: 'fish-oil',
+                name: '專利高純深海魚油膠囊',
+                category: 'self',
+                tag: '辛苦了，日夜奔忙的自己',
+                price: 980,
+                desc: '日常思緒清晰、身體輕盈循環，極致純淨的頂級守護。',
+                ingredients: '專利 rTG 型深海魚油 (EPA 48%, DHA 32%)',
+                kitchenPromise: '來自智利純淨無污染海域，SGS檢驗塑化劑、重金屬均無檢出。'
+            },
+            {
+                id: 'magnesium',
+                name: 'GABA螯合安心鎂錠',
+                category: 'parents',
+                tag: '最珍視、也開始變老的爸媽',
+                price: 680,
+                desc: '夜夜好眠、深層放鬆。這次，換我們當他們的靠山。',
+                ingredients: '日本專利乳酸菌發酵物(含GABA)、甘胺酸鎂、洋甘菊萃取',
+                kitchenPromise: '全植物成分配方，幫助長輩卸下一整天大腦的繁雜，自然安穩地睡上一覺。'
+            },
+            {
+                id: 'collagen-joints',
+                name: '非變性二型膠原蛋白',
+                category: 'parents',
+                tag: '最珍視、也開始變老的爸媽',
+                price: 1200,
+                desc: '關節關卡靈活、上下樓梯自如，重溫與我們散步的時光。',
+                ingredients: 'UC-II® 非變性二型膠原蛋白、玻尿酸、軟骨素',
+                kitchenPromise: '原廠足量授權，讓爸媽的步伐像回到二十年前一樣輕鬆寫意。'
+            },
+            {
+                id: 'probiotics',
+                name: '300億活性常衛益生菌',
+                category: 'family',
+                tag: '守護全家人健康的那頂大傘',
+                price: 750,
+                desc: '腸道消化守護、調整敏弱體質。全家人天天安心吃的日常基底。',
+                ingredients: '15合一專利乳酸菌、半乳寡糖、水溶性膳食纖維',
+                kitchenPromise: '無糖、無化學果汁粉、0人工香料，連小寶寶都能安心吞服的乾淨配方。'
+            },
+            {
+                id: 'multivitamin',
+                name: '綜合維他命礦物質營養錠',
+                category: 'family',
+                tag: '守護全家人健康的那頂大傘',
+                price: 490,
+                desc: '換季時的溫暖底子，為全家大小築起基本的防護防禦盾。',
+                ingredients: '22種基礎維生素與礦物質、針葉櫻桃萃取物',
+                kitchenPromise: '不放非必要的化學賦形劑，100%全食物來源營養轉譯。'
+            },
+            {
+                id: 'collagen-skin',
+                name: '極小分子高彈膠原蛋白粉',
+                category: 'women',
+                tag: '值得寵愛、閃閃發光的妳',
+                price: 880,
+                desc: '由內而外的透亮澎潤、妳認真愛自己的最好證據。',
+                ingredients: '日本專利魚膠原蛋白胜肽、專利Q10、維生素C',
+                kitchenPromise: '高透光、去腥味配方。像極致溫和的水晶，一口喝下，喚醒水亮。'
+            },
+            {
+                id: 'cranberry',
+                name: '雙效晶亮草本蔓越莓膠囊',
+                category: 'women',
+                tag: '值得寵愛、閃閃發光的妳',
+                price: 620,
+                desc: '最細緻的私密舒適守護，隨時維持乾爽自在、清澈活力。',
+                ingredients: '34倍高濃縮全蔓越莓、專利甘露糖、乳酸桿菌',
+                kitchenPromise: '採用高規格防潮膠囊包裝，0化學色素。溫和調整微生態。'
+            }
+        ];
+
+        // Global Application State
+        let cart = [];
+        let activeTab = 'home';
+        let productFilter = 'all';
+
+        // 1. Splash Screen timing sequence
+        window.onload = function() {
+            setTimeout(() => {
+                const text1 = document.getElementById('splashText1');
+                if (text1) {
+                    text1.classList.remove('opacity-0', 'translate-y-4');
+                    text1.classList.add('opacity-100', 'translate-y-0');
+                }
+            }, 600);
+
+            setTimeout(() => {
+                const text2 = document.getElementById('splashText2');
+                if (text2) {
+                    text2.classList.remove('opacity-0', 'translate-y-4');
+                    text2.classList.add('opacity-100', 'translate-y-0');
+                }
+            }, 1800);
+
+            setTimeout(() => {
+                const text3 = document.getElementById('splashText3');
+                if (text3) {
+                    text3.classList.remove('opacity-0', 'translate-y-8');
+                    text3.classList.add('opacity-100', 'translate-y-0');
+                }
+            }, 3000);
+
+            // Populate catalog right away
+            renderProductGrid();
+        };
+
+        // 2. Gate-opening action (輕推開門)
+        function enterSite() {
+            const splash = document.getElementById('splashScreen');
+            splash.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 450);
+        }
+
+        // 3. Tab Routing Engine with anchor/section auto-scroll support
+        function switchTab(tabId, targetSectionId = null) {
+            // Hide all tab screens
+            const screens = document.getElementsByClassName('tab-content');
+            for (let screen of screens) {
+                screen.classList.add('hidden');
+                screen.classList.remove('opacity-100');
+            }
+
+            // Show active tab screen
+            const activeScreen = document.getElementById(`tab-${tabId}`);
+            if (activeScreen) {
+                activeScreen.classList.remove('hidden');
+                // Force layout recalculation for transition
+                void activeScreen.offsetWidth;
+                activeScreen.classList.add('opacity-100');
+            }
+
+            activeTab = tabId;
+
+            // Header navigation active states highlights
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-orange-600');
+            });
+
+            // Handle specific sub-actions
+            if (tabId === 'products') {
+                if (targetSectionId && targetSectionId !== 'all') {
+                    filterProducts(targetSectionId);
+                } else {
+                    filterProducts('all');
+                }
+            }
+
+            if (tabId === 'kitchen' && targetSectionId) {
+                setTimeout(() => {
+                    const el = document.getElementById(`section-${targetSectionId}`);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+
+            // Scroll to the top of body
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 4. Product filter rendering logic
+        function filterProducts(category) {
+            productFilter = category;
+            
+            // Adjust styling of filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-50 text-orange-800 hover:bg-orange-100";
+            });
+
+            const activeBtn = document.getElementById(`btn-filter-${category}`);
+            if (activeBtn) {
+                activeBtn.className = "filter-btn px-5 py-2 rounded-full text-xs font-medium transition bg-orange-600 text-white shadow-md";
+            }
+
+            renderProductGrid();
+        }
+
+        // 5. Dynamic generation of products and subscription options
+        function renderProductGrid() {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            const filtered = productFilter === 'all' 
+                ? productsDatabase 
+                : productsDatabase.filter(p => p.category === productFilter);
+
+            grid.innerHTML = filtered.map(product => `
+                <div class="bg-white rounded-3xl shadow-sm hover:shadow-md border border-orange-100/30 overflow-hidden flex flex-col justify-between smooth-transition group">
+                    <div class="p-6 space-y-4">
+                        <div class="inline-block bg-orange-50 text-orange-700 text-[11px] px-2.5 py-1 rounded-md font-bold">
+                            ${product.tag}
+                        </div>
+                        <h4 class="text-lg font-serif-tc font-bold text-stone-800 group-hover:text-orange-600 transition">
+                            ${product.name}
+                        </h4>
+                        <p class="text-xs text-stone-500 leading-relaxed">
+                            ${product.desc}
+                        </p>
+                        
+                        <!-- Premium raw sourcing and promise container -->
+                        <div class="bg-stone-50/80 p-3.5 rounded-2xl space-y-2 text-xs text-stone-600 border border-stone-100/50">
+                            <div>
+                                <span class="font-bold text-stone-800">主要食材：</span>
+                                <span>${product.ingredients}</span>
+                            </div>
+                            <div>
+                                <span class="font-bold text-orange-600">廚房安心保證：</span>
+                                <span class="text-[11px] font-medium leading-relaxed block mt-0.5 text-stone-500">${product.kitchenPromise}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions Panel -->
+                    <div class="px-6 pb-6 pt-3 border-t border-stone-100/60 space-y-4">
+                        <div class="flex justify-between items-baseline">
+                            <span class="text-stone-400 text-xs">家人單次購</span>
+                            <span class="text-lg font-bold text-stone-800">NT$ ${product.price}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <button 
+                                onclick="addCabinetItem('${product.id}', false)"
+                                class="py-2.5 bg-orange-50/80 hover:bg-orange-100 text-orange-800 text-xs font-bold rounded-full transition"
+                            >
+                                帶一罐回家
+                            </button>
+                            
+                            <!-- Premium custom naming auto-shipping -->
+                            <button 
+                                onclick="addCabinetItem('${product.id}', true)"
+                                class="py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-full shadow-sm transition"
+                            >
+                                定時關心 (85折)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 6. Warm micro-copy cart addition with custom auto-shipping
+        function addCabinetItem(productId, isSubscription = false) {
+            const product = productsDatabase.find(p => p.id === productId);
+            if (!product) return;
+
+            const finalPrice = isSubscription ? Math.round(product.price * 0.85) : product.price;
+            const uniqueCartId = `${product.id}-${isSubscription ? 'sub' : 'one'}`;
+
+            // Check if matches existing item in storage
+            const matchedIndex = cart.findIndex(item => item.cartId === uniqueCartId);
+            if (matchedIndex > -1) {
+                cart[matchedIndex].qty += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    cartId: uniqueCartId,
+                    isSubscription: isSubscription,
+                    finalPrice: finalPrice,
+                    qty: 1
+                });
+            }
+
+            // Refresh UI components
+            updateCartUI();
+            
+            // Show toast message instead of alert()
+            showToastMessage(`已將「${product.name}」放進家裡的儲藏櫃 📦`);
+        }
+
+        function removeCabinetItem(cartId) {
+            cart = cart.filter(item => item.cartId !== cartId);
+            updateCartUI();
+        }
+
+        // 7. Update Cart Interface Elements
+        function updateCartUI() {
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            const cartBadge = document.getElementById('cartBadge');
+            
+            // Badge management
+            if (totalQty > 0) {
+                cartBadge.innerText = totalQty;
+                cartBadge.classList.remove('hidden');
+                cartBadge.classList.add('flex');
+            } else {
+                cartBadge.classList.add('hidden');
+                cartBadge.classList.remove('flex');
+            }
+
+            const emptyMsg = document.getElementById('emptyCartMessage');
+            const itemsList = document.getElementById('cartItemsList');
+            const checkoutPanel = document.getElementById('cartCheckoutPanel');
+            const countLabel = document.getElementById('cartCountLabel');
+
+            countLabel.innerText = `(${totalQty} 件補給)`;
+
+            if (cart.length === 0) {
+                emptyMsg.classList.remove('hidden');
+                itemsList.classList.add('hidden');
+                checkoutPanel.classList.add('hidden');
+            } else {
+                emptyMsg.classList.add('hidden');
+                itemsList.classList.remove('hidden');
+                checkoutPanel.classList.remove('hidden');
+
+                // Compute prices
+                const totalSum = cart.reduce((acc, item) => acc + (item.finalPrice * item.qty), 0);
+                document.getElementById('cartTotalSum').innerText = `NT$ ${totalSum}`;
+
+                // Populate list with micro-actions
+                itemsList.innerHTML = cart.map(item => `
+                    <div class="flex justify-between items-start space-x-4 p-3.5 bg-stone-50 rounded-2xl border border-stone-200/50">
+                        <div class="space-y-1">
+                            <h5 class="font-bold text-stone-800 text-sm">${item.name}</h5>
+                            <p class="text-[10px] text-stone-400 font-medium">${item.tag}</p>
+                            
+                            ${item.isSubscription ? `
+                                <span class="inline-block bg-orange-100 text-orange-800 text-[9px] px-2 py-0.5 rounded-full font-bold">
+                                    <i class="fa-solid fa-arrows-spin mr-1"></i>家人的定時關心 (每月/85折)
+                                </span>
+                            ` : `
+                                <span class="inline-block bg-stone-200 text-stone-700 text-[9px] px-2 py-0.5 rounded-full font-bold">
+                                    單次購買補給
+                                </span>
+                            `}
+                            
+                            <div class="text-xs text-stone-500 pt-1">
+                                數量: ${item.qty} × NT$ ${item.finalPrice}
+                            </div>
+                        </div>
+                        <div class="text-right flex flex-col justify-between h-full items-end">
+                            <button onclick="removeCabinetItem('${item.cartId}')" class="text-stone-400 hover:text-red-500 text-xs transition">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                            <span class="font-bold text-stone-800 text-sm mt-4">
+                                NT$ ${item.finalPrice * item.qty}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 8. Custom Modal and Dialog Controls (No alert() used)
+        function openModal(modalId) {
+            const el = document.getElementById(modalId);
+            if (el) {
+                el.classList.remove('hidden');
+                el.classList.add('flex');
+            }
+        }
